@@ -22,7 +22,7 @@ class CollageMatrix extends React.Component {
   }
 
   render() {
-    const { borders, borderColor, direction, containerStyle } = this.props;
+    const { borders, borderColor, direction, backgroundColor, containerStyle } = this.props;
     const { collageMatrixStyle } = styles;
 
     return (
