@@ -1,6 +1,6 @@
 # react-native-photo-collage
 
-[![npm](https://img.shields.io/npm/v/npm.svg)](https://www.npmjs.com/package/react-native-photo-collage)
+[![npm](https://img.shields.io/npm/v/react-native-photo-collage.svg?style=flat-square)](https://www.npmjs.com/package/react-native-photo-collage)
 
 Photo collage component for React Native.
 
