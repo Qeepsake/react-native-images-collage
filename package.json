@@ -1,7 +1,22 @@
 {
   "name": "react-native-photo-collage",
-  "version": "1.1.4",
+  "version": "1.1.6",
   "description": "Photo collage component for React Native",
+  "keywords": [
+    "react-native",
+    "photo collage",
+    "photo grid",
+    "photo matrix",
+    "photo editing",
+    "image collage",
+    "image grid",
+    "image matrix",
+    "image editing",
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LukeBrandonFarrell/react-native-photo-collage.git"
+  },
   "main": "CollageMatrix.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

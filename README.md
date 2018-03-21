@@ -1,6 +1,7 @@
 # react-native-photo-collage
 
 [![npm](https://img.shields.io/npm/v/react-native-photo-collage.svg?style=flat-square)](https://www.npmjs.com/package/react-native-photo-collage)
+[![npm licence](http://img.shields.io/npm/l/react-native-photo-collage.svg?style=flat-square)](https://npmjs.org/package/react-native-photo-collage)
 
 Photo collage component for React Native.
 
@@ -9,15 +10,19 @@ Photo collage component for React Native.
 ## Install
 
 To get started install via npm:
-`` npm install react-native-photo-collage --save ``
+```sh
+ npm install react-native-photo-collage --save
+```
 
 ## Usage
 
 To use in React Native. Import:
-`` import { CollageMatrix } from 'react-native-photo-collage'; ``
+```js
+ import { CollageMatrix } from 'react-native-photo-collage';
+```
 
 Then add this to your code:
-```
+```js
 <CollageMatrix
   images={ photos }
   matrix={ [ 1, 1, 1, 1 ] }
@@ -26,10 +31,14 @@ Then add this to your code:
 ```
 
 Instead of building your own matrix of collage layouts. There is a JSON file you can import which support various layouts up to 6 photos.
-`` import { CollageMatrix, LayoutData } from 'react-native-photo-collage'; ``
+```js
+ import { CollageMatrix, LayoutData } from 'react-native-photo-collage';
+```
 
 You can then access a layout like so:
-`` LayoutData[NumberOfPhotos][i] ``
+```js
+ LayoutData[NumberOfPhotos][i]
+```
 
 The number in the first bracket will be the configuration you want to access. E.g. configuration for 5 photos. The second number is the specific layout you want to access e.g. [2, 2, 1]. You will have to inspect the JSON file to find this out.
 
