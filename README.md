@@ -1,24 +1,24 @@
-# react-native-photo-collage
+# react-native-image-collage
 
-[![npm](https://img.shields.io/npm/v/react-native-photo-collage.svg?style=flat-square)](https://www.npmjs.com/package/react-native-photo-collage)
-[![npm licence](http://img.shields.io/npm/l/react-native-photo-collage.svg?style=flat-square)](https://npmjs.org/package/react-native-photo-collage)
+[![npm](https://img.shields.io/npm/v/react-native-image-collage.svg?style=flat-square)](https://www.npmjs.com/package/react-native-image-collage)
+[![npm licence](http://img.shields.io/npm/l/react-native-image-collage.svg?style=flat-square)](https://npmjs.org/package/react-native-image-collage)
 
 Photo collage component for React Native.
 
-![alt text](https://raw.githubusercontent.com/LukeBrandonFarrell/react-native-photo-collage/master/collage_1.png)
+![alt text](https://raw.githubusercontent.com/LukeBrandonFarrell/react-native-image-collage/master/collage_1.png)
 
 ## Install
 
 To get started install via npm:
 ```sh
- npm install react-native-photo-collage --save
+ npm install react-native-image-collage --save
 ```
 
 ## Usage
 
 To use in React Native. Import:
 ```js
- import { CollageMatrix } from 'react-native-photo-collage';
+ import { CollageMatrix } from 'react-native-image-collage';
 ```
 
 Then add this to your code:
@@ -32,7 +32,7 @@ Then add this to your code:
 
 Instead of building your own matrix of collage layouts. There is a JSON file you can import which support various layouts up to 6 photos.
 ```js
- import { CollageMatrix, LayoutData } from 'react-native-photo-collage';
+ import { CollageMatrix, LayoutData } from 'react-native-image-collage';
 ```
 
 You can then access a layout like so:
