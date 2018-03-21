@@ -1,5 +1,7 @@
 # react-native-photo-collage
 
+[![npm](https://img.shields.io/npm/v/npm.svg)](https://www.npmjs.com/package/react-native-photo-collage)
+
 Photo collage component for React Native.
 
 ![alt text](https://raw.githubusercontent.com/LukeBrandonFarrell/react-native-photo-collage/master/collage_1.png)
@@ -49,11 +51,15 @@ The number in the first bracket will be the configuration you want to access. E.
 ## Examples
 
 
+## Todo
+
+- [ ] Add examples to README
+- [ ] Fix some of the JSON layouts for 5 and 6 photos
+- [ ] Test on Android
 
 ## Contributing
 
 If you want to issue a PR, go ahead ;)
-
 
 ## Authors
 
