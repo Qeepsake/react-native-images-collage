@@ -1,24 +1,24 @@
-# react-native-image-collage
+# react-native-images-collage
 
-[![npm](https://img.shields.io/npm/v/react-native-image-collage.svg?style=flat-square)](https://www.npmjs.com/package/react-native-image-collage)
-[![npm licence](http://img.shields.io/npm/l/react-native-image-collage.svg?style=flat-square)](https://npmjs.org/package/react-native-image-collage)
+[![npm](https://img.shields.io/npm/v/react-native-images-collage.svg?style=flat-square)](https://www.npmjs.com/package/react-native-images-collage)
+[![npm licence](http://img.shields.io/npm/l/react-native-images-collage.svg?style=flat-square)](https://npmjs.org/package/react-native-images-collage)
 
-Photo collage component for React Native.
+Customizable image grid component for React Native
 
-![alt text](https://raw.githubusercontent.com/LukeBrandonFarrell/react-native-image-collage/master/collage_1.png)
+![alt text](https://raw.githubusercontent.com/LukeBrandonFarrell/react-native-images-collage/master/collage_1.png)
 
 ## Install
 
 To get started install via npm:
 ```sh
- npm install react-native-image-collage --save
+ npm install react-native-images-collage --save
 ```
 
 ## Usage
 
 To use in React Native. Import:
 ```js
- import { CollageMatrix } from 'react-native-image-collage';
+ import { CollageMatrix } from 'react-native-images-collage';
 ```
 
 Then add this to your code:
@@ -30,21 +30,21 @@ Then add this to your code:
 
 ```
 
-Instead of building your own matrix of collage layouts. There is a JSON file you can import which support various layouts up to 6 photos.
+Instead of building your own matrix of collage layouts. There is a JSON file you can import which support various layouts up to 6 images.
 ```js
- import { CollageMatrix, LayoutData } from 'react-native-image-collage';
+ import { CollageMatrix, LayoutData } from 'react-native-images-collage';
 ```
 
 You can then access a layout like so:
 ```js
- LayoutData[NumberOfPhotos][i]
+ LayoutData[NumberOfImages][i]
 ```
 
-The number in the first bracket will be the configuration you want to access. E.g. configuration for 5 photos. The second number is the specific layout you want to access e.g. [2, 2, 1]. You will have to inspect the JSON file to find this out.
+The number in the first bracket will be the configuration you want to access. E.g. configuration for 5 images. The second number is the specific layout you want to access e.g. [2, 2, 1]. You will have to inspect the JSON file to find this out.
 
 ## Props
 
-**Note:** For this to work as expected, the number of images has to be equal to the result of all numbers in the matrix. e.g. if matrix is [ 1, 2, 1 ] there has to be 4 photos.  
+**Note:** For this to work as expected, the number of images has to be equal to the result of all numbers in the matrix. e.g. if matrix is [ 1, 2, 1 ] there has to be 4 images.  
 
 | Prop            | Type          | Optional  | Default | Description                                                                             |
 | --------------- | ------------- | --------- | ------- | --------------------------------------------------------------------------------------- |
@@ -63,7 +63,7 @@ The number in the first bracket will be the configuration you want to access. E.
 ## Todo
 
 - [ ] Add examples to README
-- [ ] Fix some of the JSON layouts for 5 and 6 photos
+- [ ] Fix some of the JSON layouts for 5 and 6 images
 - [ ] Test on Android
 
 ## Contributing
