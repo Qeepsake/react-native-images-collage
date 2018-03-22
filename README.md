@@ -2,6 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/react-native-images-collage.svg?style=flat-square)](https://www.npmjs.com/package/react-native-images-collage)
 [![npm licence](http://img.shields.io/npm/l/react-native-images-collage.svg?style=flat-square)](https://npmjs.org/package/react-native-images-collage)
+[![npm downloads](http://img.shields.io/npm/dt/react-native-images-collage.svg?style=flat-square)](https://npmjs.org/package/react-native-images-collage)
 
 Customizable image grid component for React Native
 
@@ -30,7 +31,7 @@ Then add this to your code:
 
 ```
 
-Instead of building your own matrix of collage layouts. There is a JSON file you can import which support various layouts up to 6 images.
+Instead of building your own matrix of collage layouts. There is a JSON file you can import which supports various layouts up to 6 images.
 ```js
  import { CollageMatrix, LayoutData } from 'react-native-images-collage';
 ```
