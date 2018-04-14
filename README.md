@@ -76,6 +76,7 @@ If you want to capture the collage as a single image. Take a look at [react-nati
 
 ## Todo
 
+- [ ] Need to work on performance. Reducing set state and optimizing code.
 - [ ] Fix various scaling issues
 - [ ] Test on Android
 
