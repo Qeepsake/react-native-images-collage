@@ -1,6 +1,6 @@
 {
   "name": "react-native-images-collage",
-  "version": "1.0.7",
+  "version": "2.0.6",
   "description": "Customizable image grid component for React Native",
   "keywords": [
     "react-native",
@@ -17,9 +17,12 @@
     "type": "git",
     "url": "git+https://github.com/LukeBrandonFarrell/react-native-images-collage.git"
   },
-  "main": "CollageMatrix.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies" : {
+    "react-native-pinch-zoom-responder": "^0.1.2"
   },
   "peerDependencies": {
      "react": "16.2.0",

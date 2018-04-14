@@ -6,7 +6,10 @@
 
 Customizable image grid component for React Native
 
-![alt text](https://raw.githubusercontent.com/LukeBrandonFarrell/react-native-images-collage/master/collage_1.png)
+<img align="left" src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/1.gif" width="24%" />
+<img align="left" src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/2.gif" width="24%" />
+<img align="left" src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/3.gif" width="24%" />
+<img src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/4.gif" width="24%" />
 
 ## Install
 
@@ -17,40 +20,53 @@ To get started install via npm:
 
 ## Usage
 
+### Dynamic and Static Collage
+
 To use in React Native. Import:
 ```js
- import { CollageMatrix } from 'react-native-images-collage';
+ import { DynamicCollage, StaticCollage } from './react-native-images-collage';
 ```
 
 Then add this to your code:
 ```js
-<CollageMatrix
-  images={ photos }
-  matrix={ [ 1, 1, 1, 1 ] }
-  direction={ 'row' } />
-
+  <DynamicCollage
+    width={Dimensions.get('window').width / 1.1}
+    height={Dimensions.get('window').width / 1.1}
+    images={ photos }
+    matrix={ [ 1, 1, 1, 1 ] } />
 ```
 
-Instead of building your own matrix of collage layouts. There is a JSON file you can import which supports various layouts up to 6 images.
+StaticCollage does not include any panning, scaling or arrangement logic. Used this is if you want to render multiple non-interactive collages. StaticCollage takes the same props as DynamicCollage.
+
+### Layouts
+
+Instead of building your own matrix of collage layouts. There is a JSON file you can import which includes multiple layouts, up to 6 images.
 ```js
- import { CollageMatrix, LayoutData } from 'react-native-images-collage';
+ import { LayoutData } from 'react-native-images-collage';
 ```
 
 You can then access a layout like so:
 ```js
- LayoutData[NumberOfImages][i]
+ matrix={ LayoutData[NumberOfImages][i].matrix }
+ direction={ LayoutData[NumberOfImages][i].direction }
 ```
 
 The number in the first bracket will be the configuration you want to access. E.g. configuration for 5 images. The second number is the specific layout you want to access e.g. [2, 2, 1]. You will have to inspect the JSON file to find this out.
 
+### Notes
+
+If you want to capture the collage as a single image. Take a look at [react-native-view-shot](https://github.com/gre/react-native-view-shot).
+
 ## Props
 
-**Note:** For this to work as expected, the number of images has to be equal to the result of all numbers in the matrix. e.g. if matrix is [ 1, 2, 1 ] there has to be 4 images.  
+**Note:** For this to work as expected, the number of images has to be equal to the result of all numbers in the matrix. e.g. if matrix is [ 1, 2, 1 ] ( 1 + 2 + 1 = 4), there has to be 4 images.  
 
 | Prop            | Type          | Optional  | Default | Description                                                                             |
 | --------------- | ------------- | --------- | ------- | --------------------------------------------------------------------------------------- |
+| width           | float         | No        |         | Width of component. Not optional. Used to calculate image boundaries for switching      |
+| height          | float         | No        |         | Height of component. Not optional. Used to calculate image boundaries for switching     |
 | images          | array         | No        |         | Images for the collage.                                                                 |
-| matrix          | centered      | No        |         | An array like this [ 1, 1, 1 ] equal to the number of images. Used to define the layout |
+| matrix          | centered      | No        |         | An array [ 1, 1, 1 ] equal to the number of images. Used to define the layout           |
 | separators      | int           | Yes       | 0       | Amount of space between images.                                                         |
 | direction       | string        | Yes       | row     | Direction of the collage: 'row' or 'column'.                                            |
 | borders         | int           | Yes       | 4       | Width of borders.                                                                       |
@@ -58,18 +74,14 @@ The number in the first bracket will be the configuration you want to access. E.
 | backgroundColor | string        | Yes       | white   | Background color of collage.                                                            |
 | containerStyle  | object        | Optional  | 100%    | Style applied to the container of the collage                                           |
 
-## Examples
-
-
 ## Todo
 
-- [ ] Add examples to README
-- [ ] Fix some of the JSON layouts for 5 and 6 images
+- [ ] Fix various scaling issues
 - [ ] Test on Android
 
 ## Contributing
 
-If you want to issue a PR, go ahead ;)
+There are still a lot of issues in this project. So any PRs would be appreciated.
 
 ## Authors
 
