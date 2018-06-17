@@ -3,7 +3,7 @@
 [![npm downloads](http://img.shields.io/npm/dt/react-native-images-collage.svg?style=flat-square)](https://npmjs.org/package/react-native-images-collage)
 
 <p align="center">
-  <img src="https://github.com/LukeBrandonFarrell/open-source-images/blob/master/react-native-images-collage/react-native-images-collage.png" width="180" height="180"><br/>
+  <img src="https://github.com/LukeBrandonFarrell/open-source-images/blob/master/react-native-images-collage/react-native-images-collage.png" width="140" height="140">
   <h2 align="center">React Native Images Collage</h2>
 </p>
 
