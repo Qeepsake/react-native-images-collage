@@ -12,7 +12,7 @@ class StaticCollage extends React.Component {
       const startIndex = m ? array.slice(0, m).reduce(reducer) : 0;
 
       const images = this.props.images.slice(startIndex, startIndex + element).map((image, i) => {
-        return <Image key={i} source={{ uri: image }} style={{ flex: 1 }} />;
+        return <Image key={i} source={{ uri: image }} style={{ flex: 1, margin: separators }} />;
       });
 
       return (
