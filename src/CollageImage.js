@@ -5,9 +5,11 @@ class CollageImage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: false, panning: false,
+      panning: false,
       x: 0, y:  0,
+      dx: 0, dx: 0,
       width: 0, height: 0,
+      color: '#'+Math.floor(Math.random()*16777215).toString(16),
     };
   }
 
@@ -19,6 +21,7 @@ class CollageImage extends React.Component {
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
 
       onPanResponderMove: (evt, gestureState) => {
+        console.log(this.state.x);
         if(!this.state.panning){
           this.setState({ panning: true });
           this.setState({ dx: this.state.x + gestureState.moveX, dy: this.state.y + gestureState.moveY });
@@ -36,7 +39,7 @@ class CollageImage extends React.Component {
         }
       },
       onPanResponderRelease: (evt, gestureState) => {
-        this.setState({ panning: false });
+        this.setState({ panning: false, selected: false });
       },
     });
 
@@ -49,9 +52,14 @@ class CollageImage extends React.Component {
     const { source, style } = this.props;
     const { x, y, width, height } = this.state;
 
+    const right = x + (width / 2);
+    const bottom = y + (height / 2);
+
     return (
-      <View style={{ flex: 1, flexDirection: 'row', width: width, overflow: 'hidden' }}>
-        <Image {...this._panResponder.panHandlers} source={source} style={[ style, { right: x, bottom: y, width, height }]} resizeMode='cover' />
+      <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, flexDirection: 'row', width: width, overflow: 'hidden', backgroundColor: this.state.color }}>
+          <Image source={source} style={[ style, { right, bottom, width, height }]} resizeMode='cover' {...this._panResponder.panHandlers} />
+        </View>
       </View>
     );
   }

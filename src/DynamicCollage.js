@@ -14,6 +14,7 @@ class DynamicCollage extends React.Component {
       const startIndex = m ? array.slice(0, m).reduce(reducer) : 0;
 
       const images = this.props.images.slice(startIndex, startIndex + element).map((image, i) => {
+        console.log('load');
         return <CollageImage key={i} source={{ uri: image }} style={{ flex: 1, margin: separators }} />;
       });
 
