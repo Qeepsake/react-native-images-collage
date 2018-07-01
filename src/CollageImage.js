@@ -171,7 +171,6 @@ class CollageImage extends React.Component {
         }
       },
       onPanResponderEnd: (e, gestureState) => {
-        console.log('ended');
         this.panning = false;
         this.scaling = false;
 
@@ -273,10 +272,6 @@ class CollageImage extends React.Component {
   onLongPress(){
     this.props.translationStartCallback(this);
     this.setState({ selected: true });
-  }
-
-  delayPressOut(){
-    console.log('long');
   }
 
   render() {
