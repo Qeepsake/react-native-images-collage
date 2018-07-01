@@ -3,7 +3,7 @@
 [![npm downloads](http://img.shields.io/npm/dt/react-native-images-collage.svg?style=flat-square)](https://npmjs.org/package/react-native-images-collage)
 
 <p align="center">
-  <img src="https://github.com/LukeBrandonFarrell/open-source-images/blob/master/react-native-images-collage/react-native-images-collage.png" width="140" height="140">
+  <img src="https://github.com/LukeBrandonFarrell/open-source-images/blob/master/react-native-images-collage/react-native-images-collage.png" width="165" height="165">
   <h2 align="center">React Native Images Collage</h2>
 </p>
 
@@ -11,6 +11,15 @@
 <img src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/i4.gif" width="48%" />
 <img align="left" src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/i2.gif" width="48%" />
 <img src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/i1.gif" width="48%" />
+
+## Update
+
+3.x.x is now live.The component has been rewritten from scratch to use direct manipulation to avoid multiple rerender and the major issues have been fixed. Some changes include:
+
+- Additional props for greater customisation
+- No dependencies!
+- Image flickering while panning and scaling has been fixed.
+- Added new animations for smooth interaction.
 
 ## Install
 
@@ -75,17 +84,12 @@ If you want to capture the collage as a single image. Take a look at [react-nati
 | backgroundColor | string        | Yes       | white   | Background color of collage.                                                            |
 | containerStyle  | object        | Optional  | 100%    | Style applied to the container of the collage                                           |
 
-## Todo
+## Known Issues
 
-- [ ] Rewrite, so it works better.
-- [ ] Add to awesome-react-native
-- [ ] Need to work on performance. Reducing set state and optimizing code.
-- [ ] Fix various scaling issues
-- [ ] Test on Android
+Everyone welcome to help document and fix the known issues.
 
-## Contributing
-
-There are still a lot of issues in this project. So any PRs would be appreciated.
+- Swapping images of different size container causes one image to no longer fit the container and not adjust until it has been interacted with.
+- Two images in same container / matrix will not set their zIndex when selected causing some images to overlay the selected images. This is a relatively easy fix.
 
 ## Authors
 
