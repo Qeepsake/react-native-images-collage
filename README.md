@@ -3,7 +3,7 @@
 [![npm downloads](http://img.shields.io/npm/dt/react-native-images-collage.svg?style=flat-square)](https://npmjs.org/package/react-native-images-collage)
 
 <p align="center">
-  <img src="https://github.com/LukeBrandonFarrell/open-source-images/blob/master/react-native-images-collage/react-native-images-collage.png" width="140" height="140">
+  <img src="https://github.com/LukeBrandonFarrell/open-source-images/blob/master/react-native-images-collage/react-native-images-collage.png" width="165" height="165">
   <h2 align="center">React Native Images Collage</h2>
 </p>
 
@@ -84,9 +84,12 @@ If you want to capture the collage as a single image. Take a look at [react-nati
 | backgroundColor | string        | Yes       | white   | Background color of collage.                                                            |
 | containerStyle  | object        | Optional  | 100%    | Style applied to the container of the collage                                           |
 
-## Contributing
+## Known Issues
 
-There are still a lot of issues in this project. So any PRs would be appreciated.
+Everyone welcome to help document and fix the known issues.
+
+- Swapping images of different size container causes one image to no longer fit the container and not adjust until it has been interacted with.
+- Two images in same container / matrix will not set their zIndex when selected causing some images to overlay the selected images. This is a relatively easy fix.
 
 ## Authors
 
