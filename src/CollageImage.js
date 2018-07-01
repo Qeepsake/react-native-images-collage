@@ -52,11 +52,7 @@ class CollageImage extends React.Component {
     // SCALING
     this.scaling = false;
 
-    this.originScalingX = 0;
-    this.originScalingY = 0;
-
-    this.deltaScalingX = 0;
-    this.deltaScalingY = 0;
+    this.deltaScaling = 0;
 
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (evt, gestureState) => false,
@@ -79,6 +75,7 @@ class CollageImage extends React.Component {
           this.snapAnimation = null;
         }
 
+        // PAN
         if(gestureState.numberActiveTouches == 1){
           if(!this.state.animating){
             const moveX = gestureState.moveX; // MOVEMENT ALONG THE X
@@ -137,42 +134,44 @@ class CollageImage extends React.Component {
               }
             }
           }
+        // SCALE
         } else if(gestureState.numberActiveTouches == 2) {
           const touchOne = evt.touchHistory.touchBank[1];
           const touchTwo = evt.touchHistory.touchBank[2];
 
-          const scalingX = Math.abs(touchOne.currentPageX - touchTwo.currentPageX); // SCALING ALONG THE X
-          const scalingY = Math.abs(touchOne.currentPageY - touchTwo.currentPageY); // SCALING ALONG THE Y
+          const scalingValue = Math.max(
+            Math.abs(touchOne.currentPageX - touchTwo.currentPageX),
+            Math.abs(touchOne.currentPageY - touchTwo.currentPageY)
+          ); // SCALING AMOUNT
 
           if(!this.scaling){
+            // FIRST TOUCH - START SCALING
             this.scaling = true;
 
-            this.originScalingX = width;
-            this.originScalingY = height;
-
-            // RESET DELTA SCALING
-            this.deltaScalingX = this.originScalingX - scalingX;
-            this.deltaScalingY = this.originScalingY - scalingY;
+            this.deltaScaling = scalingValue;
           } else {
             // SCALING
-            const scalingMovementX = this.originScalingX - scalingX;
-            const scalingMovementY = this.originScalingY - scalingY;
+            const incrementScaling = (this.deltaScaling - scalingValue) * scaleAmplifier;
 
-            const incrementScalingX = (width > relativeContainerWidth) ? (this.deltaScalingX - scalingMovementX) * scaleAmplifier : 0;
-            const incrementScalingY = (height > relativeContainerHeight) ? (this.deltaScalingY - scalingMovementY) * scaleAmplifier : 0;
+            if((height < relativeContainerHeight || width < relativeContainerWidth) && incrementScaling < 0){
+              incrementScaling = 0;
+            }
 
-            const newWidth = (width + incrementScalingX);
-            const newHeight = (height + incrementScalingY);
+            const newWidth = (width - incrementScaling);
+            const newHeight = (height - incrementScaling);
 
-            this.setState({ width: newWidth, height: newHeight });
+            this.setState({
+              width: Math.max(newWidth, relativeContainerWidth),
+              height: Math.max(newHeight, relativeContainerHeight)
+            });
 
-            // DELTA PANNING
-            this.deltaScalingX = scalingMovementX;
-            this.deltaScalingY = scalingMovementY;
+            // DELTA SCALING
+            this.deltaScaling = scalingValue;
           }
         }
       },
-      onPanResponderRelease: (evt, gestureState) => {
+      onPanResponderEnd: (e, gestureState) => {
+        console.log('ended');
         this.panning = false;
         this.scaling = false;
 
@@ -186,10 +185,14 @@ class CollageImage extends React.Component {
     });
 
     Image.getSize(this.props.source.uri, (width, height) => {
-      this.initialWidth = width;
-      this.initialHeight = height;
+      // IF IMAGE IS SMALLER THAN THE GRID -> SCALE IMAGE TO CONTAINER WIDTH / HEIGHT
+      const imageWidth = (width >= this.props.boundaries.relativeContainerWidth) ? width : this.props.boundaries.relativeContainerWidth;
+      const imageHeight = (height >= this.props.boundaries.relativeContainerHeight) ? height : this.props.boundaries.relativeContainerHeight;
 
-      this.setState({ width, height });
+      this.initialWidth = imageWidth;
+      this.initialHeight = imageHeight;
+
+      this.setState({ width: imageWidth, height: imageHeight });
     });
   }
 
@@ -272,13 +275,17 @@ class CollageImage extends React.Component {
     this.setState({ selected: true });
   }
 
+  delayPressOut(){
+    console.log('long');
+  }
+
   render() {
-    const { source, style, selectedStyle } = this.props;
+    const { source, style, imageSelectedStyle } = this.props;
     const { panningX, panningY, translateX, translateY, width, height, selected, animating } = this.state;
 
     const right = animating ? this.animatedX : panningX;
     const bottom = animating ? this.animatedY : panningY;
-    console.log(height, this.initialHeight);
+
     return (
       <View
         ref={'imageContainer'}
@@ -289,13 +296,13 @@ class CollageImage extends React.Component {
             { translateY: -translateY },
           ],
         }}>
-        <View style={{ flex: 1, flexDirection: 'row', width: this.initialWidth, height: this.initialHeight, overflow: 'hidden' }} {...this._panResponder.panHandlers}>
+        <View style={{ flex: 1, flexDirection: 'row', width: width, height: height }} {...this._panResponder.panHandlers}>
             <TouchableWithoutFeedback
               onLongPress={ () => this.onLongPress() }>
               <Animated.Image
                 ref={'image'}
                 source={source}
-                style={[ style, { right, bottom, width, height }, selected ? selectedStyle : null]}
+                style={[ style, { right, bottom, width, height }, selected ? imageSelectedStyle : null]}
                 resizeMode='cover' />
             </TouchableWithoutFeedback>
         </View>
@@ -309,9 +316,6 @@ CollageImage.defaultProps = {
   constraintRightPadding: 15,
   constraintTopPadding: 15,
   constraintBottomPadding: 15,
-  selectedStyle: {
-    opacity: 0.6,
-  },
   scaleAmplifier: 1.0,
 };
 

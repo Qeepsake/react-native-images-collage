@@ -35,7 +35,8 @@ class DynamicCollage extends React.Component {
             translationUpdateCallback={ this.imageTranslationUpdate.bind(this) }
             translationEndCallback={ this.imageTranslationEnd.bind(this) }
             matrixId={m}
-            imageId={`image${m}-${i}`} />
+            imageId={`image${m}-${i}`}
+            imageSelectedStyle={ this.props.imageSelectedStyle } />
         );
       });
 
@@ -51,7 +52,12 @@ class DynamicCollage extends React.Component {
   }
 
   render() {
-    const { width, height, borders, borderColor, direction, backgroundColor, containerStyle } = this.props;
+    const { width, height, matrix, images, borders, borderColor, direction, backgroundColor, containerStyle } = this.props;
+
+    // CHECK IF MATRIX = NUMBER OF PHOTOS
+    if(matrix.reduce((a, b) => a + b, 0) != images.length){
+      throw new Error('Number of images must be equal to sum of matrix. E.g. Matrix = [ 1, 2 ] = 3. Images.length = 3 ');
+    }
 
     return (
       <View style={[ { width, height }, containerStyle, { borderWidth: borders, borderColor: borderColor, backgroundColor: backgroundColor } ]}>
@@ -76,10 +82,10 @@ class DynamicCollage extends React.Component {
   imageTranslationUpdate(selectedImage){
     const targetImageId = this.isImageInBoundaries(selectedImage);
 
-    if(targetImageId){
+    if(typeof targetImageId == 'string'){
       // IMAGE IS IN BOUNDARIES - HIGHLIGHT POTENTIAL SWAP
       // USE DIRECT MANIPULATION TO AVOID RE-RENDERING ALL IMAGES
-      this.refs[targetImageId].refs['imageContainer'].setNativeProps({ style: { borderColor: 'red', borderWidth: 3 } });
+      this.refs[targetImageId].refs['imageContainer'].setNativeProps({ style: this.props.imageSwapStyle });
     }
   }
 
@@ -87,7 +93,7 @@ class DynamicCollage extends React.Component {
     const { images } = this.state;
     const targetImageId = this.isImageInBoundaries(selectedImage);
 
-    if(targetImageId){
+    if(typeof targetImageId == 'string'){
       // SWAP IMAGES
         const targetImage = this.refs[targetImageId];
 
@@ -104,7 +110,7 @@ class DynamicCollage extends React.Component {
         const targetImagePanningX = targetImage.state.panningX;
         const targetImagePanningY = targetImage.state.panningY;
         const targetImageWidth = targetImage.state.width;
-        const targetImageHeight = targetImage.state.Height;
+        const targetImageHeight = targetImage.state.height;
 
         targetImage.state.panningX = selectedImage.state.panningX;
         targetImage.state.panningY = selectedImage.state.panningY;
@@ -123,14 +129,16 @@ class DynamicCollage extends React.Component {
     const { translateX, translateY } = selectedImage.state;
     const { lx, ly, relativeContainerWidth, relativeContainerHeight } = selectedImage.props.boundaries;
 
+    let targetImageId = null;
+
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
-    return matrix.map((element, m, array) => {
+    matrix.map((element, m, array) => {
       const startIndex = m ? array.slice(0, m).reduce(reducer) : 0;
 
-      return images.slice(startIndex, startIndex + element).map((image, i) => {
+      images.slice(startIndex, startIndex + element).map((image, i) => {
         // RESET STYLES
-        this.refs[`image${m}-${i}`].refs['imageContainer'].setNativeProps({ style: { borderWidth: 0 } });
+        this.refs[`image${m}-${i}`].refs['imageContainer'].setNativeProps({ style: this.props.imageResetStyle });
 
         // IS IMAGE NOT THE SELECTED IMAGE (DON'T COMPARE OWN BOUNDARIES)
         if(selectedImage.props.imageId != `image${m}-${i}`){
@@ -142,13 +150,13 @@ class DynamicCollage extends React.Component {
           // IS IMAGE IN BOUNDARIES?
           if(imagePositionX > (targetBoundaries.lx) && imagePositionX < (targetBoundaries.ux) &&
             imagePositionY > (targetBoundaries.ly) && imagePositionY < (targetBoundaries.uy)){
-              return `image${m}-${i}`;
+              targetImageId = `image${m}-${i}`;
           }
         }
       });
-    }).filter((n) => n[0] != undefined)[0];
+    });
 
-    return false;
+    return targetImageId;
   }
 
   // Function used to calculate the lower and upper bounds of an image in the collage.
@@ -178,6 +186,16 @@ DynamicCollage.defaultProps = {
   direction: 'row',
   separators: 0,
   backgroundColor: 'white',
+  imageSelectedStyle: {
+    opacity: 0.6,
+  },
+  imageSwapStyle: {
+    borderColor: 'red',
+    borderWidth: 3,
+  },
+  imageResetStyle: {
+    borderWidth: 0,
+  }
 };
 
 export { DynamicCollage };
