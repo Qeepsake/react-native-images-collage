@@ -23,9 +23,6 @@
     "flow": "flow",
     "build": "flow-remove-types src/ -d lib/"
   },
-  "dependencies": {
-    "react-native-pinch-zoom-responder": "^0.1.2"
-  },
   "peerDependencies": {
     "react": "^16.1.0",
     "react-native": "^0.54.0"
