@@ -12,6 +12,15 @@
 <img align="left" src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/i2.gif" width="48%" />
 <img src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/i1.gif" width="48%" />
 
+## Update
+
+3.x.x is now live.The component has been rewritten from scratch to use direct manipulation to avoid multiple rerender and the major issues have been fixed. Some changes include:
+
+- Additional props for greater customisation
+- No dependencies!
+- Image flickering while panning and scaling has been fixed.
+- Added new animations for smooth interaction.
+
 ## Install
 
 To get started install via npm:
@@ -74,14 +83,6 @@ If you want to capture the collage as a single image. Take a look at [react-nati
 | borderColor     | string        | Yes       | white   | Border colour.                                                                          |
 | backgroundColor | string        | Yes       | white   | Background color of collage.                                                            |
 | containerStyle  | object        | Optional  | 100%    | Style applied to the container of the collage                                           |
-
-## Todo
-
-- [ ] Rewrite, so it works better.
-- [ ] Add to awesome-react-native
-- [ ] Need to work on performance. Reducing set state and optimizing code.
-- [ ] Fix various scaling issues
-- [ ] Test on Android
 
 ## Contributing
 
