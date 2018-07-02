@@ -1,6 +1,6 @@
 <p align="center">
   <img src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/react-native-images-collage.png" width="165" height="165">
-  
+  <br />
   <a href="https://www.npmjs.com/package/react-native-images-collage" rel="nofollow">
     <img src="https://img.shields.io/npm/v/react-native-images-collage.svg?style=flat-square" alt="npm" style="max-width:100%;" />
   </a>
