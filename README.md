@@ -1,10 +1,8 @@
-[![npm](https://img.shields.io/npm/v/react-native-images-collage.svg?style=flat-square)](https://www.npmjs.com/package/react-native-images-collage)
-[![npm licence](http://img.shields.io/npm/l/react-native-images-collage.svg?style=flat-square)](https://npmjs.org/package/react-native-images-collage)
-[![npm downloads](http://img.shields.io/npm/dt/react-native-images-collage.svg?style=flat-square)](https://npmjs.org/package/react-native-images-collage)
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/react-native-images-collage.png" width="165" height="165">
-  <h2 align="center">React Native Images Collage</h2>
+  [![npm](https://img.shields.io/npm/v/react-native-images-collage.svg?style=flat-square)](https://www.npmjs.com/package/react-native-images-collage)
+  [![npm licence](http://img.shields.io/npm/l/react-native-images-collage.svg?style=flat-square)](https://npmjs.org/package/react-native-images-collage)
+  [![npm downloads](http://img.shields.io/npm/dt/react-native-images-collage.svg?style=flat-square)](https://npmjs.org/package/react-native-images-collage)
 </p>
 
 <img align="left" src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/i3.gif" width="48%" />
@@ -100,12 +98,6 @@ The number in the first bracket will be the configuration you want to access. E.
 | imageSwapStyleReset | object        | Yes       | style   | The reverse of imageSwapStyle to reset style after swap. Vital for direct manipulation. |
 | seperatorStyle      | object        | Yes       | style   | Style applied to image container. Use border width to create margin between images.     |
 | containerStyle      | object        | Yes       | style   | Style applied to the container of the collage. Collage border can be applied here.      |
-
-## Known Issues
-
-Everyone welcome to help document and fix the known issues.
-
-- Swapping images of different size container causes one image to no longer fit the container and not adjust until it has been interacted with.
 
 ## Authors
 
