@@ -13,6 +13,8 @@ class DynamicCollage extends React.Component {
          images: props.images,
       }
     }
+
+    return null;
   }
 
   renderMatrix(){
