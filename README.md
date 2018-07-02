@@ -1,14 +1,14 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/react-native-images-collage.png" width="165" height="165">
+  <img src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/react-native-images-collage.png" width="190" height="190">
   <br />
   <a href="https://www.npmjs.com/package/react-native-images-collage" rel="nofollow">
-    <img src="https://img.shields.io/npm/v/react-native-images-collage.svg?style=flat-square" alt="npm" style="max-width:100%;" />
+    <img src="https://img.shields.io/npm/v/react-native-images-collage.svg?style=flat-square" alt="version" style="max-width:100%;" />
   </a>
   <a href="https://www.npmjs.com/package/react-native-images-collage" rel="nofollow">
-    <img src="http://img.shields.io/npm/l/react-native-images-collage.svg?style=flat-square" alt="npm" style="max-width:100%;" />
+    <img src="http://img.shields.io/npm/l/react-native-images-collage.svg?style=flat-square" alt="nlicense" style="max-width:100%;" />
   </a>
   <a href="https://www.npmjs.com/package/react-native-images-collage" rel="nofollow">
-    <img src="http://img.shields.io/npm/dt/react-native-images-collage.svg?style=flat-square" alt="npm" style="max-width:100%;" />
+    <img src="http://img.shields.io/npm/dt/react-native-images-collage.svg?style=flat-square" alt="downloads" style="max-width:100%;" />
   </a>
   
   <hr />
