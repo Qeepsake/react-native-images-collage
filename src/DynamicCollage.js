@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
 
 import CollageImage from './CollageImage';
 
@@ -29,14 +30,19 @@ class DynamicCollage extends React.Component {
             key={i}
             ref={`image${m}-${i}`}
             source={{ uri: image }}
-            style={{ flex: 1, margin: separators }}
+            style={[ { flex: 1 }, this.props.imageStyle ]}
             boundaries={ this.getImageBoundaries(m, i) }
             translationStartCallback={ this.imageTranslationStart.bind(this) }
             translationUpdateCallback={ this.imageTranslationUpdate.bind(this) }
             translationEndCallback={ this.imageTranslationEnd.bind(this) }
             matrixId={m}
             imageId={`image${m}-${i}`}
-            imageSelectedStyle={ this.props.imageSelectedStyle } />
+            imageSelectedStyle={ this.props.imageSelectedStyle }
+            panningLeftPadding={this.props.panningLeftPadding}
+            panningRightPadding={this.props.panningRightPadding}
+            panningTopPadding={this.props.panningTopPadding}
+            panningBottomPadding={this.props.panningBottomPadding}
+            scaleAmplifier={this.props.scaleAmplifier} />
         );
       });
 
@@ -52,7 +58,7 @@ class DynamicCollage extends React.Component {
   }
 
   render() {
-    const { width, height, matrix, images, borders, borderColor, direction, backgroundColor, containerStyle } = this.props;
+    const { width, height, matrix, images, direction, containerStyle } = this.props;
 
     // CHECK IF MATRIX = NUMBER OF PHOTOS
     if(matrix.reduce((a, b) => a + b, 0) != images.length){
@@ -60,7 +66,7 @@ class DynamicCollage extends React.Component {
     }
 
     return (
-      <View style={[ { width, height }, containerStyle, { borderWidth: borders, borderColor: borderColor, backgroundColor: backgroundColor } ]}>
+      <View style={[ { width, height }, containerStyle ]}>
         <View style={{ flex: 1, flexDirection: direction }}>
           { this.renderMatrix() }
         </View>
@@ -125,7 +131,7 @@ class DynamicCollage extends React.Component {
   }
 
   isImageInBoundaries(selectedImage){
-    const { matrix, images } = this.props;
+    const { matrix, images, seperatorStyle } = this.props;
     const { translateX, translateY } = selectedImage.state;
     const { lx, ly, relativeContainerWidth, relativeContainerHeight } = selectedImage.props.boundaries;
 
@@ -138,7 +144,9 @@ class DynamicCollage extends React.Component {
 
       images.slice(startIndex, startIndex + element).map((image, i) => {
         // RESET STYLES
-        this.refs[`image${m}-${i}`].refs['imageContainer'].setNativeProps({ style: this.props.imageResetStyle });
+        this.refs[`image${m}-${i}`].refs['imageContainer'].setNativeProps({
+          style: { ...this.props.imageResetStyle, ...seperatorStyle }
+        });
 
         // IS IMAGE NOT THE SELECTED IMAGE (DON'T COMPARE OWN BOUNDARIES)
         if(selectedImage.props.imageId != `image${m}-${i}`){
@@ -181,21 +189,52 @@ class DynamicCollage extends React.Component {
 }
 
 DynamicCollage.defaultProps = {
-  borders: 4,
-  borderColor: 'white',
-  direction: 'row',
-  separators: 0,
-  backgroundColor: 'white',
+  // VARIABLES
+    direction: 'row', // DIRECTION OF THE COLLAGE
+    panningLeftPadding: 15, // LEFT PANNING PADDING
+    panningRightPadding: 15, // RIGHT PANNING PADDING
+    panningTopPadding: 15, // TOP PANNING PADDING
+    panningBottomPadding: 15, // BOTTOM PANNING PADDING
+    scaleAmplifier: 1.0, // ADJUST SCALING
+
+  // STYLE OF SEPERATORS ON THE COLLAGE
+    seperatorStyle: {
+      borderWidth: 2,
+      borderColor: 'white',
+    },
+
+  // STYLE
+  containerStyle: {
+    borderWidth: 4,
+    borderColor: 'black',
+    backgroundColor: 'white',
+  },
+  imageStyle: {}, // DEFAULT IMAGE STYLE
+
+  // IMAGE SELECTED
   imageSelectedStyle: {
     opacity: 0.6,
   },
+
+  // IMAGE SWAP
   imageSwapStyle: {
-    borderColor: 'red',
-    borderWidth: 3,
+    borderColor: '#EB4A4A',
+    borderWidth: 4,
   },
-  imageResetStyle: {
+  imageSwapStyleReset: {
     borderWidth: 0,
-  }
+  } // RESET ANY STYLE APPLIED WITH imageSwapStyle
+};
+
+DynamicCollage.propTypes = {
+  images: PropTypes.array,
+  matrix: PropTypes.array,
+  direction: PropTypes.oneOf(['row', 'column']),
+  panningLeftPadding: PropTypes.number, // LEFT PANNING PADDING
+  panningRightPadding: PropTypes.number, // RIGHT PANNING PADDING
+  panningTopPadding: PropTypes.number, // TOP PANNING PADDING
+  panningBottomPadding: PropTypes.number, // BOTTOM PANNING PADDING
+  scaleAmplifier: PropTypes.number, // ADJUST SCALING
 };
 
 export { DynamicCollage };

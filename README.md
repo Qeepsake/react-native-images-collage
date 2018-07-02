@@ -14,7 +14,7 @@
 
 ## Update
 
-3.x.x is now live.The component has been rewritten from scratch to use direct manipulation to avoid multiple rerender and the major issues have been fixed. Some changes include:
+3.x.x is now live.The component has been rewritten from scratch to use direct manipulation to avoid multiple re-renders and the major issues have been fixed. Some changes include:
 
 - Additional props for greater customisation
 - No dependencies!
@@ -23,34 +23,45 @@
 
 ## Install
 
-To get started install via npm:
+Install via npm:
 ```sh
  npm install react-native-images-collage --save
 ```
 
 ## Usage
 
-### Dynamic and Static Collage
-
 To use in React Native. Import:
 ```js
  import { DynamicCollage, StaticCollage } from './react-native-images-collage';
 ```
 
-Then add this to your code:
+### Dynamic Collage
+
+A dynamic collage includes panning, scaling and image arrangement.
+
 ```js
   <DynamicCollage
-    width={Dimensions.get('window').width / 1.1}
-    height={Dimensions.get('window').width / 1.1}
+    width={400}
+    height={400}
     images={ photos }
     matrix={ [ 1, 1, 1, 1 ] } />
 ```
 
-StaticCollage does not include any panning, scaling or arrangement logic. Used this is if you want to render multiple non-interactive collages. StaticCollage takes the same props as DynamicCollage.
+### Static Collage
+
+A static collage does not include any panning, scaling or arrangement logic. Use this if you want to render multiple non-interactive collages. Same props as the dynamic collage.
+
+```js
+  <StaticCollage
+    width={400}
+    height={400}
+    images={ photos }
+    matrix={ [ 1, 1, 1, 1 ] } />
+```
 
 ### Layouts
 
-Instead of building your own matrix of collage layouts. There is a JSON file you can import which includes multiple layouts, up to 6 images.
+Instead of building your own matrix of collage layouts. There is a JSON file you can import which includes multiple layouts. Up to 6 images.
 ```js
  import { LayoutData } from 'react-native-images-collage';
 ```
@@ -65,31 +76,36 @@ The number in the first bracket will be the configuration you want to access. E.
 
 ### Notes
 
-If you want to capture the collage as a single image. Take a look at [react-native-view-shot](https://github.com/gre/react-native-view-shot).
+- If you want to capture the collage as a single image. Take a look at [react-native-view-shot](https://github.com/gre/react-native-view-shot).
+- The number of images has to be equal to the sum of the matrix. e.g. Matrix is [ 1, 2, 1 ] ( 1 + 2 + 1 = 4), there has to be 4 images.
+- The component currently only works with URIs; photos on the file system or on a server. It does not work with static images (Although support for static images will be coming soon). To use static images, first save them to the filesystem then pass the URI's to the component.
 
 ## Props
 
-**Note:** For this to work as expected, the number of images has to be equal to the result of all numbers in the matrix. e.g. if matrix is [ 1, 2, 1 ] ( 1 + 2 + 1 = 4), there has to be 4 images.  
-
-| Prop            | Type          | Optional  | Default | Description                                                                             |
-| --------------- | ------------- | --------- | ------- | --------------------------------------------------------------------------------------- |
-| width           | float         | No        |         | Width of component. Not optional. Used to calculate image boundaries for switching      |
-| height          | float         | No        |         | Height of component. Not optional. Used to calculate image boundaries for switching     |
-| images          | array         | No        |         | Images for the collage.                                                                 |
-| matrix          | centered      | No        |         | An array [ 1, 1, 1 ] equal to the number of images. Used to define the layout           |
-| separators      | int           | Yes       | 0       | Amount of space between images.                                                         |
-| direction       | string        | Yes       | row     | Direction of the collage: 'row' or 'column'.                                            |
-| borders         | int           | Yes       | 4       | Width of borders.                                                                       |
-| borderColor     | string        | Yes       | white   | Border colour.                                                                          |
-| backgroundColor | string        | Yes       | white   | Background color of collage.                                                            |
-| containerStyle  | object        | Optional  | 100%    | Style applied to the container of the collage                                           |
+| Prop                | Type          | Optional  | Default | Description                                                                             |
+| ------------------- | ------------- | --------- | ------- | --------------------------------------------------------------------------------------- |
+| width               | float         | No        |         | Width of component. REQUIRED. Used to calculate image boundaries for switching.         |
+| height              | float         | No        |         | Height of component. REQUIRED. Used to calculate image boundaries for switching.        |
+| images              | array         | No        |         | Images for the collage.                                                                 |
+| matrix              | array         | No        |         | An array [ 1, 1, 1 ] equal to the number of images. Used to define the layout.          |
+| direction           | string        | Yes       | row     | Direction of the collage: 'row' or 'column'.                                            |
+| panningLeftPadding  | number        | Yes       | 15      | Distance image can go beyond the left edge before it is restricted.                     |
+| panningRightPadding | number        | Yes       | 15      | Distance image can go beyond the right edge before it is restricted.                    |
+| panningTopPadding   | number        | Yes       | 15      | Distance image can go beyond the top edge before it is restricted.                      |
+| panningBottomPadding| number        | Yes       | 15      | Distance image can go beyond the bottom edge before it is restricted.                   |
+| scaleAmplifier      | number        | Yes       | 1.0     | Amplifier applied to scaling. Increase this for faster scaling of images.               |
+| imageStyle          | object        | Yes       | style   | Default image style.                                                                    |
+| imageSelectedStyle  | object        | Yes       | style   | The style applied to the image when it has been selected. Long Pressed.                 |
+| imageSwapStyle      | object        | Yes       | style   | The style applied to the target image which is being swapped. E.g red borders           |
+| imageSwapStyleReset | object        | Yes       | style   | The reverse of imageSwapStyle to reset style after swap. Vital for direct manipulation. |
+| seperatorStyle      | object        | Yes       | style   | Style applied to image container. Use border width to create margin between images.     |
+| containerStyle      | object        | Yes       | style   | Style applied to the container of the collage. Collage border can be applied here.      |
 
 ## Known Issues
 
 Everyone welcome to help document and fix the known issues.
 
 - Swapping images of different size container causes one image to no longer fit the container and not adjust until it has been interacted with.
-- Two images in same container / matrix will not set their zIndex when selected causing some images to overlay the selected images. This is a relatively easy fix.
 
 ## Authors
 

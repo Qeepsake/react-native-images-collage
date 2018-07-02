@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Image, PanResponder, StyleSheet, Animated, TouchableWithoutFeedback } from 'react-native';
+import PropTypes from 'prop-types';
 
 class CollageImage extends React.Component {
   constructor(props) {
@@ -196,7 +197,7 @@ class CollageImage extends React.Component {
   }
 
   componentDidUpdate(){
-    const { boundaries, constraintLeftPadding, constraintRightPadding, constraintTopPadding, constraintBottomPadding } = this.props;
+    const { boundaries, panningLeftPadding, panningRightPadding, panningTopPadding, panningBottomPadding } = this.props;
     const { panningX, panningY, width, height } = this.state;
 
     this.leftEdge = 0;
@@ -204,10 +205,10 @@ class CollageImage extends React.Component {
     this.topEdge = 0;
     this.bottomEdge = height - (boundaries.uy - boundaries.ly);
 
-    this.leftEdgeMax = this.leftEdge - constraintLeftPadding;
-    this.rightEdgeMax = this.rightEdge + constraintRightPadding;
-    this.topEdgeMax = this.topEdge - constraintTopPadding;
-    this.bottomEdgeMax = this.bottomEdge + constraintBottomPadding;
+    this.leftEdgeMax = this.leftEdge - panningLeftPadding;
+    this.rightEdgeMax = this.rightEdge + panningRightPadding;
+    this.topEdgeMax = this.topEdge - panningTopPadding;
+    this.bottomEdgeMax = this.bottomEdge + panningBottomPadding;
   }
 
   calculateFriction(x, y){
@@ -290,6 +291,7 @@ class CollageImage extends React.Component {
             { translateX: -translateX },
             { translateY: -translateY },
           ],
+          borderWidth: 2, borderColor: 'white'
         }}>
         <View style={{ flex: 1, flexDirection: 'row', width: width, height: height }} {...this._panResponder.panHandlers}>
             <TouchableWithoutFeedback
@@ -306,12 +308,12 @@ class CollageImage extends React.Component {
   }
 }
 
-CollageImage.defaultProps = {
-  constraintLeftPadding: 15,
-  constraintRightPadding: 15,
-  constraintTopPadding: 15,
-  constraintBottomPadding: 15,
-  scaleAmplifier: 1.0,
+CollageImage.propTypes = {
+  panningLeftPadding: PropTypes.number.isRequired, // LEFT PANNING PADDING
+  panningRightPadding: PropTypes.number.isRequired, // RIGHT PANNING PADDING
+  panningTopPadding: PropTypes.number.isRequired, // TOP PANNING PADDING
+  panningBottomPadding: PropTypes.number.isRequired, // BOTTOM PANNING PADDING
+  scaleAmplifier: PropTypes.number.isRequired, // ADJUST SCALING
 };
 
 export default CollageImage;
