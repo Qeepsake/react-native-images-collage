@@ -189,7 +189,7 @@ class DynamicCollage extends React.Component {
 }
 
 DynamicCollage.defaultProps = {
-  // VARIABLES
+  // VARIABLES --------------
     direction: 'row', // DIRECTION OF THE COLLAGE
     panningLeftPadding: 15, // LEFT PANNING PADDING
     panningRightPadding: 15, // RIGHT PANNING PADDING
@@ -197,33 +197,33 @@ DynamicCollage.defaultProps = {
     panningBottomPadding: 15, // BOTTOM PANNING PADDING
     scaleAmplifier: 1.0, // ADJUST SCALING
 
-  // STYLE OF SEPERATORS ON THE COLLAGE
+  // STYLE --------------
+    containerStyle: {
+      borderWidth: 4,
+      borderColor: 'black',
+      backgroundColor: 'white',
+    },
+    imageStyle: {}, // DEFAULT IMAGE STYLE
+
+    // STYLE OF SEPERATORS ON THE COLLAGE
     seperatorStyle: {
       borderWidth: 2,
       borderColor: 'white',
     },
 
-  // STYLE
-  containerStyle: {
-    borderWidth: 4,
-    borderColor: 'black',
-    backgroundColor: 'white',
-  },
-  imageStyle: {}, // DEFAULT IMAGE STYLE
+    // IMAGE SELECTED
+    imageSelectedStyle: {
+      opacity: 0.6,
+    },
 
-  // IMAGE SELECTED
-  imageSelectedStyle: {
-    opacity: 0.6,
-  },
-
-  // IMAGE SWAP
-  imageSwapStyle: {
-    borderColor: '#EB4A4A',
-    borderWidth: 4,
-  },
-  imageSwapStyleReset: {
-    borderWidth: 0,
-  } // RESET ANY STYLE APPLIED WITH imageSwapStyle
+    // IMAGE SWAP
+    imageSwapStyle: {
+      borderColor: '#EB4A4A',
+      borderWidth: 4,
+    },
+    imageSwapStyleReset: {
+      borderWidth: 0,
+    } // RESET ANY STYLE APPLIED WITH imageSwapStyle
 };
 
 DynamicCollage.propTypes = {
