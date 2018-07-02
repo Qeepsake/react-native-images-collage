@@ -4,7 +4,10 @@
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/react-native-images-collage.png" width="165" height="165">
-
+  
+  <a href="https://www.npmjs.com/package/react-native-images-collage">
+    <img src="https://img.shields.io/npm/v/react-native-images-collage.svg?style=flat-square" />
+  </a>
 </p>
 
 <img align="left" src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/i3.gif" width="48%" />
