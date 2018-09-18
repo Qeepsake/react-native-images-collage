@@ -21,7 +21,7 @@
 
 ## Update
 
-3.x.x is now live.The component has been rewritten from scratch to use direct manipulation to avoid multiple re-renders and the major issues have been fixed. Some changes include:
+3.x.x is now live. The component has been rewritten from scratch to use direct manipulation to avoid multiple re-renders and the major issues have been fixed. Some changes include:
 
 - Additional props for greater customisation
 - No dependencies!
