@@ -32,5 +32,8 @@
   "readme": "README.md",
   "devDependencies": {
     "flow-bin": "^0.71.0"
+  },
+  "dependencies": {
+    "react-native": "^0.57.8"
   }
 }
