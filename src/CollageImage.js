@@ -137,8 +137,8 @@ class CollageImage extends React.Component {
           }
         // SCALE
         } else if(gestureState.numberActiveTouches == 2) {
-          const touchOne = evt.touchHistory.touchBank[1];
-          const touchTwo = evt.touchHistory.touchBank[2];
+          const touchOne = evt.touchHistory.touchBank[0];
+          const touchTwo = evt.touchHistory.touchBank[1];
 
           const scalingValue = Math.max(
             Math.abs(touchOne.currentPageX - touchTwo.currentPageX),
