@@ -39,7 +39,7 @@ Install via npm:
 
 To use in React Native. Import:
 ```js
- import { DynamicCollage, StaticCollage } from './react-native-images-collage';
+ import { DynamicCollage, StaticCollage } from 'react-native-images-collage';
 ```
 
 ### Dynamic Collage
