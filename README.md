@@ -19,7 +19,7 @@
 <img align="left" src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/i2.gif" width="48%" />
 <img src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/i1.gif" width="48%" />
 
-To keep up to date with the latest fixes. See [CHANGELOG.md](https://github.com/lukebrandonfarrell/react-native-images-collage/blob/master/README.md).
+To keep up to date with the latest fixes. See [CHANGELOG.md](https://github.com/lukebrandonfarrell/react-native-images-collage/blob/master/CHANGELOG.md).
 
 ## Install
 
