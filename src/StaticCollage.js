@@ -13,7 +13,10 @@ class StaticCollage extends React.Component {
       const startIndex = m ? array.slice(0, m).reduce(reducer) : 0;
 
       const images = this.props.images.slice(startIndex, startIndex + element).map((image, i) => {
-        return <Image key={i} source={{ uri: image }} style={[ { flex: 1 }, imageStyle ]} />;
+        // Determines if the source is a URL, or local asset
+        const source = !Number.isInteger(image) ? { uri: image } : Image.resolveAssetSource(image);
+
+        return <Image key={i} source={source} style={[ { flex: 1 }, imageStyle ]} />;
       });
 
       return (

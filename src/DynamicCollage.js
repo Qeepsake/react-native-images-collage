@@ -36,6 +36,9 @@ class DynamicCollage extends React.Component {
       const startIndex = m ? array.slice(0, m).reduce(reducer) : 0;
 
       const images = this.state.images.slice(startIndex, startIndex + element).map((image, i) => {
+        // Determines if the source is a URL, or local asset
+        const source = !Number.isInteger(image) ? { uri: image } : Image.resolveAssetSource(image);
+
         return (
             <CollageImage
                 key={i}

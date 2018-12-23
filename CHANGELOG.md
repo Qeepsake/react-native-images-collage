@@ -1,3 +1,7 @@
+## 3.1.0 (December 2018)
+
+- Added support for local images using `resolveAssetSource`. To use local images pass `require(".my-image.jpg")` instead of a URL.
+
 ## 3.0.4 (December 2018)
 
 - Fixed issue with width and height resolving to NaN when they are set as a percentages.
