@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 
 class StaticCollage extends React.Component {
   renderMatrix(){
-    const { matrix, direction, width, height, imageStyle, seperatorStyle } = this.props;
+    const { matrix, direction, imageStyle, seperatorStyle } = this.props;
 
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
-    const sectionDirection = (direction == 'row') ? 'column' : 'row';
+    const sectionDirection = (direction === 'row') ? 'column' : 'row';
 
     return matrix.map((element, m, array) => {
       const startIndex = m ? array.slice(0, m).reduce(reducer) : 0;

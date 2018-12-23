@@ -27,9 +27,9 @@ class DynamicCollage extends React.Component {
   }
 
   renderMatrix(){
-    const { matrix, separators, direction, style } = this.props;
+    const { matrix, direction } = this.props;
 
-    const sectionDirection = (direction == 'row') ? 'column' : 'row';
+    const sectionDirection = (direction === 'row') ? 'column' : 'row';
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
     return matrix.map((element, m, array) => {
@@ -43,7 +43,7 @@ class DynamicCollage extends React.Component {
             <CollageImage
                 key={i}
                 ref={`image${m}-${i}`}
-                source={source}
+                source={{ uri: image }}
                 style={[ { flex: 1 }, this.props.imageStyle ]}
                 boundaries={ this.getImageBoundaries(m, i) }
                 translationStartCallback={ this.imageTranslationStart.bind(this) }
@@ -76,7 +76,7 @@ class DynamicCollage extends React.Component {
     const { collageWidth, collageHeight } = this.state;
 
     // CHECK IF MATRIX = NUMBER OF PHOTOS
-    if(matrix.reduce((a, b) => a + b, 0) != images.length){
+    if(matrix.reduce((a, b) => a + b, 0) !== images.length){
       throw new Error('Number of images must be equal to sum of matrix. E.g. Matrix = [ 1, 2 ] = 3. Images.length = 3 ');
     }
 
@@ -110,7 +110,7 @@ class DynamicCollage extends React.Component {
   imageTranslationUpdate(selectedImage){
     const targetImageId = this.isImageInBoundaries(selectedImage);
 
-    if(typeof targetImageId == 'string'){
+    if(typeof targetImageId === 'string'){
       // IMAGE IS IN BOUNDARIES - HIGHLIGHT POTENTIAL SWAP
       // USE DIRECT MANIPULATION TO AVOID RE-RENDERING ALL IMAGES
       this.refs[targetImageId].refs['imageContainer'].setNativeProps({ style: this.props.imageSwapStyle });
@@ -121,13 +121,13 @@ class DynamicCollage extends React.Component {
     const { images } = this.state;
     const targetImageId = this.isImageInBoundaries(selectedImage);
 
-    if(typeof targetImageId == 'string'){
+    if(typeof targetImageId === 'string'){
       // SWAP IMAGES
       const targetImage = this.refs[targetImageId];
 
       const reorderedImages = images.slice();
-      const index1 = images.findIndex((image) => image == selectedImage.refs['image'].props.source.uri);
-      const index2 = images.findIndex((image) => image == targetImage.refs['image'].props.source.uri);
+      const index1 = images.findIndex((image) => image === selectedImage.refs['image'].props.source.uri);
+      const index2 = images.findIndex((image) => image === targetImage.refs['image'].props.source.uri);
 
       reorderedImages[index1] = images[index2];
       reorderedImages[index2] = images[index1];
@@ -171,7 +171,7 @@ class DynamicCollage extends React.Component {
         });
 
         // IS IMAGE NOT THE SELECTED IMAGE (DON'T COMPARE OWN BOUNDARIES)
-        if(selectedImage.props.imageId != `image${m}-${i}`){
+        if(selectedImage.props.imageId !== `image${m}-${i}`){
           const targetBoundaries = this.getImageBoundaries(m, i);
 
           const imagePositionX = (lx + relativeContainerWidth / 2) - translateX;
@@ -196,10 +196,10 @@ class DynamicCollage extends React.Component {
     const { matrix, direction } = this.props;
     const { collageWidth, collageHeight } = this.state;
 
-    const relativeContainerWidth = (direction == 'row') ? collageWidth / matrix.length : collageWidth / matrix[m];
-    const relativeContainerHeight = (direction == 'row') ? collageHeight / matrix[m] : collageHeight / matrix.length;
+    const relativeContainerWidth = (direction === 'row') ? collageWidth / matrix.length : collageWidth / matrix[m];
+    const relativeContainerHeight = (direction === 'row') ? collageHeight / matrix[m] : collageHeight / matrix.length;
 
-    const boundries = (direction == 'row') ? {
+    const boundries = (direction === 'row') ? {
       lx: relativeContainerWidth * (m), ly: relativeContainerHeight * (i),
       ux: relativeContainerWidth * (m + 1), uy: relativeContainerHeight * (i + 1),
     } : {
