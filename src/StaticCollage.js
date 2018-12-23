@@ -13,13 +13,16 @@ class StaticCollage extends React.Component {
       const startIndex = m ? array.slice(0, m).reduce(reducer) : 0;
 
       const images = this.props.images.slice(startIndex, startIndex + element).map((image, i) => {
-        return <Image key={i} source={{ uri: image }} style={[ { flex: 1 }, imageStyle ]} />;
+        // Determines if the source is a URL, or local asset
+        const source = Number.isInteger(image) ? Image.resolveAssetSource(image) : { uri: image };
+
+        return <Image key={i} source={source} style={[ { flex: 1 }, imageStyle ]} />;
       });
 
       return (
-        <View key={m} style={[ { flex: 1, flexDirection: sectionDirection }, seperatorStyle ]}>
-          { images }
-        </View>
+          <View key={m} style={[ { flex: 1, flexDirection: sectionDirection }, seperatorStyle ]}>
+            { images }
+          </View>
       );
     });
   }
@@ -28,23 +31,23 @@ class StaticCollage extends React.Component {
     const { width, height, direction, containerStyle } = this.props;
 
     return (
-      <View style={[ { width, height }, containerStyle ]}>
-        <View style={{ flex: 1, flexDirection: direction }}>
-          { this.renderMatrix() }
+        <View style={[ { width, height }, containerStyle ]}>
+          <View style={{ flex: 1, flexDirection: direction }}>
+            { this.renderMatrix() }
+          </View>
         </View>
-      </View>
     );
   }
 }
 
 StaticCollage.defaultProps = {
   // VARIABLES
-    direction: 'row',
+  direction: 'row',
   // STYLE OF SEPERATORS ON THE COLLAGE
-    seperatorStyle: {
-      borderWidth: 2,
-      borderColor: 'white',
-    },
+  seperatorStyle: {
+    borderWidth: 2,
+    borderColor: 'white',
+  },
 
   // STYLE
   containerStyle: {

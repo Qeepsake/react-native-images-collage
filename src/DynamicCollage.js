@@ -10,11 +10,20 @@ class DynamicCollage extends React.Component {
   static getDerivedStateFromProps(props, state) {
     if (state.images !== props.images) {
       return {
-         images: props.images,
+        images: props.images,
       }
     }
 
     return null;
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      collageWidth: null,
+      collageHeight: null,
+    };
   }
 
   renderMatrix(){
@@ -27,40 +36,44 @@ class DynamicCollage extends React.Component {
       const startIndex = m ? array.slice(0, m).reduce(reducer) : 0;
 
       const images = this.state.images.slice(startIndex, startIndex + element).map((image, i) => {
+        // Determines if the source is a URL, or local asset
+        const source = Number.isInteger(image) ? Image.resolveAssetSource(image) : { uri: image };
+
         return (
-          <CollageImage
-            key={i}
-            ref={`image${m}-${i}`}
-            source={{ uri: image }}
-            style={[ { flex: 1 }, this.props.imageStyle ]}
-            boundaries={ this.getImageBoundaries(m, i) }
-            translationStartCallback={ this.imageTranslationStart.bind(this) }
-            translationUpdateCallback={ this.imageTranslationUpdate.bind(this) }
-            translationEndCallback={ this.imageTranslationEnd.bind(this) }
-            matrixId={m}
-            imageId={`image${m}-${i}`}
-            imageSelectedStyle={ this.props.imageSelectedStyle }
-            panningLeftPadding={this.props.panningLeftPadding}
-            panningRightPadding={this.props.panningRightPadding}
-            panningTopPadding={this.props.panningTopPadding}
-            panningBottomPadding={this.props.panningBottomPadding}
-            scaleAmplifier={this.props.scaleAmplifier} />
+            <CollageImage
+                key={i}
+                ref={`image${m}-${i}`}
+                source={source}
+                style={[ { flex: 1 }, this.props.imageStyle ]}
+                boundaries={ this.getImageBoundaries(m, i) }
+                translationStartCallback={ this.imageTranslationStart.bind(this) }
+                translationUpdateCallback={ this.imageTranslationUpdate.bind(this) }
+                translationEndCallback={ this.imageTranslationEnd.bind(this) }
+                matrixId={m}
+                imageId={`image${m}-${i}`}
+                imageSelectedStyle={ this.props.imageSelectedStyle }
+                panningLeftPadding={this.props.panningLeftPadding}
+                panningRightPadding={this.props.panningRightPadding}
+                panningTopPadding={this.props.panningTopPadding}
+                panningBottomPadding={this.props.panningBottomPadding}
+                scaleAmplifier={this.props.scaleAmplifier} />
         );
       });
 
       return (
-        <View
-          key={m}
-          ref={`matrix${m}`}
-          style={{ flex: 1, flexDirection: sectionDirection }}>
-          { images }
-        </View>
+          <View
+              key={m}
+              ref={`matrix${m}`}
+              style={{ flex: 1, flexDirection: sectionDirection }}>
+            { images }
+          </View>
       );
     });
   }
 
   render() {
     const { width, height, matrix, images, direction, containerStyle } = this.props;
+    const { collageWidth, collageHeight } = this.state;
 
     // CHECK IF MATRIX = NUMBER OF PHOTOS
     if(matrix.reduce((a, b) => a + b, 0) != images.length){
@@ -68,11 +81,18 @@ class DynamicCollage extends React.Component {
     }
 
     return (
-      <View style={[ { width, height }, containerStyle ]}>
-        <View style={{ flex: 1, flexDirection: direction }}>
-          { this.renderMatrix() }
+        <View style={[ { width, height }, containerStyle ]} onLayout={(event) => {
+          this.setState({
+            collageWidth: event.nativeEvent.layout.width,
+            collageHeight: event.nativeEvent.layout.height
+          })
+        }}>
+          <View style={{ flex: 1, flexDirection: direction }}>
+            {
+              (collageWidth !== null && collageHeight !== null) ? this.renderMatrix() : null
+            }
+          </View>
         </View>
-      </View>
     );
   }
 
@@ -103,32 +123,32 @@ class DynamicCollage extends React.Component {
 
     if(typeof targetImageId == 'string'){
       // SWAP IMAGES
-        const targetImage = this.refs[targetImageId];
+      const targetImage = this.refs[targetImageId];
 
-        const reorderedImages = images.slice();
-        const index1 = images.findIndex((image) => image == selectedImage.refs['image'].props.source.uri);
-        const index2 = images.findIndex((image) => image == targetImage.refs['image'].props.source.uri);
+      const reorderedImages = images.slice();
+      const index1 = images.findIndex((image) => image == selectedImage.refs['image'].props.source.uri);
+      const index2 = images.findIndex((image) => image == targetImage.refs['image'].props.source.uri);
 
-        reorderedImages[index1] = images[index2];
-        reorderedImages[index2] = images[index1];
+      reorderedImages[index1] = images[index2];
+      reorderedImages[index2] = images[index1];
 
-        this.setState({ images: reorderedImages });
+      this.setState({ images: reorderedImages });
 
       // SWAP PROPERTIES
-        const targetImagePanningX = targetImage.state.panningX;
-        const targetImagePanningY = targetImage.state.panningY;
-        const targetImageWidth = targetImage.state.width;
-        const targetImageHeight = targetImage.state.height;
+      const targetImagePanningX = targetImage.state.panningX;
+      const targetImagePanningY = targetImage.state.panningY;
+      const targetImageWidth = targetImage.state.width;
+      const targetImageHeight = targetImage.state.height;
 
-        targetImage.state.panningX = selectedImage.state.panningX;
-        targetImage.state.panningY = selectedImage.state.panningY;
-        targetImage.state.width = selectedImage.state.width;
-        targetImage.state.height = selectedImage.state.height;
+      targetImage.state.panningX = selectedImage.state.panningX;
+      targetImage.state.panningY = selectedImage.state.panningY;
+      targetImage.state.width = selectedImage.state.width;
+      targetImage.state.height = selectedImage.state.height;
 
-        selectedImage.state.panningX = targetImagePanningX;
-        selectedImage.state.panningY = targetImagePanningY;
-        selectedImage.state.width = targetImageWidth;
-        selectedImage.state.height = targetImageHeight;
+      selectedImage.state.panningX = targetImagePanningX;
+      selectedImage.state.panningY = targetImagePanningY;
+      selectedImage.state.width = targetImageWidth;
+      selectedImage.state.height = targetImageHeight;
     }
   }
 
@@ -159,8 +179,8 @@ class DynamicCollage extends React.Component {
 
           // IS IMAGE IN BOUNDARIES?
           if(imagePositionX > (targetBoundaries.lx) && imagePositionX < (targetBoundaries.ux) &&
-            imagePositionY > (targetBoundaries.ly) && imagePositionY < (targetBoundaries.uy)){
-              targetImageId = `image${m}-${i}`;
+              imagePositionY > (targetBoundaries.ly) && imagePositionY < (targetBoundaries.uy)){
+            targetImageId = `image${m}-${i}`;
           }
         }
       });
@@ -173,10 +193,11 @@ class DynamicCollage extends React.Component {
   // m = matrix index
   // i = images index
   getImageBoundaries(m, i){
-    const { matrix, direction, width, height } = this.props;
+    const { matrix, direction } = this.props;
+    const { collageWidth, collageHeight } = this.state;
 
-    const relativeContainerWidth = (direction == 'row') ? width / matrix.length : width / matrix[m];
-    const relativeContainerHeight = (direction == 'row') ? height / matrix[m] : height / matrix.length;
+    const relativeContainerWidth = (direction == 'row') ? collageWidth / matrix.length : collageWidth / matrix[m];
+    const relativeContainerHeight = (direction == 'row') ? collageHeight / matrix[m] : collageHeight / matrix.length;
 
     const boundries = (direction == 'row') ? {
       lx: relativeContainerWidth * (m), ly: relativeContainerHeight * (i),
@@ -192,40 +213,40 @@ class DynamicCollage extends React.Component {
 
 DynamicCollage.defaultProps = {
   // VARIABLES --------------
-    direction: 'row', // DIRECTION OF THE COLLAGE
-    panningLeftPadding: 15, // LEFT PANNING PADDING
-    panningRightPadding: 15, // RIGHT PANNING PADDING
-    panningTopPadding: 15, // TOP PANNING PADDING
-    panningBottomPadding: 15, // BOTTOM PANNING PADDING
-    scaleAmplifier: 1.0, // ADJUST SCALING
+  direction: 'row', // DIRECTION OF THE COLLAGE
+  panningLeftPadding: 15, // LEFT PANNING PADDING
+  panningRightPadding: 15, // RIGHT PANNING PADDING
+  panningTopPadding: 15, // TOP PANNING PADDING
+  panningBottomPadding: 15, // BOTTOM PANNING PADDING
+  scaleAmplifier: 1.0, // ADJUST SCALING
 
   // STYLE --------------
-    containerStyle: {
-      borderWidth: 4,
-      borderColor: 'black',
-      backgroundColor: 'white',
-    },
-    imageStyle: {}, // DEFAULT IMAGE STYLE
+  containerStyle: {
+    borderWidth: 4,
+    borderColor: 'black',
+    backgroundColor: 'white',
+  },
+  imageStyle: {}, // DEFAULT IMAGE STYLE
 
-    // STYLE OF SEPERATORS ON THE COLLAGE
-    seperatorStyle: {
-      borderWidth: 2,
-      borderColor: 'white',
-    },
+  // STYLE OF SEPERATORS ON THE COLLAGE
+  seperatorStyle: {
+    borderWidth: 2,
+    borderColor: 'white',
+  },
 
-    // IMAGE SELECTED
-    imageSelectedStyle: {
-      opacity: 0.6,
-    },
+  // IMAGE SELECTED
+  imageSelectedStyle: {
+    opacity: 0.6,
+  },
 
-    // IMAGE SWAP
-    imageSwapStyle: {
-      borderColor: '#EB4A4A',
-      borderWidth: 4,
-    },
-    imageSwapStyleReset: {
-      borderWidth: 0,
-    } // RESET ANY STYLE APPLIED WITH imageSwapStyle
+  // IMAGE SWAP
+  imageSwapStyle: {
+    borderColor: '#EB4A4A',
+    borderWidth: 4,
+  },
+  imageSwapStyleReset: {
+    borderWidth: 0,
+  } // RESET ANY STYLE APPLIED WITH imageSwapStyle
 };
 
 DynamicCollage.propTypes = {

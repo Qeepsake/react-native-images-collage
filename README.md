@@ -19,14 +19,7 @@
 <img align="left" src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/i2.gif" width="48%" />
 <img src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/i1.gif" width="48%" />
 
-## Update
-
-3.x.x is now live. The component has been rewritten from scratch to use direct manipulation to avoid multiple re-renders and the major issues have been fixed. Some changes include:
-
-- Additional props for greater customisation
-- No dependencies!
-- Image flickering while panning and scaling has been fixed.
-- Added new animations for smooth interaction.
+To keep up to date with the latest fixes. See (CHANGELOG.md)[https://github.com/lukebrandonfarrell/react-native-images-collage/blob/master/README.md].
 
 ## Install
 
