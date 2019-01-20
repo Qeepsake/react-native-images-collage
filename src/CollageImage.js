@@ -272,11 +272,6 @@ class CollageImage extends React.Component {
     }
   }
 
-  onLongPress(){
-    this.props.translationStartCallback(this);
-    this.setState({ selected: true });
-  }
-
   /**
    * Conserve aspect ratio of the original region. Useful when shrinking/enlarging
    * images to fit into a certain area. We use Math.max becuase we don't want
@@ -292,6 +287,47 @@ class CollageImage extends React.Component {
   calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
     var ratio = Math.max(maxWidth / srcWidth, maxHeight / srcHeight);
     return { imageWidth: srcWidth*ratio, imageHeight: srcHeight*ratio };
+  }
+
+  /**
+   * Method triggered when image has been swapped
+   *
+   * @param image - A CollageImage class
+   */
+  imageSwapped(image){
+    // SWAP PROPERTIES
+    let targetImagePanningX = image.state.panningX;
+    let targetImagePanningY = image.state.panningY;
+    const targetImageWidth = image.state.width;
+    const targetImageHeight = image.state.height;
+
+    if(targetImagePanningX < this.leftEdge){ targetImagePanningX = this.leftEdge; }
+    if(targetImagePanningX > this.rightEdge){ targetImagePanningX = this.rightEdge; }
+    if(targetImagePanningY < this.topEdge){ targetImagePanningY = this.topEdge; }
+    if(targetImagePanningY > this.bottomEdge){ targetImagePanningY = this.bottomEdge; }
+
+    // WHEN IMAGE IS SWAPPED THEN WE SCALE IMAGE TO FIT THE CONTAINER.
+    const { imageWidth, imageHeight } = this.calculateAspectRatioFit(
+        targetImageWidth,
+        targetImageHeight,
+        this.props.boundaries.relativeContainerWidth,
+        this.props.boundaries.relativeContainerHeight
+    );
+
+    this.setState({
+      width: imageWidth,
+      height: imageHeight,
+      panningX: targetImagePanningX,
+      panningY: targetImagePanningY
+    });
+
+    // Updates the position
+    this.updatePosition();
+  }
+
+  onLongPress(){
+    this.props.translationStartCallback(this);
+    this.setState({ selected: true });
   }
 
   render() {

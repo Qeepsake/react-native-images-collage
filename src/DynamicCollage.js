@@ -118,26 +118,16 @@ class DynamicCollage extends React.Component {
       const index1 = images.findIndex((image) => this.imageFindIndex(image, selectedImage));
       const index2 = images.findIndex((image) => this.imageFindIndex(image, targetImage));
 
+      // Swap the images by index
       reorderedImages[index1] = images[index2];
       reorderedImages[index2] = images[index1];
 
+      // Set the reordered images as state
       this.setState({ images: reorderedImages });
 
-      // SWAP PROPERTIES
-      const targetImagePanningX = targetImage.state.panningX;
-      const targetImagePanningY = targetImage.state.panningY;
-      const targetImageWidth = targetImage.state.width;
-      const targetImageHeight = targetImage.state.height;
-
-      targetImage.state.panningX = selectedImage.state.panningX;
-      targetImage.state.panningY = selectedImage.state.panningY;
-      targetImage.state.width = selectedImage.state.width;
-      targetImage.state.height = selectedImage.state.height;
-
-      selectedImage.state.panningX = targetImagePanningX;
-      selectedImage.state.panningY = targetImagePanningY;
-      selectedImage.state.width = targetImageWidth;
-      selectedImage.state.height = targetImageHeight;
+      // Call the swapped functions on each image
+      selectedImage.imageSwapped(targetImage);
+      targetImage.imageSwapped(selectedImage);
     }
   }
 

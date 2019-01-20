@@ -1,3 +1,7 @@
+## 3.1.4 (January 2019)
+
+- Swapping images now automatically adjusts size and panning. Fixes [#6](https://github.com/lukebrandonfarrell/react-native-images-collage/issues/6).
+
 ## 3.1.3 (January 2019)
 
 - Added a `calculateAspectRatioFit` method to calculate image size on load. This automatically sizes images to fit the container, and prevents images from being loaded at full width/height.
