@@ -23,8 +23,7 @@ class DynamicCollage extends React.Component {
 
     return matrix.map((element, m, array) => {
       const startIndex = m ? array.slice(0, m).reduce(reducer) : 0;
-
-      console.log(this.state.images);
+      
       const images = this.state.images.slice(startIndex, startIndex + element).map((image, i) => {
         // Determines if the source is a URL, or local asset
         const source = Number.isInteger(image) ? Image.resolveAssetSource(image) : { uri: image };
