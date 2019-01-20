@@ -320,9 +320,6 @@ class CollageImage extends React.Component {
       panningX: targetImagePanningX,
       panningY: targetImagePanningY
     });
-
-    // Updates the position
-    this.updatePosition();
   }
 
   onLongPress(){
