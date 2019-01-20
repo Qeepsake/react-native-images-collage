@@ -1,3 +1,7 @@
+## 3.1.3 (January 2019)
+
+- Added a `calculateAspectRatioFit` method to calculate image size on load. This automatically sizes images to fit the container, and prevents images from being loaded at full width/height.
+
 ## 3.1.2 (January 2019)
 
 - Removed `getDerivedStateFromProps` as it was breaking image swapping.

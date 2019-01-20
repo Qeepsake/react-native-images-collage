@@ -135,14 +135,14 @@ class CollageImage extends React.Component {
               }
             }
           }
-        // SCALE
+          // SCALE
         } else if(gestureState.numberActiveTouches == 2) {
           const touchOne = evt.touchHistory.touchBank[1];
           const touchTwo = evt.touchHistory.touchBank[2];
 
           const scalingValue = Math.max(
-            Math.abs(touchOne.currentPageX - touchTwo.currentPageX),
-            Math.abs(touchOne.currentPageY - touchTwo.currentPageY)
+              Math.abs(touchOne.currentPageX - touchTwo.currentPageX),
+              Math.abs(touchOne.currentPageY - touchTwo.currentPageY)
           ); // SCALING AMOUNT
 
           if(!this.scaling){
@@ -185,9 +185,11 @@ class CollageImage extends React.Component {
     });
 
     Image.getSize(this.props.source.uri, (width, height) => {
-      // IF IMAGE IS SMALLER THAN THE GRID -> SCALE IMAGE TO CONTAINER WIDTH / HEIGHT
-      const imageWidth = (width >= this.props.boundaries.relativeContainerWidth) ? width : this.props.boundaries.relativeContainerWidth;
-      const imageHeight = (height >= this.props.boundaries.relativeContainerHeight) ? height : this.props.boundaries.relativeContainerHeight;
+      // SCALE IMAGE TO FIT THE CONTAINER
+      const { imageWidth, imageHeight } = this.calculateAspectRatioFit(width, height,
+          this.props.boundaries.relativeContainerWidth,
+          this.props.boundaries.relativeContainerHeight
+      );
 
       this.initialWidth = imageWidth;
       this.initialHeight = imageHeight;
@@ -252,18 +254,18 @@ class CollageImage extends React.Component {
 
     if(animateXTo != this.animatedX._value || animateYTo != this.animatedY._value){
       this.snapAnimation = Animated.parallel([
-          Animated.spring(this.animatedX, {
-              toValue: animateXTo,
-              duration: 100
-          }),
-          Animated.spring(this.animatedY, {
-             toValue: animateYTo,
-             duration: 100
-          })
+        Animated.spring(this.animatedX, {
+          toValue: animateXTo,
+          duration: 100
+        }),
+        Animated.spring(this.animatedY, {
+          toValue: animateYTo,
+          duration: 100
+        })
       ]);
 
       this.snapAnimation.start(() => {
-          this.setState({ animating: false, panningX: animateXTo });
+        this.setState({ animating: false, panningX: animateXTo });
       });
     } else {
       this.setState({ animating: false });
@@ -275,6 +277,23 @@ class CollageImage extends React.Component {
     this.setState({ selected: true });
   }
 
+  /**
+   * Conserve aspect ratio of the original region. Useful when shrinking/enlarging
+   * images to fit into a certain area. We use Math.max becuase we don't want
+   * the image to resize smaller than the container.
+   *
+   * @param {Number} srcWidth width of source image
+   * @param {Number} srcHeight height of source image
+   * @param {Number} maxWidth maximum available width
+   * @param {Number} maxHeight maximum available height
+   *
+   * @return {Object} { imageWidth, imageHeight }
+   */
+  calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
+    var ratio = Math.max(maxWidth / srcWidth, maxHeight / srcHeight);
+    return { imageWidth: srcWidth*ratio, imageHeight: srcHeight*ratio };
+  }
+
   render() {
     const { source, style, imageSelectedStyle } = this.props;
     const { panningX, panningY, translateX, translateY, width, height, selected, animating } = this.state;
@@ -283,27 +302,27 @@ class CollageImage extends React.Component {
     const bottom = animating ? this.animatedY : panningY;
 
     return (
-      <View
-        ref={'imageContainer'}
-        style={{
-          flex: 1, overflow: 'hidden',
-          transform: [
-            { translateX: -translateX },
-            { translateY: -translateY },
-          ],
-          borderWidth: 2, borderColor: 'white'
-        }}>
-        <View style={{ flex: 1, flexDirection: 'row', width: width, height: height }} {...this._panResponder.panHandlers}>
+        <View
+            ref={'imageContainer'}
+            style={{
+              flex: 1, overflow: 'hidden',
+              transform: [
+                { translateX: -translateX },
+                { translateY: -translateY },
+              ],
+              borderWidth: 2, borderColor: 'white'
+            }}>
+          <View style={{ flex: 1, flexDirection: 'row', width: width, height: height }} {...this._panResponder.panHandlers}>
             <TouchableWithoutFeedback
-              onLongPress={ () => this.onLongPress() }>
+                onLongPress={ () => this.onLongPress() }>
               <Animated.Image
-                ref={'image'}
-                source={source}
-                style={[ style, { right, bottom, width, height }, selected ? imageSelectedStyle : null]}
-                resizeMode='cover' />
+                  ref={'image'}
+                  source={source}
+                  style={[ style, { right, bottom, width, height }, selected ? imageSelectedStyle : null]}
+                  resizeMode='cover' />
             </TouchableWithoutFeedback>
+          </View>
         </View>
-      </View>
     );
   }
 }
