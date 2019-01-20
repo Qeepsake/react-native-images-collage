@@ -5,22 +5,11 @@ import PropTypes from 'prop-types';
 import CollageImage from './CollageImage';
 
 class DynamicCollage extends React.Component {
-  state = { images: null };
-
-  static getDerivedStateFromProps(props, state) {
-    if (state.images !== props.images) {
-      return {
-        images: props.images,
-      }
-    }
-
-    return null;
-  }
-
   constructor(props) {
     super(props);
 
     this.state = {
+      images: props.images,
       collageWidth: null,
       collageHeight: null,
     };
@@ -35,6 +24,7 @@ class DynamicCollage extends React.Component {
     return matrix.map((element, m, array) => {
       const startIndex = m ? array.slice(0, m).reduce(reducer) : 0;
 
+      console.log(this.state.images);
       const images = this.state.images.slice(startIndex, startIndex + element).map((image, i) => {
         // Determines if the source is a URL, or local asset
         const source = Number.isInteger(image) ? Image.resolveAssetSource(image) : { uri: image };
@@ -72,8 +62,8 @@ class DynamicCollage extends React.Component {
   }
 
   render() {
-    const { width, height, matrix, images, direction, containerStyle } = this.props;
-    const { collageWidth, collageHeight } = this.state;
+    const { width, height, matrix, direction, containerStyle } = this.props;
+    const { images, collageWidth, collageHeight } = this.state;
 
     // CHECK IF MATRIX = NUMBER OF PHOTOS
     if(matrix.reduce((a, b) => a + b, 0) !== images.length){
@@ -126,8 +116,8 @@ class DynamicCollage extends React.Component {
       const targetImage = this.refs[targetImageId];
 
       const reorderedImages = images.slice();
-      const index1 = images.findIndex((image) => image === selectedImage.refs['image'].props.source.uri);
-      const index2 = images.findIndex((image) => image === targetImage.refs['image'].props.source.uri);
+      const index1 = images.findIndex((image) => this.imageFindIndex(image, selectedImage));
+      const index2 = images.findIndex((image) => this.imageFindIndex(image, targetImage));
 
       reorderedImages[index1] = images[index2];
       reorderedImages[index2] = images[index1];
@@ -153,7 +143,8 @@ class DynamicCollage extends React.Component {
   }
 
   isImageInBoundaries(selectedImage){
-    const { matrix, images, seperatorStyle } = this.props;
+    const { matrix, seperatorStyle } = this.props;
+    const { images } = this.state;
     const { translateX, translateY } = selectedImage.state;
     const { lx, ly, relativeContainerWidth, relativeContainerHeight } = selectedImage.props.boundaries;
 
@@ -187,6 +178,20 @@ class DynamicCollage extends React.Component {
     });
 
     return targetImageId;
+  }
+
+  /**
+   * Finds the index of a image, either URL or `required`.
+   *
+   * @param image
+   * @param targetImage
+   *
+   * @return int
+   */
+  imageFindIndex(image, targetImage){
+    // We need to resolve the image to get the URI, if we want to support require();
+    const imageResolved = Number.isInteger(image) ? Image.resolveAssetSource(image).uri : image;
+    return imageResolved === targetImage.refs['image'].props.source.uri;
   }
 
   // Function used to calculate the lower and upper bounds of an image in the collage.

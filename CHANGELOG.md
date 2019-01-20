@@ -1,3 +1,8 @@
+## 3.1.2 (January 2019)
+
+- Removed `getDerivedStateFromProps` as it was breaking image swapping.
+- Supported swapping of mixed sources of URI and `require`. Fixes [#10](https://github.com/lukebrandonfarrell/react-native-images-collage/issues/10). This was accomplished by using a conditional `Image.resolveAssetSource(image)` in the `findIndex` method. 
+
 ## 3.1.0 (December 2018)
 
 - Added support for local images using `resolveAssetSource`. To use local images pass `require(".my-image.jpg")` instead of a URL. Closed [#4](https://github.com/lukebrandonfarrell/react-native-images-collage/issues/4).
