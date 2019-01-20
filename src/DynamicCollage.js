@@ -45,7 +45,8 @@ class DynamicCollage extends React.Component {
                 panningRightPadding={this.props.panningRightPadding}
                 panningTopPadding={this.props.panningTopPadding}
                 panningBottomPadding={this.props.panningBottomPadding}
-                scaleAmplifier={this.props.scaleAmplifier} />
+                scaleAmplifier={this.props.scaleAmplifier}
+            />
         );
       });
 
@@ -87,13 +88,27 @@ class DynamicCollage extends React.Component {
 
   imageTranslationStart(selectedImage){
     const { matrix } = this.props;
+    const { images } = this.state;
     const { matrixId, imageId } = selectedImage.props;
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
-    // Reset the zIndex of all matrices
-    matrix.map((element, index) => { this.refs[`matrix${index}`].setNativeProps({ zIndex: 1 }); });
+    // Reset zIndex's
+    matrix.map((element, m, array) => {
+      const startIndex = m ? array.slice(0, m).reduce(reducer) : 0;
+
+      // Reset the zIndex of all matrices
+      this.refs[`matrix${m}`].setNativeProps({ zIndex: 1 });
+
+      // Reset the zIndex of all the images
+      images.slice(startIndex, startIndex + element).map((image, i) => {
+        this.refs[`image${m}-${i}`].refs['imageContainer'].setNativeProps({ zIndex: 1 });
+      });
+    });
 
     // Update the zIndex of the matrix which contains the selected image
     this.refs[`matrix${matrixId}`].setNativeProps({ zIndex: 999 });
+    // Update the zIndex of the selected image
+    this.refs[imageId].refs['imageContainer'].setNativeProps({ zIndex: 999 });
   }
 
   imageTranslationUpdate(selectedImage){

@@ -1,3 +1,7 @@
+## 3.1.5 (January 2019)
+
+- Added `zIndex` to be updated for the selected image. Fixes 
+
 ## 3.1.4 (January 2019)
 
 - Swapping images now automatically adjusts size and panning. Fixes [#6](https://github.com/lukebrandonfarrell/react-native-images-collage/issues/6).
