@@ -1,6 +1,6 @@
 ## 3.1.5 (January 2019)
 
-- Added `zIndex` to be updated for the selected image. Fixes 
+- Added `zIndex` to be updated for the selected image. Fixes [#5](https://github.com/lukebrandonfarrell/react-native-images-collage/issues/5).
 
 ## 3.1.4 (January 2019)
 

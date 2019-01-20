@@ -328,7 +328,7 @@ class CollageImage extends React.Component {
   }
 
   render() {
-    const { source, style, imageSelectedStyle, zIndex } = this.props;
+    const { source, style, imageSelectedStyle } = this.props;
     const { panningX, panningY, translateX, translateY, width, height, selected, animating } = this.state;
 
     const right = animating ? this.animatedX : panningX;
