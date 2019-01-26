@@ -46,6 +46,7 @@ class DynamicCollage extends React.Component {
                 panningTopPadding={this.props.panningTopPadding}
                 panningBottomPadding={this.props.panningBottomPadding}
                 scaleAmplifier={this.props.scaleAmplifier}
+                matrix={matrix}
             />
         );
       });

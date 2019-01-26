@@ -1,10 +1,14 @@
+## 3.1.6 (January 2019)
+
+- Images will auto-resize to fit the container when the matrix prop is updated. Fixes [#6](https://github.com/lukebrandonfarrell/react-native-images-collage/issues/6).
+
 ## 3.1.5 (January 2019)
 
 - Added `zIndex` to be updated for the selected image. Fixes [#5](https://github.com/lukebrandonfarrell/react-native-images-collage/issues/5).
 
 ## 3.1.4 (January 2019)
 
-- Swapping images now automatically adjusts size and panning. Fixes [#6](https://github.com/lukebrandonfarrell/react-native-images-collage/issues/6).
+- Swapping images now automatically adjusts size and panning. Partially fixes [#6](https://github.com/lukebrandonfarrell/react-native-images-collage/issues/6).
 
 ## 3.1.3 (January 2019)
 

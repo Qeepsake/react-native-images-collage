@@ -198,9 +198,9 @@ class CollageImage extends React.Component {
     });
   }
 
-  componentDidUpdate(){
-    const { boundaries, panningLeftPadding, panningRightPadding, panningTopPadding, panningBottomPadding } = this.props;
-    const { panningX, panningY, width, height } = this.state;
+  componentDidUpdate(prevProps){
+    const { matrix, boundaries, panningLeftPadding, panningRightPadding, panningTopPadding, panningBottomPadding } = this.props;
+    const { width, height } = this.state;
 
     this.leftEdge = 0;
     this.rightEdge = width - (boundaries.ux - boundaries.lx);
@@ -211,25 +211,38 @@ class CollageImage extends React.Component {
     this.rightEdgeMax = this.rightEdge + panningRightPadding;
     this.topEdgeMax = this.topEdge - panningTopPadding;
     this.bottomEdgeMax = this.bottomEdge + panningBottomPadding;
+
+    // Auto resize collage images when Matrix is updated.
+    if(matrix !== prevProps.matrix){
+      const { imageWidth, imageHeight } = this.calculateAspectRatioFit(width, height,
+          boundaries.relativeContainerWidth,
+          boundaries.relativeContainerHeight
+      );
+
+      this.setState({
+        width: imageWidth,
+        height: imageHeight,
+      });
+    }
   }
 
   calculateFriction(x, y){
     let frictionX = 1.0;
     let frictionY = 1.0;
 
-    if(x < this.leftEdge && this.directionX == 'right'){ // TOO FAR RIGHT
+    if(x < this.leftEdge && this.directionX === 'right'){ // TOO FAR RIGHT
       frictionX = Math.max(0, (x - this.leftEdgeMax) / (this.leftEdge - this.leftEdgeMax)); // REVERSE NORMALIZATION
     }
 
-    if(x > this.rightEdge && this.directionX == 'left'){ // TOO FAR RIGHT
+    if(x > this.rightEdge && this.directionX === 'left'){ // TOO FAR RIGHT
       frictionX = Math.max(0, (x - this.rightEdgeMax) / (this.rightEdge - this.rightEdgeMax)); // REVERSE NORMALIZATION
     }
 
-    if(y < this.topEdge && this.directionY == 'down'){ // TOO FAR DOWN
+    if(y < this.topEdge && this.directionY === 'down'){ // TOO FAR DOWN
       frictionY = Math.max(0, (y - this.topEdgeMax) / (this.topEdge - this.topEdgeMax)); // REVERSE NORMALIZATION
     }
 
-    if(y > this.bottomEdge && this.directionY == 'up'){ // TOO FAR UP
+    if(y > this.bottomEdge && this.directionY === 'up'){ // TOO FAR UP
       frictionY = Math.max(0, (y - this.bottomEdgeMax) / (this.bottomEdge - this.bottomEdgeMax)); // REVERSE NORMALIZATION
     }
 
@@ -238,7 +251,7 @@ class CollageImage extends React.Component {
 
   // Uses react-native image api to reposition image if it is out of bounds
   updatePosition(){
-    const { panningX, panningY, width, height } = this.state;
+    const { panningX, panningY } = this.state;
 
     this.setState({ animating: true });
 
@@ -285,7 +298,7 @@ class CollageImage extends React.Component {
    * @return {Object} { imageWidth, imageHeight }
    */
   calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
-    var ratio = Math.max(maxWidth / srcWidth, maxHeight / srcHeight);
+    const ratio = Math.max(maxWidth / srcWidth, maxHeight / srcHeight);
     return { imageWidth: srcWidth*ratio, imageHeight: srcHeight*ratio };
   }
 
