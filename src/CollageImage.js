@@ -222,6 +222,8 @@ class CollageImage extends React.Component {
       this.setState({
         width: imageWidth,
         height: imageHeight,
+        panningX: 0,
+        panningY: 0
       });
     }
   }

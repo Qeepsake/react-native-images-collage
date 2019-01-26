@@ -1,6 +1,10 @@
+## 3.1.7 (January 2019)
+
+- Reset image panning to 0 when layout matrix prop is updated. Fixes [#6](https://github.com/lukebrandonfarrell/react-native-images-collage/issues/6).
+
 ## 3.1.6 (January 2019)
 
-- Images will auto-resize to fit the container when the matrix prop is updated. Fixes [#6](https://github.com/lukebrandonfarrell/react-native-images-collage/issues/6).
+- Images will auto-resize to fit the container when the matrix prop is updated. Partially fixes [#6](https://github.com/lukebrandonfarrell/react-native-images-collage/issues/6).
 
 ## 3.1.5 (January 2019)
 
