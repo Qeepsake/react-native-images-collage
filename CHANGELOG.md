@@ -1,3 +1,10 @@
+## 3.1.8 (January 2019)
+
+- Removed the `<TouchableWithoutFeedback />` which wraps each image to enable a long press and replaced it with a custom PanResponder long press timer.
+    - New prop `longPressDelay` this sets the time delay for long press to be detected.
+    - New prop `longPressSensitivity` this is the sensitivity of the long press.
+- Scaling is now retained by default when swapping images, but can be controlled with `retainScaleOnSwap`.
+
 ## 3.1.7 (January 2019)
 
 - Reset image panning to 0 when layout matrix prop is updated. Fixes [#6](https://github.com/lukebrandonfarrell/react-native-images-collage/issues/6).

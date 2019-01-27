@@ -94,6 +94,9 @@ The number in the first bracket will be the configuration you want to access. E.
 | panningTopPadding   | number        | Yes       | 15      | Distance image can go beyond the top edge before it is restricted.                      |
 | panningBottomPadding| number        | Yes       | 15      | Distance image can go beyond the bottom edge before it is restricted.                   |
 | scaleAmplifier      | number        | Yes       | 1.0     | Amplifier applied to scaling. Increase this for faster scaling of images.               |
+| retainScaleOnSwap   | boolean       | Yes       | true    | Keep the scale (width/height) of image when it is swapped.                              |
+| longPressDelay      | number        | Yes       | 500     | Delay before long press is activated.                                                   |
+| longPressSensitivity| number        | Yes       | 4.5     | Sensitivity to activate long press while panning? Between 0 (Always) to 10+ (Still)     |
 | imageStyle          | object        | Yes       | style   | Default image style.                                                                    |
 | imageSelectedStyle  | object        | Yes       | style   | The style applied to the image when it has been selected. Long Pressed.                 |
 | imageSwapStyle      | object        | Yes       | style   | The style applied to the target image which is being swapped. E.g red borders           |

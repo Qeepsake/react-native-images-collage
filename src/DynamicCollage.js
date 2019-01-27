@@ -16,7 +16,7 @@ class DynamicCollage extends React.Component {
   }
 
   renderMatrix(){
-    const { matrix, direction } = this.props;
+    const { matrix, direction, retainScaleOnSwap, longPressDelay, longPressSensitivity } = this.props;
 
     const sectionDirection = (direction === 'row') ? 'column' : 'row';
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
@@ -46,6 +46,9 @@ class DynamicCollage extends React.Component {
                 panningTopPadding={this.props.panningTopPadding}
                 panningBottomPadding={this.props.panningBottomPadding}
                 scaleAmplifier={this.props.scaleAmplifier}
+                retainScaleOnSwap={retainScaleOnSwap}
+                longPressDelay={longPressDelay}
+                longPressSensitivity={longPressSensitivity}
                 matrix={matrix}
             />
         );
@@ -229,6 +232,9 @@ DynamicCollage.defaultProps = {
   panningTopPadding: 15, // TOP PANNING PADDING
   panningBottomPadding: 15, // BOTTOM PANNING PADDING
   scaleAmplifier: 1.0, // ADJUST SCALING
+  retainScaleOnSwap: true,
+  longPressDelay: 500,
+  longPressSensitivity: 4.5,
 
   // STYLE --------------
   containerStyle: {
@@ -268,6 +274,9 @@ DynamicCollage.propTypes = {
   panningTopPadding: PropTypes.number, // TOP PANNING PADDING
   panningBottomPadding: PropTypes.number, // BOTTOM PANNING PADDING
   scaleAmplifier: PropTypes.number, // ADJUST SCALING
+  retainScaleOnSwap: PropTypes.bool,
+  longPressDelay: PropTypes.number,
+  longPressSensitivity: PropTypes.number,
 };
 
 export { DynamicCollage };

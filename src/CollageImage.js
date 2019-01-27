@@ -60,7 +60,13 @@ class CollageImage extends React.Component {
       onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
-
+      onPanResponderGrant: (e, gestureState) => {
+        this.onLongPressTimeout = setTimeout(() => {
+          this.setState({ selected: true }, () => {
+            this.props.translationStartCallback(this);
+          });
+        }, props.longPressDelay);
+      },
       onPanResponderMove: (evt, gestureState) => {
         const { panningX, panningY, width, height } = this.state;
         const { scaleAmplifier } = this.props;
@@ -118,6 +124,12 @@ class CollageImage extends React.Component {
                 const newPanningX = (panningX - incrementX);
                 const newPanningY = (panningY - incrementY);
 
+                // Clear long press timer if we are panning significantly
+                if(Math.abs(incrementX) > props.longPressSensitivity ||
+                    Math.abs(incrementY) > props.longPressSensitivity) {
+                  if (this.onLongPressTimeout) clearTimeout(this.onLongPressTimeout);
+                }
+
                 this.setState({ panningX: newPanningX, panningY: newPanningY });
 
                 // DELTA PANNING
@@ -144,6 +156,9 @@ class CollageImage extends React.Component {
               Math.abs(touchOne.currentPageX - touchTwo.currentPageX),
               Math.abs(touchOne.currentPageY - touchTwo.currentPageY)
           ); // SCALING AMOUNT
+
+          // Clear long press timer if we are scaling
+          if (this.onLongPressTimeout) clearTimeout(this.onLongPressTimeout);
 
           if(!this.scaling){
             // FIRST TOUCH - START SCALING
@@ -172,8 +187,11 @@ class CollageImage extends React.Component {
         }
       },
       onPanResponderEnd: (e, gestureState) => {
+        // Disable scaling, and panning
         this.panning = false;
         this.scaling = false;
+        // Clear long press timer
+        if(this.onLongPressTimeout) clearTimeout(this.onLongPressTimeout);
 
         if(this.state.selected){
           this.props.translationEndCallback(this);
@@ -296,11 +314,15 @@ class CollageImage extends React.Component {
    * @param {Number} srcHeight height of source image
    * @param {Number} maxWidth maximum available width
    * @param {Number} maxHeight maximum available height
+   * @param {Bool} Keeps the scale of the image
    *
    * @return {Object} { imageWidth, imageHeight }
    */
-  calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
-    const ratio = Math.max(maxWidth / srcWidth, maxHeight / srcHeight);
+  calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight, keepScale = false) {
+    const newMaxWidth = keepScale ? Math.max(srcWidth, maxWidth) : maxWidth;
+    const newMaxHeight = keepScale ? Math.max(srcHeight, maxHeight) : maxHeight;
+
+    const ratio = Math.max(newMaxWidth / srcWidth, newMaxHeight / srcHeight);
     return { imageWidth: srcWidth*ratio, imageHeight: srcHeight*ratio };
   }
 
@@ -310,6 +332,8 @@ class CollageImage extends React.Component {
    * @param image - A CollageImage class
    */
   imageSwapped(image){
+    const { retainScaleOnSwap } = this.props;
+
     // SWAP PROPERTIES
     let targetImagePanningX = image.state.panningX;
     let targetImagePanningY = image.state.panningY;
@@ -326,7 +350,8 @@ class CollageImage extends React.Component {
         targetImageWidth,
         targetImageHeight,
         this.props.boundaries.relativeContainerWidth,
-        this.props.boundaries.relativeContainerHeight
+        this.props.boundaries.relativeContainerHeight,
+        retainScaleOnSwap
     );
 
     this.setState({
@@ -335,11 +360,6 @@ class CollageImage extends React.Component {
       panningX: targetImagePanningX,
       panningY: targetImagePanningY
     });
-  }
-
-  onLongPress(){
-    this.props.translationStartCallback(this);
-    this.setState({ selected: true });
   }
 
   render() {
@@ -361,14 +381,11 @@ class CollageImage extends React.Component {
               borderWidth: 2, borderColor: 'white'
             }}>
           <View style={{ flex: 1, flexDirection: 'row', width: width, height: height }} {...this._panResponder.panHandlers}>
-            <TouchableWithoutFeedback
-                onLongPress={ () => this.onLongPress() }>
-              <Animated.Image
-                  ref={'image'}
-                  source={source}
-                  style={[ style, { right, bottom, width, height }, selected ? imageSelectedStyle : null]}
-                  resizeMode='cover' />
-            </TouchableWithoutFeedback>
+            <Animated.Image
+                ref={'image'}
+                source={source}
+                style={[ style, { right, bottom, width, height }, selected ? imageSelectedStyle : null]}
+                resizeMode='cover' />
           </View>
         </View>
     );
@@ -381,6 +398,9 @@ CollageImage.propTypes = {
   panningTopPadding: PropTypes.number.isRequired, // TOP PANNING PADDING
   panningBottomPadding: PropTypes.number.isRequired, // BOTTOM PANNING PADDING
   scaleAmplifier: PropTypes.number.isRequired, // ADJUST SCALING
+  retainScaleOnSwap: PropTypes.bool,
+  longPressDelay: PropTypes.number,
+  longPressSensitivity: PropTypes.number,
 };
 
 export default CollageImage;
