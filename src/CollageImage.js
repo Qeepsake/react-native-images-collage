@@ -56,8 +56,8 @@ class CollageImage extends React.Component {
     this.deltaScaling = 0;
 
     this._panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (evt, gestureState) => false,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
+      onStartShouldSetPanResponder: (evt, gestureState) => true,
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
       onPanResponderGrant: (e, gestureState) => {
@@ -123,12 +123,6 @@ class CollageImage extends React.Component {
                 // APPLY THE INCREMENT TO OUR PANNING VALUE
                 const newPanningX = (panningX - incrementX);
                 const newPanningY = (panningY - incrementY);
-
-                // Clear long press timer if we are panning significantly
-                if(Math.abs(incrementX) > props.longPressSensitivity ||
-                    Math.abs(incrementY) > props.longPressSensitivity) {
-                  if (this.onLongPressTimeout) clearTimeout(this.onLongPressTimeout);
-                }
 
                 this.setState({ panningX: newPanningX, panningY: newPanningY });
 
@@ -400,7 +394,6 @@ CollageImage.propTypes = {
   scaleAmplifier: PropTypes.number.isRequired, // ADJUST SCALING
   retainScaleOnSwap: PropTypes.bool,
   longPressDelay: PropTypes.number,
-  longPressSensitivity: PropTypes.number,
 };
 
 export default CollageImage;

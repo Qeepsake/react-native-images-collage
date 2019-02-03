@@ -1,3 +1,10 @@
+## 3.2.0 (January 2019)
+
+- Removed the `longPressSensitivity` property as it did not work as intended and caused complications with swapping.
+- Fixed the PanResponder to respond to single touches by changing the `onStartShouldSetPanResponder` and `onStartShouldSetPanResponderCapture` to return true.
+- Fixed the peer-dependencies warning.
+- Documented the cause of [issue #12](https://github.com/lukebrandonfarrell/react-native-images-collage/issues/12).
+
 ## 3.1.8 (January 2019)
 
 - Removed the `<TouchableWithoutFeedback />` which wraps each image to enable a long press and replaced it with a custom PanResponder long press timer.
