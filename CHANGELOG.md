@@ -1,3 +1,7 @@
+## 3.2.1 (February 2019)
+
+- Fixed scaling issues on Android (App crashing when scaling because `touchBank` was undefined).
+
 ## 3.2.0 (January 2019)
 
 - Removed the `longPressSensitivity` property as it did not work as intended and caused complications with swapping.

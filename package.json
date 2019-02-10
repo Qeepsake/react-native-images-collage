@@ -1,6 +1,6 @@
 {
   "name": "react-native-images-collage",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Customizable image grid component for React Native",
   "keywords": [
     "react-native",
@@ -25,5 +25,6 @@
   },
   "author": "Luke Brandon Farrell",
   "license": "MIT",
-  "readme": "README.md"
+  "readme": "README.md",
+  "dependencies": {}
 }

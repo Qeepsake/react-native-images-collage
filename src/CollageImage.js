@@ -56,8 +56,8 @@ class CollageImage extends React.Component {
     this.deltaScaling = 0;
 
     this._panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onStartShouldSetPanResponder: (evt, gestureState) => false,
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
       onPanResponderGrant: (e, gestureState) => {
@@ -143,8 +143,9 @@ class CollageImage extends React.Component {
           }
           // SCALE
         } else if(gestureState.numberActiveTouches == 2) {
-          const touchOne = evt.touchHistory.touchBank[1];
-          const touchTwo = evt.touchHistory.touchBank[2];
+          const touches = evt.touchHistory.touchBank.filter(item => item !== null || item !== undefined);
+          const touchOne = touches[0];
+          const touchTwo = touches[1];
 
           const scalingValue = Math.max(
               Math.abs(touchOne.currentPageX - touchTwo.currentPageX),
