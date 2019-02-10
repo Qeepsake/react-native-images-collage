@@ -164,17 +164,17 @@ class CollageImage extends React.Component {
             // SCALING
             const incrementScaling = (this.deltaScaling - scalingValue) * scaleAmplifier;
 
-            if((height < relativeContainerHeight || width < relativeContainerWidth) && incrementScaling < 0){
-              incrementScaling = 0;
+            const ratio = this.initialWidth / this.initialHeight;
+            const newWidth = width - (incrementScaling * ratio);
+            const newHeight = height - (incrementScaling * ratio);
+
+            // Don't scale if width or height is not greater than container, we always scale if the scale is positive (making the image larger)
+            if(newWidth > relativeContainerWidth && height > relativeContainerHeight || incrementScaling < 0) {
+              this.setState({
+                width: newWidth,
+                height: newHeight
+              });
             }
-
-            const newWidth = (width - incrementScaling);
-            const newHeight = (height - incrementScaling);
-
-            this.setState({
-              width: Math.max(newWidth, relativeContainerWidth),
-              height: Math.max(newHeight, relativeContainerHeight)
-            });
 
             // DELTA SCALING
             this.deltaScaling = scalingValue;

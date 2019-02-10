@@ -1,3 +1,7 @@
+## 3.2.2 (February 2019)
+
+- Fixed images being cropped while scaling (Now scales by initial ratio).
+
 ## 3.2.1 (February 2019)
 
 - Fixed scaling issues on Android (App crashing when scaling because `touchBank` was undefined).
