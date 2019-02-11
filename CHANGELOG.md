@@ -1,3 +1,8 @@
+## 3.2.3 (February 2019)
+
+- Fixed auto-positioning issue when switching layout direction caused by image animation not being stopped.
+ 
+
 ## 3.2.2 (February 2019)
 
 - Fixed images being cropped while scaling (Now scales by initial ratio).

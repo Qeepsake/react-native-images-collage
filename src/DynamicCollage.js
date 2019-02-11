@@ -49,6 +49,7 @@ class DynamicCollage extends React.Component {
                 retainScaleOnSwap={retainScaleOnSwap}
                 longPressDelay={longPressDelay}
                 matrix={matrix}
+                direction={direction}
             />
         );
       });
