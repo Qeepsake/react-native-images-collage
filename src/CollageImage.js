@@ -56,8 +56,8 @@ class CollageImage extends React.Component {
     this.deltaScaling = 0;
 
     this._panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (evt, gestureState) => false,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
+      onStartShouldSetPanResponder: (evt, gestureState) => true,
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
       onPanResponderGrant: (e, gestureState) => {
@@ -69,7 +69,7 @@ class CollageImage extends React.Component {
       },
       onPanResponderMove: (evt, gestureState) => {
         const { panningX, panningY, width, height } = this.state;
-        const { scaleAmplifier } = this.props;
+        const { scaleAmplifier, longPressSensitivity } = this.props;
         const { relativeContainerWidth, relativeContainerHeight } = this.props.boundaries;
 
         //INTERRUPT ANIMATIONS
@@ -91,8 +91,8 @@ class CollageImage extends React.Component {
             if(!this.panning){
               this.panning = true;
 
-              this.originPanningX = panningX + moveX;
-              this.originPanningY = panningY + moveY;
+              this.originPanningX = moveX;
+              this.originPanningY = moveY;
 
               this.originTranslateX = moveX;
               this.originTranslateY = moveY;
@@ -123,6 +123,13 @@ class CollageImage extends React.Component {
                 // APPLY THE INCREMENT TO OUR PANNING VALUE
                 const newPanningX = (panningX - incrementX);
                 const newPanningY = (panningY - incrementY);
+
+                // How much movement should cancel the long press? We use a base of 10.
+                const longPressCancelSensitivity = 10 * longPressSensitivity;
+
+                // Clear long press timer if we are panning
+                if(Math.abs(panningMovementX) > longPressCancelSensitivity || Math.abs(panningMovementY) > longPressCancelSensitivity)
+                  if (this.onLongPressTimeout) clearTimeout(this.onLongPressTimeout);
 
                 this.setState({ panningX: newPanningX, panningY: newPanningY });
 
@@ -170,9 +177,15 @@ class CollageImage extends React.Component {
 
             // Don't scale if width or height is not greater than container, we always scale if the scale is positive (making the image larger)
             if(newWidth > relativeContainerWidth && height > relativeContainerHeight || incrementScaling < 0) {
+              // Calculate anchor point to scale by center
+              const anchorX = panningX - (width - newWidth) / 2;
+              const anchorY = panningY - (height - newHeight) / 2;
+
               this.setState({
                 width: newWidth,
-                height: newHeight
+                height: newHeight,
+                panningX: anchorX,
+                panningY: anchorY
               });
             }
 
@@ -185,6 +198,7 @@ class CollageImage extends React.Component {
         // Disable scaling, and panning
         this.panning = false;
         this.scaling = false;
+
         // Clear long press timer
         if(this.onLongPressTimeout) clearTimeout(this.onLongPressTimeout);
 
@@ -201,7 +215,7 @@ class CollageImage extends React.Component {
       // SCALE IMAGE TO FIT THE CONTAINER
       const { imageWidth, imageHeight } = this.calculateAspectRatioFit(width, height,
           this.props.boundaries.relativeContainerWidth,
-          this.props.boundaries.relativeContainerHeight
+          this.props.boundaries.relativeContainerHeight,
       );
 
       this.initialWidth = imageWidth;
@@ -247,6 +261,11 @@ class CollageImage extends React.Component {
     }
   }
 
+  componentWillUnmount(){
+    // Clear long press timer when component is unmounted
+    if (this.onLongPressTimeout) clearTimeout(this.onLongPressTimeout);
+  }
+
   calculateFriction(x, y){
     let frictionX = 1.0;
     let frictionY = 1.0;
@@ -270,7 +289,9 @@ class CollageImage extends React.Component {
     return { frictionX, frictionY };
   }
 
-  // Uses react-native image api to reposition image if it is out of bounds
+  /**
+   * Updates the image postion, will use animation to snap the image into place if it is out of bounds
+   */
   updatePosition(){
     const { panningX, panningY } = this.state;
 
@@ -401,6 +422,7 @@ CollageImage.propTypes = {
   scaleAmplifier: PropTypes.number.isRequired, // ADJUST SCALING
   retainScaleOnSwap: PropTypes.bool,
   longPressDelay: PropTypes.number,
+  longPressSensitivity: PropTypes.number, // 1 - 20 - How sensitive is the long press?
 };
 
 export default CollageImage;

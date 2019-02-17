@@ -1,3 +1,10 @@
+## 3.2.4 (February 2019)
+
+- Fixed long press not being triggered on single touch.
+- Added `longPressSensitivity` back to the library, now works reliably and accepts an float of 1 (low) to 10+ (high) to control the sensitivity of the long press.
+- Clears timeout when component is unmounted to prevent any memory leaks.
+- Added scaling anchor point so images scale from the center. Resolves [#11](https://github.com/lukebrandonfarrell/react-native-images-collage/issues/11).
+
 ## 3.2.3 (February 2019)
 
 - Fixed auto-positioning issue when switching layout direction caused by image animation not being stopped.

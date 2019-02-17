@@ -96,12 +96,14 @@ The number in the first bracket will be the configuration you want to access. E.
 | scaleAmplifier      | number        | Yes       | 1.0     | Amplifier applied to scaling. Increase this for faster scaling of images.               |
 | retainScaleOnSwap   | boolean       | Yes       | true    | Keep the scale (width/height) of image when it is swapped.                              |
 | longPressDelay      | number        | Yes       | 500     | Delay before long press is activated.                                                   |
+| longPressSensitivity| number        | Yes       | 3       | Sensitivity of the long press, float of 1 (low) to 10+ (high).                                                 |
 | imageStyle          | object        | Yes       | style   | Default image style.                                                                    |
 | imageSelectedStyle  | object        | Yes       | style   | The style applied to the image when it has been selected. Long Pressed.                 |
 | imageSwapStyle      | object        | Yes       | style   | The style applied to the target image which is being swapped. E.g red borders           |
 | imageSwapStyleReset | object        | Yes       | style   | The reverse of imageSwapStyle to reset style after swap. Vital for direct manipulation. |
-| seperatorStyle      | object        | Yes       | style   | Style applied to image container. Use border width to create margin between images.     |
+| separatorStyle      | object        | Yes       | style   | Style applied to image container. Use border width to create margin between images.     |
 | containerStyle      | object        | Yes       | style   | Style applied to the container of the collage. Collage border can be applied here.      |
+
 
 ## Authors
 

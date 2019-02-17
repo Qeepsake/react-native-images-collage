@@ -16,7 +16,7 @@ class DynamicCollage extends React.Component {
   }
 
   renderMatrix(){
-    const { matrix, direction, retainScaleOnSwap, longPressDelay } = this.props;
+    const { matrix, direction, retainScaleOnSwap, longPressDelay, longPressSensitivity } = this.props;
 
     const sectionDirection = (direction === 'row') ? 'column' : 'row';
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
@@ -50,6 +50,7 @@ class DynamicCollage extends React.Component {
                 longPressDelay={longPressDelay}
                 matrix={matrix}
                 direction={direction}
+                longPressSensitivity={longPressSensitivity}
             />
         );
       });
@@ -151,7 +152,7 @@ class DynamicCollage extends React.Component {
   }
 
   isImageInBoundaries(selectedImage){
-    const { matrix, seperatorStyle } = this.props;
+    const { matrix, separatorStyle } = this.props;
     const { images } = this.state;
     const { translateX, translateY } = selectedImage.state;
     const { lx, ly, relativeContainerWidth, relativeContainerHeight } = selectedImage.props.boundaries;
@@ -166,7 +167,7 @@ class DynamicCollage extends React.Component {
       images.slice(startIndex, startIndex + element).map((image, i) => {
         // RESET STYLES
         this.refs[`image${m}-${i}`].refs['imageContainer'].setNativeProps({
-          style: { ...this.props.imageResetStyle, ...seperatorStyle }
+          style: { ...this.props.imageResetStyle, ...separatorStyle }
         });
 
         // IS IMAGE NOT THE SELECTED IMAGE (DON'T COMPARE OWN BOUNDARIES)
@@ -234,6 +235,7 @@ DynamicCollage.defaultProps = {
   scaleAmplifier: 1.0, // ADJUST SCALING
   retainScaleOnSwap: true,
   longPressDelay: 500,
+  longPressSensitivity: 3,
 
   // STYLE --------------
   containerStyle: {
@@ -243,8 +245,8 @@ DynamicCollage.defaultProps = {
   },
   imageStyle: {}, // DEFAULT IMAGE STYLE
 
-  // STYLE OF SEPERATORS ON THE COLLAGE
-  seperatorStyle: {
+  // STYLE OF SEPARATORS ON THE COLLAGE
+  separatorStyle: {
     borderWidth: 2,
     borderColor: 'white',
   },
@@ -275,6 +277,7 @@ DynamicCollage.propTypes = {
   scaleAmplifier: PropTypes.number, // ADJUST SCALING
   retainScaleOnSwap: PropTypes.bool,
   longPressDelay: PropTypes.number,
+  longPressSensitivity: PropTypes.number, // 1 - 20 - How sensitive is the long press?
 };
 
 export { DynamicCollage };
