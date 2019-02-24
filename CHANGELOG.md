@@ -1,3 +1,11 @@
+## 3.2.5 (February 2019)
+
+- Added an id to each CollageImage so it can be uniquely identified.
+- Added the image initial size and source size to the state so it can be updated.
+- Each axis of image scales independently as ratio depending on image size (width / height).
+- Improved scale anchor point to scale from the point the scale started at.
+- Fixed an issue with images being cropped while scalling then updating the matrix (initial width/height was not being updated).
+
 ## 3.2.4 (February 2019)
 
 - Fixed long press not being triggered on single touch.

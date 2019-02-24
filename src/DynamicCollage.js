@@ -12,11 +12,14 @@ class DynamicCollage extends React.Component {
       images: props.images,
       collageWidth: null,
       collageHeight: null,
+      collageOffsetX: null,
+      collageOffsetY: null,
     };
   }
 
   renderMatrix(){
     const { matrix, direction, retainScaleOnSwap, longPressDelay, longPressSensitivity } = this.props;
+    const { collageOffsetX, collageOffsetY } = this.state;
 
     const sectionDirection = (direction === 'row') ? 'column' : 'row';
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
@@ -51,6 +54,8 @@ class DynamicCollage extends React.Component {
                 matrix={matrix}
                 direction={direction}
                 longPressSensitivity={longPressSensitivity}
+                collageOffsetX={collageOffsetX}
+                collageOffsetY={collageOffsetY}
             />
         );
       });
@@ -79,7 +84,9 @@ class DynamicCollage extends React.Component {
         <View style={[ { width, height }, containerStyle ]} onLayout={(event) => {
           this.setState({
             collageWidth: event.nativeEvent.layout.width,
-            collageHeight: event.nativeEvent.layout.height
+            collageHeight: event.nativeEvent.layout.height,
+            collageOffsetX:  event.nativeEvent.layout.x,
+            collageOffsetY:  event.nativeEvent.layout.y
           })
         }}>
           <View style={{ flex: 1, flexDirection: direction }}>
@@ -203,9 +210,13 @@ class DynamicCollage extends React.Component {
     return imageResolved === targetImage.refs['image'].props.source.uri;
   }
 
-  // Function used to calculate the lower and upper bounds of an image in the collage.
-  // m = matrix index
-  // i = images index
+  /**
+   * Function used to calculate the lower and upper bounds of an image in the collage.
+   *
+   * @param m {number} - matrix index
+   * @param i {number} - images index
+   * @return {object}
+   */
   getImageBoundaries(m, i){
     const { matrix, direction } = this.props;
     const { collageWidth, collageHeight } = this.state;

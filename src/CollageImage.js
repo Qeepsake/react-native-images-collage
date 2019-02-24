@@ -6,15 +6,23 @@ class CollageImage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      selected: false, animating: false,
-      panningX: 0, panningY:  0,
-      translateX: 0, translateY: 0,
-      width: 0, height: 0,
-    };
+    this.id = props.imageId;
 
-    this.initialWidth = 0;
-    this.initialHeight = 0;
+    this.state = {
+      selected: false,
+      animating: false,
+      panningX: 0,
+      panningY:  0,
+      translateX: 0,
+      translateY: 0,
+      width: 0,
+      height: 0,
+      initialWidth: 0,
+      initialHeight: 0,
+      srcWidth: 0,
+      srcHeight: 0,
+      ratio: 0,
+    };
 
     // PANNING
     this.panning = false;
@@ -52,7 +60,6 @@ class CollageImage extends React.Component {
 
     // SCALING
     this.scaling = false;
-
     this.deltaScaling = 0;
 
     this._panResponder = PanResponder.create({
@@ -68,9 +75,12 @@ class CollageImage extends React.Component {
         }, props.longPressDelay);
       },
       onPanResponderMove: (evt, gestureState) => {
-        const { panningX, panningY, width, height } = this.state;
+        const { panningX, panningY, width, height, initialWidth, initialHeight, ratio } = this.state;
         const { scaleAmplifier, longPressSensitivity } = this.props;
         const { relativeContainerWidth, relativeContainerHeight } = this.props.boundaries;
+
+        const moveX = gestureState.moveX; // MOVEMENT ALONG THE X
+        const moveY = gestureState.moveY; // MOVEMENT ALONG THE Y
 
         //INTERRUPT ANIMATIONS
         if(this.snapAnimation != null){
@@ -85,9 +95,6 @@ class CollageImage extends React.Component {
         // PAN
         if(gestureState.numberActiveTouches == 1){
           if(!this.state.animating){
-            const moveX = gestureState.moveX; // MOVEMENT ALONG THE X
-            const moveY = gestureState.moveY; // MOVEMENT ALONG THE Y
-
             if(!this.panning){
               this.panning = true;
 
@@ -171,21 +178,33 @@ class CollageImage extends React.Component {
             // SCALING
             const incrementScaling = (this.deltaScaling - scalingValue) * scaleAmplifier;
 
-            const ratio = this.initialWidth / this.initialHeight;
-            const newWidth = width - (incrementScaling * ratio);
-            const newHeight = height - (incrementScaling * ratio);
+            // Support portrait and landscape photos by scaling each axis by ratio depending on the image properties
+            const incrementScalingWidth = initialWidth > initialHeight ? incrementScaling * ratio : incrementScaling;
+            const incrementScalingHeight = initialHeight > initialWidth ? incrementScaling * ratio : incrementScaling;
+
+            // Calculate our new image size from scaling
+            const newWidth = width - incrementScalingWidth;
+            const newHeight = height - incrementScalingHeight;
 
             // Don't scale if width or height is not greater than container, we always scale if the scale is positive (making the image larger)
             if(newWidth > relativeContainerWidth && height > relativeContainerHeight || incrementScaling < 0) {
-              // Calculate anchor point to scale by center
-              const anchorX = panningX - (width - newWidth) / 2;
-              const anchorY = panningY - (height - newHeight) / 2;
+              // Calculate anchor pecentage, where has the user started the scale relative to the container as a percentage
+              const anchorRelativePercentageX = ((moveX - this.props.collageOffsetX) / relativeContainerWidth) * 100;
+              const anchorRelativePercentageY = ((moveY - this.props.collageOffsetY) / relativeContainerHeight) * 100;
+
+              // Calculate anchor point relative to image width
+              const anchorPointX = Math.max(1, 3 * anchorRelativePercentageX / 100);
+              const anchorPointY = Math.max(1, 3 * anchorRelativePercentageY / 100);
+
+              // Calculate anchor panning to scale by center
+              const anchorPanningX = panningX - (width - newWidth) / anchorPointX;
+              const anchorPanningY = panningY - (height - newHeight) / anchorPointY;
 
               this.setState({
                 width: newWidth,
                 height: newHeight,
-                panningX: anchorX,
-                panningY: anchorY
+                panningX: anchorPanningX,
+                panningY: anchorPanningY
               });
             }
 
@@ -207,22 +226,11 @@ class CollageImage extends React.Component {
           this.setState({ selected: false, translateX: 0, translateY: 0 });
         }
 
-        this.updatePosition();
+        this.calculateImagePosition();
       },
     });
 
-    Image.getSize(this.props.source.uri, (width, height) => {
-      // SCALE IMAGE TO FIT THE CONTAINER
-      const { imageWidth, imageHeight } = this.calculateAspectRatioFit(width, height,
-          this.props.boundaries.relativeContainerWidth,
-          this.props.boundaries.relativeContainerHeight,
-      );
-
-      this.initialWidth = imageWidth;
-      this.initialHeight = imageHeight;
-
-      this.setState({ width: imageWidth, height: imageHeight });
-    });
+    this.calculateImageSize();
   }
 
   componentDidUpdate(prevProps){
@@ -241,11 +249,6 @@ class CollageImage extends React.Component {
 
     // Auto resize collage images when Matrix, or direction is updated.
     if(matrix !== prevProps.matrix || direction !== prevProps.direction){
-      const { imageWidth, imageHeight } = this.calculateAspectRatioFit(width, height,
-          boundaries.relativeContainerWidth,
-          boundaries.relativeContainerHeight
-      );
-
       if(this.snapAnimation != null) {
         // INTERRUPT ANIMATION
         this.snapAnimation.stop();
@@ -253,11 +256,11 @@ class CollageImage extends React.Component {
       }
 
       this.setState({
-        width: imageWidth,
-        height: imageHeight,
         panningX: 0,
         panningY: 0
       });
+
+      this.calculateImageSize();
     }
   }
 
@@ -292,7 +295,7 @@ class CollageImage extends React.Component {
   /**
    * Updates the image postion, will use animation to snap the image into place if it is out of bounds
    */
-  updatePosition(){
+  calculateImagePosition(){
     const { panningX, panningY } = this.state;
 
     this.setState({ animating: true });
@@ -325,6 +328,38 @@ class CollageImage extends React.Component {
     } else {
       this.setState({ animating: false });
     }
+  }
+
+  /**
+   * Calculates the size of the image. This includes width, height, intial size and source size.
+   *
+   * @param targetWidth {number} target width to overwrite the width to be calculated
+   * @param targetHeight {number} target height to overwite the height to be calculated
+   * @param keepScale {bool} Keeps the scale of the image, does not try to adjust to container size
+   */
+  calculateImageSize(targetWidth = null, targetHeight = null, keepScale = false){
+    Image.getSize(this.props.source.uri, (width, height) => {
+      // SCALE IMAGE TO FIT THE CONTAINER
+      const { imageWidth, imageHeight } = this.calculateAspectRatioFit(
+          targetWidth ? targetWidth : width,
+          targetHeight ? targetHeight : height,
+          this.props.boundaries.relativeContainerWidth,
+          this.props.boundaries.relativeContainerHeight,
+          keepScale
+      );
+
+      this.setState({
+        width: imageWidth,
+        height: imageHeight,
+        initialWidth: imageWidth,
+        initialHeight: imageHeight,
+        srcWidth: width,
+        srcHeight: height,
+        ratio: Math.max(imageHeight / imageWidth, imageWidth / imageHeight)
+      }, () => {
+        this.calculateImagePosition();
+      });
+    });
   }
 
   /**
@@ -367,18 +402,10 @@ class CollageImage extends React.Component {
     if(targetImagePanningY < this.topEdge){ targetImagePanningY = this.topEdge; }
     if(targetImagePanningY > this.bottomEdge){ targetImagePanningY = this.bottomEdge; }
 
-    // WHEN IMAGE IS SWAPPED THEN WE SCALE IMAGE TO FIT THE CONTAINER.
-    const { imageWidth, imageHeight } = this.calculateAspectRatioFit(
-        targetImageWidth,
-        targetImageHeight,
-        this.props.boundaries.relativeContainerWidth,
-        this.props.boundaries.relativeContainerHeight,
-        retainScaleOnSwap
-    );
+    // WHEN IMAGE IS SWAPPED THEN WE RECALCULATE THE SIZE.
+    this.calculateImageSize(targetImageWidth, targetImageHeight, retainScaleOnSwap);
 
     this.setState({
-      width: imageWidth,
-      height: imageHeight,
       panningX: targetImagePanningX,
       panningY: targetImagePanningY
     });
