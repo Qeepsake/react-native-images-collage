@@ -104,6 +104,11 @@ The number in the first bracket will be the configuration you want to access. E.
 | separatorStyle      | object        | Yes       | style   | Style applied to image container. Use border width to create margin between images.     |
 | containerStyle      | object        | Yes       | style   | Style applied to the container of the collage. Collage border can be applied here.      |
 
+## Showcase
+
+ - Qeepsake - The Text Message Baby Journal on [iOS](https://itunes.apple.com/us/app/qeepsake/id1332312787?mt=8) and [Android](https://play.google.com/store/apps/details?id=co.qeepsake.qeepsakeApp&hl=en_GB).
+ 
+ If you use the collage in your application then create a pull request to feature it here.
 
 ## Authors
 
