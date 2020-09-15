@@ -205,6 +205,8 @@ class DynamicCollage extends React.Component {
    * @return int
    */
   imageFindIndex(image, targetImage){
+    console.log("image",image)
+    console.log("targetImage", targetImage)
     // We need to resolve the image to get the URI, if we want to support require();
     const imageResolved = Number.isInteger(image) ? Image.resolveAssetSource(image).uri : image;
     console.log("image",image)
