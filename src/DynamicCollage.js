@@ -142,6 +142,7 @@ class DynamicCollage extends React.Component {
       const targetImage = this.refs[targetImageId];
 
       const reorderedImages = images.slice();
+      console.log("Checking if log is possible")
       const index1 = images.findIndex((image) => this.imageFindIndex(image, selectedImage));
       const index2 = images.findIndex((image) => this.imageFindIndex(image, targetImage));
 
