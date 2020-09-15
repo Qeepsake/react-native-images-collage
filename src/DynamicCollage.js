@@ -142,7 +142,6 @@ class DynamicCollage extends React.Component {
       const targetImage = this.refs[targetImageId];
 
       const reorderedImages = images.slice();
-      console.log("Checking if log is possible")
       const index1 = images.findIndex((image) => this.imageFindIndex(image, selectedImage));
       const index2 = images.findIndex((image) => this.imageFindIndex(image, targetImage));
 
@@ -206,16 +205,12 @@ class DynamicCollage extends React.Component {
    * @return int
    */
   imageFindIndex(image, targetImage){
-    console.log("image",image)
-    console.log("targetImage", targetImage)
-    // We need to resolve the image to get the URI, if we want to support require();
-    const imageResolved = Number.isInteger(image) ? Image.resolveAssetSource(image).uri : image;
-    console.log("image",image)
-    console.log("targetImage", targetImage)
-    console.log("imageResolved", imageResolved)
-    console.log("return value",imageResolved === targetImage.refs['image'].props.source.uri;)
-    return imageResolved === targetImage.refs['image'].props.source.uri;
 
+    // We need to resolve the image to get the URI, if we want to support require();
+    const targetImageURI = targetImage.props.source.uri;
+    const imageResolved = Number.isInteger(image) ? Image.resolveAssetSource(image).uri : image;
+
+    return imageResolved === targetImageURI;
   }
 
   /**
