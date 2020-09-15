@@ -110,10 +110,6 @@ The number in the first bracket will be the configuration you want to access. E.
  
  If you use the collage in your application then create a pull request to feature it here.
 
-## Authors
-
-* [**Luke Brandon Farrell**](https://lukebrandonfarrell.com/) - *Author*
-
 ## License
 
 This project is licensed under the MIT License
