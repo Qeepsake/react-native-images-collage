@@ -15,6 +15,15 @@
         "doc",
         "infra"
       ]
+    },
+    {
+      "login": "amogh-jrules",
+      "name": "Amogh Jahagirdar",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/31567169?v=4",
+      "profile": "https://jramogh.co",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
