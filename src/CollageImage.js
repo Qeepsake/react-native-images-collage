@@ -9,6 +9,7 @@ class CollageImage extends React.Component {
     this.id = props.imageId;
 
     this.state = {
+      flex: 1,
       selected: false,
       animating: false,
       panningX: 0,
@@ -112,37 +113,47 @@ class CollageImage extends React.Component {
 
               if(!this.state.selected){
                 // IMAGE IS NOT SELECTED - CALCULATE PANNING
+                console.log("Move X", gestureState.moveX)
+                console.log("Move DX", gestureState.dx)
 
-                // CALCULATE FRICTION TO APPLY TO PANNING (APPLIED WHEN IMAGE REACHES END OF BOUND FOR RESISTANCE EFFECT)
-                const { frictionX, frictionY } = this.calculateFriction(panningX, panningY);
+                // ARE WE PANNING THE FRAME OF THE IMAGE?
+                const isPanningFrame = true;
 
-                const panningMovementX = this.originPanningX - moveX;
-                const panningMovementY = this.originPanningY - moveY;
+                if(!isPanningFrame) {
+                  // CALCULATE FRICTION TO APPLY TO PANNING (APPLIED WHEN IMAGE REACHES END OF BOUND FOR RESISTANCE EFFECT)
+                  const { frictionX, frictionY } = this.calculateFriction(panningX, panningY);
 
-                // CALCULATE THE DIRECTION WE ARE PANNING IN
-                this.directionX = (this.deltaPanningX - panningMovementX) > 0 ? 'right' : 'left';
-                this.directionY = (this.deltaPanningY - panningMovementY) > 0 ? 'down' : 'up';
+                  const panningMovementX = this.originPanningX - moveX;
+                  const panningMovementY = this.originPanningY - moveY;
 
-                // CALCULATE THE INCREMENTS BETWEEN PANNING IN ORDER TO APPLY FRICTION FORCE
-                const incrementX = (this.deltaPanningX - panningMovementX) * frictionX;
-                const incrementY = (this.deltaPanningY - panningMovementY) * frictionY;
+                  // CALCULATE THE DIRECTION WE ARE PANNING IN
+                  this.directionX = (this.deltaPanningX - panningMovementX) > 0 ? 'right' : 'left';
+                  this.directionY = (this.deltaPanningY - panningMovementY) > 0 ? 'down' : 'up';
 
-                // APPLY THE INCREMENT TO OUR PANNING VALUE
-                const newPanningX = (panningX - incrementX);
-                const newPanningY = (panningY - incrementY);
+                  // CALCULATE THE INCREMENTS BETWEEN PANNING IN ORDER TO APPLY FRICTION FORCE
+                  const incrementX = (this.deltaPanningX - panningMovementX) * frictionX;
+                  const incrementY = (this.deltaPanningY - panningMovementY) * frictionY;
 
-                // How much movement should cancel the long press? We use a base of 10.
-                const longPressCancelSensitivity = 10 * longPressSensitivity;
+                  // APPLY THE INCREMENT TO OUR PANNING VALUE
+                  const newPanningX = (panningX - incrementX);
+                  const newPanningY = (panningY - incrementY);
 
-                // Clear long press timer if we are panning
-                if(Math.abs(panningMovementX) > longPressCancelSensitivity || Math.abs(panningMovementY) > longPressCancelSensitivity)
-                  if (this.onLongPressTimeout) clearTimeout(this.onLongPressTimeout);
+                  // How much movement should cancel the long press? We use a base of 10.
+                  const longPressCancelSensitivity = 10 * longPressSensitivity;
 
-                this.setState({ panningX: newPanningX, panningY: newPanningY });
+                  // Clear long press timer if we are panning
+                  if(Math.abs(panningMovementX) > longPressCancelSensitivity || Math.abs(panningMovementY) > longPressCancelSensitivity)
+                    if (this.onLongPressTimeout) clearTimeout(this.onLongPressTimeout);
 
-                // DELTA PANNING
-                this.deltaPanningX = panningMovementX;
-                this.deltaPanningY = panningMovementY;
+                  this.setState({ panningX: newPanningX, panningY: newPanningY });
+
+                  // DELTA PANNING
+                  this.deltaPanningX = panningMovementX;
+                  this.deltaPanningY = panningMovementY;
+                } else {
+                  const newFlexSizeOfFrame = Math.max(this.state.flex - 0.01, 0.3);
+                  this.setState({ flex: newFlexSizeOfFrame });
+                }
               } else {
                 // IMAGE IS SELECTED - CALCULATE TRANSLATION
 
@@ -422,7 +433,7 @@ class CollageImage extends React.Component {
         <View
             ref={'imageContainer'}
             style={{
-              flex: 1, overflow: 'hidden',
+              flex: this.state.flex, overflow: 'hidden',
               transform: [
                 { translateX: -translateX },
                 { translateY: -translateY },
