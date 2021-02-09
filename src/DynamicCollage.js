@@ -344,7 +344,10 @@ class DynamicCollage extends React.Component {
 
   setImageFocusId(m, i) {
     return function () {
-      this.setState({ imageFocusId: `image${m}-${i}` });
+      const imageId = `image${m}-${i}`;
+      this.setState((prevState) => ({
+        imageFocusId: prevState.imageFocusId === imageId ? null : imageId,
+      }));
       this.props.onImageFocus(m, i);
     }.bind(this);
   }
