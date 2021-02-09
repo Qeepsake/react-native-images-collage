@@ -343,12 +343,12 @@ class DynamicCollage extends React.Component {
   }
 
   setImageFocusId(m, i) {
-    return function () {
+    return function (e) {
       const imageId = `image${m}-${i}`;
       this.setState((prevState) => ({
         imageFocusId: prevState.imageFocusId === imageId ? null : imageId,
       }));
-      this.props.onImageFocus(m, i);
+      this.props.onImageFocus && this.props.onImageFocus({ e, m, i });
     }.bind(this);
   }
 }
@@ -414,6 +414,7 @@ DynamicCollage.propTypes = {
   retainScaleOnSwap: PropTypes.bool,
   longPressDelay: PropTypes.number,
   longPressSensitivity: PropTypes.number, // 1 - 20 - How sensitive is the long press?
+  onImageFocus: PropTypes.func,
 };
 
 export { DynamicCollage };
