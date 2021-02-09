@@ -1,6 +1,13 @@
-import React from 'react';
-import { View, Image, PanResponder, StyleSheet, Animated, TouchableWithoutFeedback } from 'react-native';
-import PropTypes from 'prop-types';
+import React from "react";
+import {
+  View,
+  Image,
+  PanResponder,
+  StyleSheet,
+  Animated,
+  TouchableWithoutFeedback,
+} from "react-native";
+import PropTypes from "prop-types";
 
 class CollageImage extends React.Component {
   constructor(props) {
@@ -12,7 +19,7 @@ class CollageImage extends React.Component {
       selected: false,
       animating: false,
       panningX: 0,
-      panningY:  0,
+      panningY: 0,
       translateX: 0,
       translateY: 0,
       width: 0,
@@ -75,17 +82,32 @@ class CollageImage extends React.Component {
         }, props.longPressDelay);
       },
       onPanResponderMove: (evt, gestureState) => {
-        const { panningX, panningY, width, height, initialWidth, initialHeight, ratio } = this.state;
+        const {
+          panningX,
+          panningY,
+          width,
+          height,
+          initialWidth,
+          initialHeight,
+          ratio,
+        } = this.state;
         const { scaleAmplifier, longPressSensitivity } = this.props;
-        const { relativeContainerWidth, relativeContainerHeight } = this.props.boundaries;
+        const {
+          relativeContainerWidth,
+          relativeContainerHeight,
+        } = this.props.boundaries;
 
         const moveX = gestureState.moveX; // MOVEMENT ALONG THE X
         const moveY = gestureState.moveY; // MOVEMENT ALONG THE Y
 
         //INTERRUPT ANIMATIONS
-        if(this.snapAnimation != null){
+        if (this.snapAnimation != null) {
           // CANCEL ANIMARION AND CAPTURE POSITION
-          this.setState({ animating: false, panningX: this.animatedX._value, panningY: this.animatedY._value });
+          this.setState({
+            animating: false,
+            panningX: this.animatedX._value,
+            panningY: this.animatedY._value,
+          });
 
           // INTERRUPT ANIMATION
           this.snapAnimation.stop();
@@ -93,9 +115,9 @@ class CollageImage extends React.Component {
         }
 
         // PAN
-        if(gestureState.numberActiveTouches == 1){
-          if(!this.state.animating){
-            if(!this.panning){
+        if (gestureState.numberActiveTouches == 1) {
+          if (!this.state.animating) {
+            if (!this.panning) {
               this.panning = true;
 
               this.originPanningX = moveX;
@@ -110,33 +132,44 @@ class CollageImage extends React.Component {
             } else {
               // CALCULATE MOVEMENT
 
-              if(!this.state.selected){
+              if (!this.state.selected) {
                 // IMAGE IS NOT SELECTED - CALCULATE PANNING
 
                 // CALCULATE FRICTION TO APPLY TO PANNING (APPLIED WHEN IMAGE REACHES END OF BOUND FOR RESISTANCE EFFECT)
-                const { frictionX, frictionY } = this.calculateFriction(panningX, panningY);
+                const { frictionX, frictionY } = this.calculateFriction(
+                  panningX,
+                  panningY
+                );
 
                 const panningMovementX = this.originPanningX - moveX;
                 const panningMovementY = this.originPanningY - moveY;
 
                 // CALCULATE THE DIRECTION WE ARE PANNING IN
-                this.directionX = (this.deltaPanningX - panningMovementX) > 0 ? 'right' : 'left';
-                this.directionY = (this.deltaPanningY - panningMovementY) > 0 ? 'down' : 'up';
+                this.directionX =
+                  this.deltaPanningX - panningMovementX > 0 ? "right" : "left";
+                this.directionY =
+                  this.deltaPanningY - panningMovementY > 0 ? "down" : "up";
 
                 // CALCULATE THE INCREMENTS BETWEEN PANNING IN ORDER TO APPLY FRICTION FORCE
-                const incrementX = (this.deltaPanningX - panningMovementX) * frictionX;
-                const incrementY = (this.deltaPanningY - panningMovementY) * frictionY;
+                const incrementX =
+                  (this.deltaPanningX - panningMovementX) * frictionX;
+                const incrementY =
+                  (this.deltaPanningY - panningMovementY) * frictionY;
 
                 // APPLY THE INCREMENT TO OUR PANNING VALUE
-                const newPanningX = (panningX - incrementX);
-                const newPanningY = (panningY - incrementY);
+                const newPanningX = panningX - incrementX;
+                const newPanningY = panningY - incrementY;
 
                 // How much movement should cancel the long press? We use a base of 10.
                 const longPressCancelSensitivity = 10 * longPressSensitivity;
 
                 // Clear long press timer if we are panning
-                if(Math.abs(panningMovementX) > longPressCancelSensitivity || Math.abs(panningMovementY) > longPressCancelSensitivity)
-                  if (this.onLongPressTimeout) clearTimeout(this.onLongPressTimeout);
+                if (
+                  Math.abs(panningMovementX) > longPressCancelSensitivity ||
+                  Math.abs(panningMovementY) > longPressCancelSensitivity
+                )
+                  if (this.onLongPressTimeout)
+                    clearTimeout(this.onLongPressTimeout);
 
                 this.setState({ panningX: newPanningX, panningY: newPanningY });
 
@@ -156,55 +189,81 @@ class CollageImage extends React.Component {
             }
           }
           // SCALE
-        } else if(gestureState.numberActiveTouches == 2) {
-          const touches = evt.touchHistory.touchBank.filter(item => item !== null || item !== undefined);
+        } else if (gestureState.numberActiveTouches == 2) {
+          const touches = evt.touchHistory.touchBank.filter(
+            (item) => item !== null || item !== undefined
+          );
           const touchOne = touches[0];
           const touchTwo = touches[1];
 
           const scalingValue = Math.max(
-              Math.abs(touchOne.currentPageX - touchTwo.currentPageX),
-              Math.abs(touchOne.currentPageY - touchTwo.currentPageY)
+            Math.abs(touchOne.currentPageX - touchTwo.currentPageX),
+            Math.abs(touchOne.currentPageY - touchTwo.currentPageY)
           ); // SCALING AMOUNT
 
           // Clear long press timer if we are scaling
           if (this.onLongPressTimeout) clearTimeout(this.onLongPressTimeout);
 
-          if(!this.scaling){
+          if (!this.scaling) {
             // FIRST TOUCH - START SCALING
             this.scaling = true;
 
             this.deltaScaling = scalingValue;
           } else {
             // SCALING
-            const incrementScaling = (this.deltaScaling - scalingValue) * scaleAmplifier;
+            const incrementScaling =
+              (this.deltaScaling - scalingValue) * scaleAmplifier;
 
             // Support portrait and landscape photos by scaling each axis by ratio depending on the image properties
-            const incrementScalingWidth = initialWidth > initialHeight ? incrementScaling * ratio : incrementScaling;
-            const incrementScalingHeight = initialHeight > initialWidth ? incrementScaling * ratio : incrementScaling;
+            const incrementScalingWidth =
+              initialWidth > initialHeight
+                ? incrementScaling * ratio
+                : incrementScaling;
+            const incrementScalingHeight =
+              initialHeight > initialWidth
+                ? incrementScaling * ratio
+                : incrementScaling;
 
             // Calculate our new image size from scaling
             const newWidth = width - incrementScalingWidth;
             const newHeight = height - incrementScalingHeight;
 
             // Don't scale if width or height is not greater than container, we always scale if the scale is positive (making the image larger)
-            if(newWidth > relativeContainerWidth && height > relativeContainerHeight || incrementScaling < 0) {
+            if (
+              (newWidth > relativeContainerWidth &&
+                height > relativeContainerHeight) ||
+              incrementScaling < 0
+            ) {
               // Calculate anchor pecentage, where has the user started the scale relative to the container as a percentage
-              const anchorRelativePercentageX = ((moveX - this.props.collageOffsetX) / relativeContainerWidth) * 100;
-              const anchorRelativePercentageY = ((moveY - this.props.collageOffsetY) / relativeContainerHeight) * 100;
+              const anchorRelativePercentageX =
+                ((moveX - this.props.collageOffsetX) / relativeContainerWidth) *
+                100;
+              const anchorRelativePercentageY =
+                ((moveY - this.props.collageOffsetY) /
+                  relativeContainerHeight) *
+                100;
 
               // Calculate anchor point relative to image width
-              const anchorPointX = Math.max(1, 3 * anchorRelativePercentageX / 100);
-              const anchorPointY = Math.max(1, 3 * anchorRelativePercentageY / 100);
+              const anchorPointX = Math.max(
+                1,
+                (3 * anchorRelativePercentageX) / 100
+              );
+              const anchorPointY = Math.max(
+                1,
+                (3 * anchorRelativePercentageY) / 100
+              );
 
               // Calculate anchor panning to scale by center
-              const anchorPanningX = panningX - (width - newWidth) / anchorPointX;
-              const anchorPanningY = panningY - (height - newHeight) / anchorPointY;
+              const anchorPanningX =
+                panningX - (width - newWidth) / anchorPointX;
+              const anchorPanningY =
+                panningY - (height - newHeight) / anchorPointY;
 
               this.setState({
                 width: newWidth,
                 height: newHeight,
                 panningX: anchorPanningX,
-                panningY: anchorPanningY
+                panningY: anchorPanningY,
               });
             }
 
@@ -219,9 +278,9 @@ class CollageImage extends React.Component {
         this.scaling = false;
 
         // Clear long press timer
-        if(this.onLongPressTimeout) clearTimeout(this.onLongPressTimeout);
+        if (this.onLongPressTimeout) clearTimeout(this.onLongPressTimeout);
 
-        if(this.state.selected){
+        if (this.state.selected) {
           this.props.translationEndCallback(this);
           this.setState({ selected: false, translateX: 0, translateY: 0 });
         }
@@ -233,8 +292,16 @@ class CollageImage extends React.Component {
     this.calculateImageSize();
   }
 
-  componentDidUpdate(prevProps){
-    const { matrix, direction, boundaries, panningLeftPadding, panningRightPadding, panningTopPadding, panningBottomPadding } = this.props;
+  componentDidUpdate(prevProps) {
+    const {
+      matrix,
+      direction,
+      boundaries,
+      panningLeftPadding,
+      panningRightPadding,
+      panningTopPadding,
+      panningBottomPadding,
+    } = this.props;
     const { width, height } = this.state;
 
     this.leftEdge = 0;
@@ -248,8 +315,8 @@ class CollageImage extends React.Component {
     this.bottomEdgeMax = this.bottomEdge + panningBottomPadding;
 
     // Auto resize collage images when Matrix, or direction is updated.
-    if(matrix !== prevProps.matrix || direction !== prevProps.direction){
-      if(this.snapAnimation != null) {
+    if (matrix !== prevProps.matrix || direction !== prevProps.direction) {
+      if (this.snapAnimation != null) {
         // INTERRUPT ANIMATION
         this.snapAnimation.stop();
         this.snapAnimation = null;
@@ -257,36 +324,52 @@ class CollageImage extends React.Component {
 
       this.setState({
         panningX: 0,
-        panningY: 0
+        panningY: 0,
       });
 
       this.calculateImageSize();
     }
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     // Clear long press timer when component is unmounted
     if (this.onLongPressTimeout) clearTimeout(this.onLongPressTimeout);
   }
 
-  calculateFriction(x, y){
+  calculateFriction(x, y) {
     let frictionX = 1.0;
     let frictionY = 1.0;
 
-    if(x < this.leftEdge && this.directionX === 'right'){ // TOO FAR RIGHT
-      frictionX = Math.max(0, (x - this.leftEdgeMax) / (this.leftEdge - this.leftEdgeMax)); // REVERSE NORMALIZATION
+    if (x < this.leftEdge && this.directionX === "right") {
+      // TOO FAR RIGHT
+      frictionX = Math.max(
+        0,
+        (x - this.leftEdgeMax) / (this.leftEdge - this.leftEdgeMax)
+      ); // REVERSE NORMALIZATION
     }
 
-    if(x > this.rightEdge && this.directionX === 'left'){ // TOO FAR RIGHT
-      frictionX = Math.max(0, (x - this.rightEdgeMax) / (this.rightEdge - this.rightEdgeMax)); // REVERSE NORMALIZATION
+    if (x > this.rightEdge && this.directionX === "left") {
+      // TOO FAR RIGHT
+      frictionX = Math.max(
+        0,
+        (x - this.rightEdgeMax) / (this.rightEdge - this.rightEdgeMax)
+      ); // REVERSE NORMALIZATION
     }
 
-    if(y < this.topEdge && this.directionY === 'down'){ // TOO FAR DOWN
-      frictionY = Math.max(0, (y - this.topEdgeMax) / (this.topEdge - this.topEdgeMax)); // REVERSE NORMALIZATION
+    if (y < this.topEdge && this.directionY === "down") {
+      // TOO FAR DOWN
+      frictionY = Math.max(
+        0,
+        (y - this.topEdgeMax) / (this.topEdge - this.topEdgeMax)
+      ); // REVERSE NORMALIZATION
     }
 
-    if(y > this.bottomEdge && this.directionY === 'up'){ // TOO FAR UP
-      frictionY = Math.max(0, (y - this.bottomEdgeMax) / (this.bottomEdge - this.bottomEdgeMax)); // REVERSE NORMALIZATION
+    if (y > this.bottomEdge && this.directionY === "up") {
+      // TOO FAR UP
+      frictionY = Math.max(
+        0,
+        (y - this.bottomEdgeMax) / (this.bottomEdge - this.bottomEdgeMax)
+      ); // REVERSE NORMALIZATION
     }
 
     return { frictionX, frictionY };
@@ -295,7 +378,7 @@ class CollageImage extends React.Component {
   /**
    * Updates the image postion, will use animation to snap the image into place if it is out of bounds
    */
-  calculateImagePosition(){
+  calculateImagePosition() {
     const { panningX, panningY } = this.state;
 
     this.setState({ animating: true });
@@ -305,21 +388,32 @@ class CollageImage extends React.Component {
 
     let animateXTo = this.animatedX._value;
     let animateYTo = this.animatedY._value;
-    if(panningX < this.leftEdge){ animateXTo = this.leftEdge; }
-    if(panningX > this.rightEdge){ animateXTo = this.rightEdge; }
-    if(panningY < this.topEdge){ animateYTo = this.topEdge; }
-    if(panningY > this.bottomEdge){ animateYTo = this.bottomEdge; }
+    if (panningX < this.leftEdge) {
+      animateXTo = this.leftEdge;
+    }
+    if (panningX > this.rightEdge) {
+      animateXTo = this.rightEdge;
+    }
+    if (panningY < this.topEdge) {
+      animateYTo = this.topEdge;
+    }
+    if (panningY > this.bottomEdge) {
+      animateYTo = this.bottomEdge;
+    }
 
-    if(animateXTo != this.animatedX._value || animateYTo != this.animatedY._value){
+    if (
+      animateXTo != this.animatedX._value ||
+      animateYTo != this.animatedY._value
+    ) {
       this.snapAnimation = Animated.parallel([
         Animated.spring(this.animatedX, {
           toValue: animateXTo,
-          duration: 100
+          duration: 100,
         }),
         Animated.spring(this.animatedY, {
           toValue: animateYTo,
-          duration: 100
-        })
+          duration: 100,
+        }),
       ]);
 
       this.snapAnimation.start(() => {
@@ -337,28 +431,35 @@ class CollageImage extends React.Component {
    * @param targetHeight {number} target height to overwite the height to be calculated
    * @param keepScale {bool} Keeps the scale of the image, does not try to adjust to container size
    */
-  calculateImageSize(targetWidth = null, targetHeight = null, keepScale = false){
+  calculateImageSize(
+    targetWidth = null,
+    targetHeight = null,
+    keepScale = false
+  ) {
     Image.getSize(this.props.source.uri, (width, height) => {
       // SCALE IMAGE TO FIT THE CONTAINER
       const { imageWidth, imageHeight } = this.calculateAspectRatioFit(
-          targetWidth ? targetWidth : width,
-          targetHeight ? targetHeight : height,
-          this.props.boundaries.relativeContainerWidth,
-          this.props.boundaries.relativeContainerHeight,
-          keepScale
+        targetWidth ? targetWidth : width,
+        targetHeight ? targetHeight : height,
+        this.props.boundaries.relativeContainerWidth,
+        this.props.boundaries.relativeContainerHeight,
+        keepScale
       );
 
-      this.setState({
-        width: imageWidth,
-        height: imageHeight,
-        initialWidth: imageWidth,
-        initialHeight: imageHeight,
-        srcWidth: width,
-        srcHeight: height,
-        ratio: Math.max(imageHeight / imageWidth, imageWidth / imageHeight)
-      }, () => {
-        this.calculateImagePosition();
-      });
+      this.setState(
+        {
+          width: imageWidth,
+          height: imageHeight,
+          initialWidth: imageWidth,
+          initialHeight: imageHeight,
+          srcWidth: width,
+          srcHeight: height,
+          ratio: Math.max(imageHeight / imageWidth, imageWidth / imageHeight),
+        },
+        () => {
+          this.calculateImagePosition();
+        }
+      );
     });
   }
 
@@ -375,12 +476,18 @@ class CollageImage extends React.Component {
    *
    * @return {Object} { imageWidth, imageHeight }
    */
-  calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight, keepScale = false) {
+  calculateAspectRatioFit(
+    srcWidth,
+    srcHeight,
+    maxWidth,
+    maxHeight,
+    keepScale = false
+  ) {
     const newMaxWidth = keepScale ? Math.max(srcWidth, maxWidth) : maxWidth;
     const newMaxHeight = keepScale ? Math.max(srcHeight, maxHeight) : maxHeight;
 
     const ratio = Math.max(newMaxWidth / srcWidth, newMaxHeight / srcHeight);
-    return { imageWidth: srcWidth*ratio, imageHeight: srcHeight*ratio };
+    return { imageWidth: srcWidth * ratio, imageHeight: srcHeight * ratio };
   }
 
   /**
@@ -388,7 +495,7 @@ class CollageImage extends React.Component {
    *
    * @param image - A CollageImage class
    */
-  imageSwapped(image){
+  imageSwapped(image) {
     const { retainScaleOnSwap } = this.props;
 
     // SWAP PROPERTIES
@@ -397,46 +504,80 @@ class CollageImage extends React.Component {
     const targetImageWidth = image.state.width;
     const targetImageHeight = image.state.height;
 
-    if(targetImagePanningX < this.leftEdge){ targetImagePanningX = this.leftEdge; }
-    if(targetImagePanningX > this.rightEdge){ targetImagePanningX = this.rightEdge; }
-    if(targetImagePanningY < this.topEdge){ targetImagePanningY = this.topEdge; }
-    if(targetImagePanningY > this.bottomEdge){ targetImagePanningY = this.bottomEdge; }
+    if (targetImagePanningX < this.leftEdge) {
+      targetImagePanningX = this.leftEdge;
+    }
+    if (targetImagePanningX > this.rightEdge) {
+      targetImagePanningX = this.rightEdge;
+    }
+    if (targetImagePanningY < this.topEdge) {
+      targetImagePanningY = this.topEdge;
+    }
+    if (targetImagePanningY > this.bottomEdge) {
+      targetImagePanningY = this.bottomEdge;
+    }
 
     // WHEN IMAGE IS SWAPPED THEN WE RECALCULATE THE SIZE.
-    this.calculateImageSize(targetImageWidth, targetImageHeight, retainScaleOnSwap);
+    this.calculateImageSize(
+      targetImageWidth,
+      targetImageHeight,
+      retainScaleOnSwap
+    );
 
     this.setState({
       panningX: targetImagePanningX,
-      panningY: targetImagePanningY
+      panningY: targetImagePanningY,
     });
   }
 
   render() {
     const { source, style, imageSelectedStyle } = this.props;
-    const { panningX, panningY, translateX, translateY, width, height, selected, animating } = this.state;
+    const {
+      panningX,
+      panningY,
+      translateX,
+      translateY,
+      width,
+      height,
+      selected,
+      animating,
+    } = this.state;
 
     const right = animating ? this.animatedX : panningX;
     const bottom = animating ? this.animatedY : panningY;
 
     return (
+      <View
+        ref={"imageContainer"}
+        style={{
+          flex: 1,
+          overflow: "hidden",
+          transform: [{ translateX: -translateX }, { translateY: -translateY }],
+          borderWidth: 2,
+          borderColor: "white",
+        }}
+      >
         <View
-            ref={'imageContainer'}
-            style={{
-              flex: 1, overflow: 'hidden',
-              transform: [
-                { translateX: -translateX },
-                { translateY: -translateY },
-              ],
-              borderWidth: 2, borderColor: 'white'
-            }}>
-          <View style={{ flex: 1, flexDirection: 'row', width: width, height: height }} {...this._panResponder.panHandlers}>
-            <Animated.Image
-                ref={'image'}
-                source={source}
-                style={[ style, { right, bottom, width, height }, selected ? imageSelectedStyle : null]}
-                resizeMode='cover' />
-          </View>
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            width: width,
+            height: height,
+          }}
+          {...this._panResponder.panHandlers}
+        >
+          <Animated.Image
+            ref={"image"}
+            source={source}
+            style={[
+              style,
+              { right, bottom, width, height },
+              selected ? imageSelectedStyle : null,
+            ]}
+            resizeMode="cover"
+          />
         </View>
+      </View>
     );
   }
 }

@@ -26,5 +26,21 @@
   "author": "Luke Brandon Farrell",
   "license": "MIT",
   "readme": "README.md",
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "husky": "^3.1.0",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "./src/**/*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  }
 }
