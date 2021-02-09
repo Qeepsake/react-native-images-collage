@@ -184,7 +184,7 @@ class DynamicCollage extends React.Component {
       reorderedImages[index2] = images[index1];
 
       // Set the reordered images as state
-      this.setState({ images: reorderedImages });
+      this.setState({ images: reorderedImages, imageFocusId: null });
 
       // Call the swapped functions on each image
       selectedImage.imageSwapped(targetImage);
