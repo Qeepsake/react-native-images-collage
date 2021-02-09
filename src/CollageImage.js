@@ -72,9 +72,10 @@ class CollageImage extends React.Component {
 
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
-      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => {
+        return Math.abs(gestureState.dx) > 5;
+      },
       onPanResponderGrant: (e, gestureState) => {
         this.onLongPressTimeout = setTimeout(() => {
           this.setState({ selected: true }, () => {
@@ -532,7 +533,14 @@ class CollageImage extends React.Component {
   }
 
   render() {
-    const { source, style, imageSelectedStyle } = this.props;
+    const {
+      source,
+      style,
+      imageSelectedStyle,
+      imageFocusId,
+      imageFocussedStyle,
+      imageContainerStyle,
+    } = this.props;
     const {
       panningX,
       panningY,
@@ -550,13 +558,18 @@ class CollageImage extends React.Component {
     return (
       <View
         ref={"imageContainer"}
-        style={{
-          flex: 1,
-          overflow: "hidden",
-          transform: [{ translateX: -translateX }, { translateY: -translateY }],
-          borderWidth: 2,
-          borderColor: "white",
-        }}
+        style={[
+          {
+            flex: 1,
+            overflow: "hidden",
+            transform: [
+              { translateX: -translateX },
+              { translateY: -translateY },
+            ],
+          },
+          imageContainerStyle,
+          imageFocusId === this.id ? imageFocussedStyle : null,
+        ]}
       >
         <View
           style={{
@@ -567,16 +580,18 @@ class CollageImage extends React.Component {
           }}
           {...this._panResponder.panHandlers}
         >
-          <Animated.Image
-            ref={"image"}
-            source={source}
-            style={[
-              style,
-              { right, bottom, width, height },
-              selected ? imageSelectedStyle : null,
-            ]}
-            resizeMode="cover"
-          />
+          <TouchableWithoutFeedback onPress={this.props.onImageFocus}>
+            <Animated.Image
+              ref={"image"}
+              source={source}
+              style={[
+                style,
+                { right, bottom, width, height },
+                selected ? imageSelectedStyle : null,
+              ]}
+              resizeMode="cover"
+            />
+          </TouchableWithoutFeedback>
         </View>
         {this.props.isEditButtonVisible && (
           <TouchableOpacity
@@ -635,6 +650,10 @@ CollageImage.propTypes = {
   ]),
   isEditButtonVisible: PropTypes.bool,
   editButtonIndent: PropTypes.number,
+  imageContainerStyle: PropTypes.object,
+  imageFocussedStyle: PropTypes.object,
+  imageFocusId: PropTypes.string,
+  onImageFocus: PropTypes.func,
 };
 
 export default CollageImage;

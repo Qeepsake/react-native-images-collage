@@ -9,6 +9,7 @@ class DynamicCollage extends React.Component {
     super(props);
 
     this.state = {
+      imageFocusId: "",
       images: props.images,
       collageWidth: null,
       collageHeight: null,
@@ -25,7 +26,7 @@ class DynamicCollage extends React.Component {
       longPressDelay,
       longPressSensitivity,
     } = this.props;
-    const { collageOffsetX, collageOffsetY } = this.state;
+    const { collageOffsetX, collageOffsetY, imageFocusId } = this.state;
 
     const sectionDirection = direction === "row" ? "column" : "row";
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
@@ -71,6 +72,10 @@ class DynamicCollage extends React.Component {
               longPressSensitivity={longPressSensitivity}
               collageOffsetX={collageOffsetX}
               collageOffsetY={collageOffsetY}
+              imageFocusId={imageFocusId}
+              imageContainerStyle={this.props.imageContainerStyle}
+              onImageFocus={this.setImageFocusId(m, i)}
+              imageFocussedStyle={this.props.imageFocussedStyle}
             />
           );
         });
@@ -336,6 +341,13 @@ class DynamicCollage extends React.Component {
       }
     );
   }
+
+  setImageFocusId(m, i) {
+    return function () {
+      this.setState({ imageFocusId: `image${m}-${i}` });
+      this.props.onImageFocus(m, i);
+    }.bind(this);
+  }
 }
 
 DynamicCollage.defaultProps = {
@@ -357,6 +369,11 @@ DynamicCollage.defaultProps = {
     backgroundColor: "white",
   },
   imageStyle: {}, // DEFAULT IMAGE STYLE
+  imageContainerStyle: {
+    // DEFAULT IMAGE CONTAINER STYLE
+    borderWidth: 2,
+    borderColor: "white",
+  },
 
   // STYLE OF SEPARATORS ON THE COLLAGE
   separatorStyle: {
@@ -377,6 +394,9 @@ DynamicCollage.defaultProps = {
   imageSwapStyleReset: {
     borderWidth: 0,
   }, // RESET ANY STYLE APPLIED WITH imageSwapStyle
+
+  // IMAGE FOCUS
+  imageFocussedStyle: {},
 };
 
 DynamicCollage.propTypes = {
@@ -391,16 +411,6 @@ DynamicCollage.propTypes = {
   retainScaleOnSwap: PropTypes.bool,
   longPressDelay: PropTypes.number,
   longPressSensitivity: PropTypes.number, // 1 - 20 - How sensitive is the long press?
-  onEditButtonPress: PropTypes.func,
-  EditButtonComponent: PropTypes.func,
-  editButtonPosition: PropTypes.oneOf([
-    "top-left",
-    "top-right",
-    "bottom-left",
-    "bottom-right",
-  ]),
-  isEditButtonVisible: PropTypes.bool,
-  editButtonIndent: PropTypes.number,
 };
 
 export { DynamicCollage };
