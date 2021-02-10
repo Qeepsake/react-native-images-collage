@@ -73,9 +73,8 @@ class CollageImage extends React.Component {
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (evt, gestureState) => true,
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
-      onMoveShouldSetPanResponderCapture: (evt, gestureState) => {
-        return Math.abs(gestureState.dx) > 5;
-      },
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
       onPanResponderGrant: (e, gestureState) => {
         this.onLongPressTimeout = setTimeout(() => {
           this.setState({ selected: true }, () => {
@@ -275,6 +274,11 @@ class CollageImage extends React.Component {
         }
       },
       onPanResponderEnd: (e, gestureState) => {
+        // Focusses the image, if user just taps it, and there is no movement or holding
+        if (Math.abs(gestureState.dx) < 5 && !this.state.selected) {
+          if (this.props.onImageFocus) this.props.onImageFocus(e);
+        }
+
         // Disable scaling, and panning
         this.panning = false;
         this.scaling = false;
@@ -580,18 +584,16 @@ class CollageImage extends React.Component {
           }}
           {...this._panResponder.panHandlers}
         >
-          <TouchableWithoutFeedback onPress={this.props.onImageFocus}>
-            <Animated.Image
-              ref={"image"}
-              source={source}
-              style={[
-                style,
-                { right, bottom, width, height },
-                selected ? imageSelectedStyle : null,
-              ]}
-              resizeMode="cover"
-            />
-          </TouchableWithoutFeedback>
+          <Animated.Image
+            ref={"image"}
+            source={source}
+            style={[
+              style,
+              { right, bottom, width, height },
+              selected ? imageSelectedStyle : null,
+            ]}
+            resizeMode="cover"
+          />
         </View>
         {this.props.isEditButtonVisible && (
           <TouchableOpacity

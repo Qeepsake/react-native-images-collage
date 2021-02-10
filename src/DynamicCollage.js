@@ -2,6 +2,7 @@ import React from "react";
 import { View, Image, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 
+import { LayoutData } from "./Layouts";
 import CollageImage from "./CollageImage";
 
 class DynamicCollage extends React.Component {
@@ -342,13 +343,27 @@ class DynamicCollage extends React.Component {
     );
   }
 
+  /**
+   * Function used to focus the image that was just pressed
+   *
+   * @param {number} m - matrix index
+   * @param {number} i - image index
+   *
+   * @typedef {Object} Indexes
+   * @property {number} m - matrix index
+   * @property {number} i - image index
+   *
+   * @return {GestureResponderEvent} e - gesture responder event
+   * @returns {Indexes} matrix and image indexes
+   *
+   */
   setImageFocusId(m, i) {
     return function (e) {
       const imageId = `image${m}-${i}`;
       this.setState((prevState) => ({
         imageFocusId: prevState.imageFocusId === imageId ? null : imageId,
       }));
-      this.props.onImageFocus && this.props.onImageFocus({ e, m, i });
+      this.props.onImageFocus && this.props.onImageFocus(e, { m, i });
     }.bind(this);
   }
 }
@@ -415,6 +430,7 @@ DynamicCollage.propTypes = {
   longPressDelay: PropTypes.number,
   longPressSensitivity: PropTypes.number, // 1 - 20 - How sensitive is the long press?
   onImageFocus: PropTypes.func,
+  onImagePress: PropTypes.func,
 };
 
 export { DynamicCollage };
