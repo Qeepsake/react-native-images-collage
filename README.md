@@ -81,7 +81,7 @@ The number in the first bracket will be the configuration you want to access. E.
 
 - If you want to capture the collage as a single image. Take a look at [react-native-view-shot](https://github.com/gre/react-native-view-shot).
 - The number of images has to be equal to the sum of the matrix. e.g. Matrix is [ 1, 2, 1 ] ( 1 + 2 + 1 = 4), there has to be 4 images.
-- The collage scaling will not work when in a react-native [<Modal />](https://facebook.github.io/react-native/docs/modal) component. [Multiple touches are not registered](https://github.com/facebook/react-native/issues/8094).
+- The collage scaling will not work when in a [Modal](https://facebook.github.io/react-native/docs/modal) component. [Multiple touches are not registered](https://github.com/facebook/react-native/issues/8094).
 
 ## Props
 
