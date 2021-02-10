@@ -24,6 +24,16 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "jasimawan",
+      "name": "Muhammad Jasim",
+      "avatar_url": "https://avatars.githubusercontent.com/u/31315869?v=4",
+      "profile": "https://www.facebook.com/jasim.awan.009",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
