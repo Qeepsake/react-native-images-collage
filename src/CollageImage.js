@@ -583,7 +583,9 @@ class CollageImage extends React.Component {
             onPress={this.props.onEditButtonPress}
             style={{
               position: "absolute",
-              margin: 20,
+              margin: this.props.editButtonIndent
+                ? this.props.editButtonIndent
+                : 20,
               top: this.props.editButtonPosition.includes("top") ? 0 : null,
               bottom: this.props.editButtonPosition.includes("bottom")
                 ? 0
@@ -613,6 +615,7 @@ CollageImage.propTypes = {
   EditButtonComponent: PropTypes.func,
   editButtonPosition: PropTypes.string,
   isEditButtonVisible: PropTypes.bool,
+  editButtonIndent: PropTypes.number,
 };
 
 export default CollageImage;

@@ -65,6 +65,7 @@ class DynamicCollage extends React.Component {
               isEditButtonVisible={this.props.isEditButtonVisible}
               EditButtonComponent={this.props.EditButtonComponent}
               editButtonPosition={this.props.editButtonPosition}
+              editButtonIndent={this.props.editButtonIndent}
               matrix={matrix}
               direction={direction}
               longPressSensitivity={longPressSensitivity}
@@ -347,6 +348,7 @@ DynamicCollage.propTypes = {
   EditButtonComponent: PropTypes.func,
   editButtonPosition: PropTypes.string,
   isEditButtonVisible: PropTypes.bool,
+  editButtonIndent: PropTypes.number,
 };
 
 export { DynamicCollage };
