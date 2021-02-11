@@ -40,14 +40,19 @@ To use in React Native. Import:
 
 ### Dynamic Collage
 
-A dynamic collage includes panning, scaling and image arrangement.
+A dynamic collage includes panning, scaling, replacing and image arrangement.
 
 ```js
   <DynamicCollage
     width={400}
     height={400}
     images={ photos }
-    matrix={ [ 1, 1, 1, 1 ] } />
+    matrix={ [ 1, 1, 1, 1 ] }
+    isEditButtonVisible: { true | false },
+    EditButtonComponent: { ( <YourCustomComponent/> ) }
+    editButtonPosition: { 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' },
+    onEditButtonPress: { (m, i) => { collageRef.replace( 'NewImage' , m , i ) } }
+    />
 ```
 
 ### Static Collage
@@ -91,6 +96,10 @@ The number in the first bracket will be the configuration you want to access. E.
 | height              | float         | No        |         | Height of component. REQUIRED. Used to calculate image boundaries for switching.        |
 | images              | array         | No        |         | Images for the collage.                                                                 |
 | matrix              | array         | No        |         | An array [ 1, 1, 1 ] equal to the number of images. Used to define the layout.          |
+| isEditButtonVisible | boolean       | No        |         | A boolean value for the edit button. Used to display the edit button on layout.         |
+| EditButtonComponent | function      | Yes       |         | Custom Edit button component to be displayed on each image in the layout if the value `isEditButtonVisible` will be true.           |
+| editButtonPosition  | enum          | Yes       | top-left| Enum value to set the position of `EditButtonComponent` on each collage image layout.   |
+| onEditButtonPress   | function      | Yes       |         | `EditButtonComponent` when pressed will be triggered to replace the respective image.   |
 | direction           | string        | Yes       | row     | Direction of the collage: 'row' or 'column'.                                            |
 | panningLeftPadding  | number        | Yes       | 15      | Distance image can go beyond the left edge before it is restricted.                     |
 | panningRightPadding | number        | Yes       | 15      | Distance image can go beyond the right edge before it is restricted.                    |
