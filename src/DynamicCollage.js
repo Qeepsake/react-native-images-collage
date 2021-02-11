@@ -61,6 +61,11 @@ class DynamicCollage extends React.Component {
               scaleAmplifier={this.props.scaleAmplifier}
               retainScaleOnSwap={retainScaleOnSwap}
               longPressDelay={longPressDelay}
+              onEditButtonPress={() => this.props.onEditButtonPress(m, i)}
+              isEditButtonVisible={this.props.isEditButtonVisible}
+              EditButtonComponent={this.props.EditButtonComponent}
+              editButtonPosition={this.props.editButtonPosition}
+              editButtonIndent={this.props.editButtonIndent}
               matrix={matrix}
               direction={direction}
               longPressSensitivity={longPressSensitivity}
@@ -339,6 +344,16 @@ DynamicCollage.propTypes = {
   retainScaleOnSwap: PropTypes.bool,
   longPressDelay: PropTypes.number,
   longPressSensitivity: PropTypes.number, // 1 - 20 - How sensitive is the long press?
+  onEditButtonPress: PropTypes.func,
+  EditButtonComponent: PropTypes.func,
+  editButtonPosition: PropTypes.oneOf([
+    "top-left",
+    "top-right",
+    "bottom-left",
+    "bottom-right",
+  ]),
+  isEditButtonVisible: PropTypes.bool,
+  editButtonIndent: PropTypes.number,
 };
 
 export { DynamicCollage };
