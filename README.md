@@ -27,6 +27,7 @@ To keep up to date with the latest fixes. See [CHANGELOG.md](https://github.com/
 ## Install
 
 Install via npm:
+
 ```sh
  npm install react-native-images-collage --save
 ```
@@ -34,8 +35,9 @@ Install via npm:
 ## Usage
 
 To use in React Native. Import:
+
 ```js
- import { DynamicCollage, StaticCollage } from 'react-native-images-collage';
+import { DynamicCollage, StaticCollage } from "react-native-images-collage";
 ```
 
 ### Dynamic Collage
@@ -60,21 +62,19 @@ A dynamic collage includes panning, scaling, replacing and image arrangement.
 A static collage does not include any panning, scaling or arrangement logic. Use this if you want to render multiple non-interactive collages. Same props as the dynamic collage.
 
 ```js
-  <StaticCollage
-    width={400}
-    height={400}
-    images={ photos }
-    matrix={ [ 1, 1, 1, 1 ] } />
+<StaticCollage width={400} height={400} images={photos} matrix={[1, 1, 1, 1]} />
 ```
 
 ### Layouts
 
 Instead of building your own matrix of collage layouts. There is a JSON file you can import which includes multiple layouts. Up to 6 images.
+
 ```js
- import { LayoutData } from 'react-native-images-collage';
+import { LayoutData } from "react-native-images-collage";
 ```
 
 You can then access a layout like so:
+
 ```js
  matrix={ LayoutData[NumberOfImages][i].matrix }
  direction={ LayoutData[NumberOfImages][i].direction }
@@ -90,37 +90,38 @@ The number in the first bracket will be the configuration you want to access. E.
 
 ## Props
 
-| Prop                | Type          | Optional  | Default | Description                                                                             |
-| ------------------- | ------------- | --------- | ------- | --------------------------------------------------------------------------------------- |
-| width               | float         | No        |         | Width of component. REQUIRED. Used to calculate image boundaries for switching.         |
-| height              | float         | No        |         | Height of component. REQUIRED. Used to calculate image boundaries for switching.        |
-| images              | array         | No        |         | Images for the collage.                                                                 |
-| matrix              | array         | No        |         | An array [ 1, 1, 1 ] equal to the number of images. Used to define the layout.          |
-| isEditButtonVisible | boolean       | No        |         | A boolean value for the edit button. Used to display the edit button on layout.         |
-| EditButtonComponent | function      | Yes       |         | Custom Edit button component to be displayed on each image in the layout if the value `isEditButtonVisible` will be true.           |
-| editButtonPosition  | enum          | Yes       | top-left| Enum value to set the position of `EditButtonComponent` on each collage image layout.   |
-| onEditButtonPress   | function      | Yes       |         | `EditButtonComponent` when pressed will be triggered to replace the respective image.   |
-| direction           | string        | Yes       | row     | Direction of the collage: 'row' or 'column'.                                            |
-| panningLeftPadding  | number        | Yes       | 15      | Distance image can go beyond the left edge before it is restricted.                     |
-| panningRightPadding | number        | Yes       | 15      | Distance image can go beyond the right edge before it is restricted.                    |
-| panningTopPadding   | number        | Yes       | 15      | Distance image can go beyond the top edge before it is restricted.                      |
-| panningBottomPadding| number        | Yes       | 15      | Distance image can go beyond the bottom edge before it is restricted.                   |
-| scaleAmplifier      | number        | Yes       | 1.0     | Amplifier applied to scaling. Increase this for faster scaling of images.               |
-| retainScaleOnSwap   | boolean       | Yes       | true    | Keep the scale (width/height) of image when it is swapped.                              |
-| longPressDelay      | number        | Yes       | 500     | Delay before long press is activated.                                                   |
-| longPressSensitivity| number        | Yes       | 3       | Sensitivity of the long press, float of 1 (low) to 10+ (high).                                                 |
-| imageStyle          | object        | Yes       | style   | Default image style.                                                                    |
-| imageSelectedStyle  | object        | Yes       | style   | The style applied to the image when it has been selected. Long Pressed.                 |
-| imageSwapStyle      | object        | Yes       | style   | The style applied to the target image which is being swapped. E.g red borders           |
-| imageSwapStyleReset | object        | Yes       | style   | The reverse of imageSwapStyle to reset style after swap. Vital for direct manipulation. |
-| separatorStyle      | object        | Yes       | style   | Style applied to image container. Use border width to create margin between images.     |
-| containerStyle      | object        | Yes       | style   | Style applied to the container of the collage. Collage border can be applied here.      |
+| Prop                 | Type     | Optional | Default  | Description                                                                                                               |
+| -------------------- | -------- | -------- | -------- | ------------------------------------------------------------------------------------------------------------------------- |
+| width                | float    | No       |          | Width of component. REQUIRED. Used to calculate image boundaries for switching.                                           |
+| height               | float    | No       |          | Height of component. REQUIRED. Used to calculate image boundaries for switching.                                          |
+| images               | array    | No       |          | Images for the collage.                                                                                                   |
+| matrix               | array    | No       |          | An array [ 1, 1, 1 ] equal to the number of images. Used to define the layout.                                            |
+| isEditButtonVisible  | boolean  | No       |          | A boolean value for the edit button. Used to display the edit button on layout.                                           |
+| EditButtonComponent  | function | Yes      |          | Custom Edit button component to be displayed on each image in the layout if the value `isEditButtonVisible` will be true. |
+| editButtonPosition   | enum     | Yes      | top-left | Enum value to set the position of `EditButtonComponent` on each collage image layout.                                     |
+| editButtonIndent     | number   | Yes      | 20       | Number value to set the indentation of `EditButtonComponent` on each collage image layout.                                |
+| onEditButtonPress    | function | Yes      |          | `EditButtonComponent` when pressed will be triggered to replace the respective image.                                     |
+| direction            | string   | Yes      | row      | Direction of the collage: 'row' or 'column'.                                                                              |
+| panningLeftPadding   | number   | Yes      | 15       | Distance image can go beyond the left edge before it is restricted.                                                       |
+| panningRightPadding  | number   | Yes      | 15       | Distance image can go beyond the right edge before it is restricted.                                                      |
+| panningTopPadding    | number   | Yes      | 15       | Distance image can go beyond the top edge before it is restricted.                                                        |
+| panningBottomPadding | number   | Yes      | 15       | Distance image can go beyond the bottom edge before it is restricted.                                                     |
+| scaleAmplifier       | number   | Yes      | 1.0      | Amplifier applied to scaling. Increase this for faster scaling of images.                                                 |
+| retainScaleOnSwap    | boolean  | Yes      | true     | Keep the scale (width/height) of image when it is swapped.                                                                |
+| longPressDelay       | number   | Yes      | 500      | Delay before long press is activated.                                                                                     |
+| longPressSensitivity | number   | Yes      | 3        | Sensitivity of the long press, float of 1 (low) to 10+ (high).                                                            |
+| imageStyle           | object   | Yes      | style    | Default image style.                                                                                                      |
+| imageSelectedStyle   | object   | Yes      | style    | The style applied to the image when it has been selected. Long Pressed.                                                   |
+| imageSwapStyle       | object   | Yes      | style    | The style applied to the target image which is being swapped. E.g red borders                                             |
+| imageSwapStyleReset  | object   | Yes      | style    | The reverse of imageSwapStyle to reset style after swap. Vital for direct manipulation.                                   |
+| separatorStyle       | object   | Yes      | style    | Style applied to image container. Use border width to create margin between images.                                       |
+| containerStyle       | object   | Yes      | style    | Style applied to the container of the collage. Collage border can be applied here.                                        |
 
 ## Showcase
 
- - Qeepsake - The Text Message Baby Journal on [iOS](https://itunes.apple.com/us/app/qeepsake/id1332312787?mt=8) and [Android](https://play.google.com/store/apps/details?id=co.qeepsake.qeepsakeApp&hl=en_GB).
- 
- If you use the collage in your application then create a pull request to feature it here.
+- Qeepsake - The Text Message Baby Journal on [iOS](https://itunes.apple.com/us/app/qeepsake/id1332312787?mt=8) and [Android](https://play.google.com/store/apps/details?id=co.qeepsake.qeepsakeApp&hl=en_GB).
+
+If you use the collage in your application then create a pull request to feature it here.
 
 ## License
 
@@ -142,6 +143,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

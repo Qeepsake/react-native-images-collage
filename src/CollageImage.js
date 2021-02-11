@@ -586,12 +586,26 @@ class CollageImage extends React.Component {
               margin: this.props.editButtonIndent
                 ? this.props.editButtonIndent
                 : 20,
-              top: this.props.editButtonPosition.includes("top") ? 0 : null,
-              bottom: this.props.editButtonPosition.includes("bottom")
-                ? 0
-                : null,
-              left: this.props.editButtonPosition.includes("left") ? 0 : null,
-              right: this.props.editButtonPosition.includes("right") ? 0 : null,
+              top:
+                this.props.editButtonPosition &&
+                this.props.editButtonPosition.includes("top")
+                  ? 0
+                  : null,
+              bottom:
+                this.props.editButtonPosition &&
+                this.props.editButtonPosition.includes("bottom")
+                  ? 0
+                  : null,
+              left:
+                this.props.editButtonPosition &&
+                this.props.editButtonPosition.includes("left")
+                  ? 0
+                  : null,
+              right:
+                this.props.editButtonPosition &&
+                this.props.editButtonPosition.includes("right")
+                  ? 0
+                  : null,
             }}
           >
             {this.props.EditButtonComponent()}
@@ -613,7 +627,12 @@ CollageImage.propTypes = {
   longPressSensitivity: PropTypes.number, // 1 - 20 - How sensitive is the long press?
   onEditButtonPress: PropTypes.func,
   EditButtonComponent: PropTypes.func,
-  editButtonPosition: PropTypes.string,
+  editButtonPosition: PropTypes.oneOf([
+    "top-left",
+    "top-right",
+    "bottom-left",
+    "bottom-right",
+  ]),
   isEditButtonVisible: PropTypes.bool,
   editButtonIndent: PropTypes.number,
 };
