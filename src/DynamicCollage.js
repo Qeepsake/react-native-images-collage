@@ -168,10 +168,10 @@ class DynamicCollage extends React.Component {
 
       const reorderedImages = images.slice();
       const index1 = images.findIndex((image) =>
-        this.imageFindIndex(image, selectedImage)
+        this.imageFindIndexBySource(image, selectedImage)
       );
       const index2 = images.findIndex((image) =>
-        this.imageFindIndex(image, targetImage)
+        this.imageFindIndexBySource(image, targetImage)
       );
 
       // Swap the images by index
@@ -242,7 +242,7 @@ class DynamicCollage extends React.Component {
    *
    * @return int
    */
-  imageFindIndex(image, targetImage) {
+  imageFindIndexBySource(image, targetImage) {
     // We need to resolve the image to get the URI, if we want to support require();
     const targetImageURI = targetImage.props.source.uri;
     const imageResolved = Number.isInteger(image)
@@ -250,6 +250,25 @@ class DynamicCollage extends React.Component {
       : image;
 
     return imageResolved === targetImageURI;
+  }
+
+  /**
+   * Gets the index of the image, by matrix
+   *
+   * @param {number} m - matrix index
+   * @param {number} i - images index
+   *
+   * @returns {number} index
+   */
+  imageFindIndexByMatrix(m, i) {
+    // The matrix numbers before this image index
+    const matrixPrefix = this.props.matrix.slice(0, m);
+    // Sum of images before the 'i' index
+    const sumOfMatrixPrefix = matrixPrefix.reduce((a, b) => a + b, 0);
+    // This index of the image taking into account the matrix
+    const realIndex = sumOfMatrixPrefix + i;
+
+    return realIndex;
   }
 
   /**
@@ -288,6 +307,34 @@ class DynamicCollage extends React.Component {
           };
 
     return { ...boundries, relativeContainerWidth, relativeContainerHeight };
+  }
+
+  /**
+   * Function used to replace an image in the collage
+   *
+   * @param {number|string} source - source of image (url or file asset)
+   * @param {number} m - matrix index
+   * @param {number} i - images index
+   */
+  replaceImage(source, m, i) {
+    const replaceIndex = this.imageFindIndexByMatrix(m, i);
+    const replacedImages = this.state.images.map((image, index) => {
+      if (replaceIndex === index) {
+        return source;
+      }
+
+      return image;
+    });
+
+    this.setState(
+      {
+        images: replacedImages,
+      },
+      () => {
+        const targetImage = this.refs[`image${m}-${i}`];
+        targetImage.calculateImageSize();
+      }
+    );
   }
 }
 

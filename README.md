@@ -88,6 +88,24 @@ The number in the first bracket will be the configuration you want to access. E.
 - The number of images has to be equal to the sum of the matrix. e.g. Matrix is [ 1, 2, 1 ] ( 1 + 2 + 1 = 4), there has to be 4 images.
 - The collage scaling will not work when in a [Modal](https://facebook.github.io/react-native/docs/modal) component. [Multiple touches are not registered](https://github.com/facebook/react-native/issues/8094).
 
+## Replacing Images
+
+There is a API in DynamicCollage which can be used to replace images. It can be accessed via reference. Setup the ref with the DynamicCollage like so:
+
+```
+const collageRef = useRef(null);
+
+<DynamicCollage
+  ref={collageRef}
+  ...
+```
+
+You can then pass the source (url or file asset) m (matrix index) and i (relative image index) to the `replaceImage` function:
+
+```
+collageRef.current.replaceImage("https://picsum.photos/200", m, i);
+```
+
 ## Props
 
 | Prop                 | Type     | Optional | Default  | Description                                                                                                               |
