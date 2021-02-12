@@ -326,9 +326,16 @@ class DynamicCollage extends React.Component {
       return image;
     });
 
-    this.setState({
-      images: replacedImages,
-    });
+    this.setState(
+      {
+        images: replacedImages,
+      },
+      () => {
+        const targetImage = this.refs[`image${m}-${i}`];
+        targetImage.calculateImageSize();
+        targetImage.calculateImagePosition();
+      }
+    );
   }
 }
 
