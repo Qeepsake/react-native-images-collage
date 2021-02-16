@@ -75,7 +75,7 @@ class DynamicCollage extends React.Component {
               collageOffsetY={collageOffsetY}
               imageFocusId={imageFocusId}
               imageContainerStyle={this.props.imageContainerStyle}
-              onImageFocus={this.setImageFocusId(m, i)}
+              onImageFocus={(event) => this.setImageFocusId(event, m, i)}
               imageFocussedStyle={this.props.imageFocussedStyle}
             />
           );
@@ -357,14 +357,12 @@ class DynamicCollage extends React.Component {
    * @returns {Indexes} matrix and image indexes
    *
    */
-  setImageFocusId(m, i) {
-    return function (e) {
-      const imageId = `image${m}-${i}`;
-      this.setState((prevState) => ({
-        imageFocusId: prevState.imageFocusId === imageId ? null : imageId,
-      }));
-      this.props.onImageFocus && this.props.onImageFocus(e, { m, i });
-    }.bind(this);
+  setImageFocusId(event, m, i) {
+    const imageId = `image${m}-${i}`;
+    this.setState((prevState) => ({
+      imageFocusId: prevState.imageFocusId === imageId ? null : imageId,
+    }));
+    this.props.onImageFocus && this.props.onImageFocus(event, m, i);
   }
 }
 
@@ -429,6 +427,16 @@ DynamicCollage.propTypes = {
   retainScaleOnSwap: PropTypes.bool,
   longPressDelay: PropTypes.number,
   longPressSensitivity: PropTypes.number, // 1 - 20 - How sensitive is the long press?
+  onEditButtonPress: PropTypes.func,
+  EditButtonComponent: PropTypes.func,
+  editButtonPosition: PropTypes.oneOf([
+    "top-left",
+    "top-right",
+    "bottom-left",
+    "bottom-right",
+  ]),
+  isEditButtonVisible: PropTypes.bool,
+  editButtonIndent: PropTypes.number,
   onImageFocus: PropTypes.func,
   onImagePress: PropTypes.func,
 };
