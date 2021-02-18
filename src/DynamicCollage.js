@@ -10,7 +10,7 @@ class DynamicCollage extends React.Component {
     super(props);
 
     this.state = {
-      imageFocusId: "",
+      imageFocusId: null,
       images: props.images,
       collageWidth: null,
       collageHeight: null,
