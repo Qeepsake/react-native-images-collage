@@ -2,6 +2,7 @@ import React from "react";
 import { View, Image, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 
+import { LayoutData } from "./Layouts";
 import CollageImage from "./CollageImage";
 
 class DynamicCollage extends React.Component {
@@ -9,6 +10,7 @@ class DynamicCollage extends React.Component {
     super(props);
 
     this.state = {
+      imageFocusId: null,
       images: props.images,
       collageWidth: null,
       collageHeight: null,
@@ -25,7 +27,7 @@ class DynamicCollage extends React.Component {
       longPressDelay,
       longPressSensitivity,
     } = this.props;
-    const { collageOffsetX, collageOffsetY } = this.state;
+    const { collageOffsetX, collageOffsetY, imageFocusId } = this.state;
 
     const sectionDirection = direction === "row" ? "column" : "row";
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
@@ -71,6 +73,10 @@ class DynamicCollage extends React.Component {
               longPressSensitivity={longPressSensitivity}
               collageOffsetX={collageOffsetX}
               collageOffsetY={collageOffsetY}
+              imageFocusId={imageFocusId}
+              imageContainerStyle={this.props.imageContainerStyle}
+              onImageFocus={(event) => this.setImageFocusId(event, m, i)}
+              imageFocussedStyle={this.props.imageFocussedStyle}
             />
           );
         });
@@ -179,7 +185,7 @@ class DynamicCollage extends React.Component {
       reorderedImages[index2] = images[index1];
 
       // Set the reordered images as state
-      this.setState({ images: reorderedImages });
+      this.setState({ images: reorderedImages, imageFocusId: null });
 
       // Call the swapped functions on each image
       selectedImage.imageSwapped(targetImage);
@@ -336,6 +342,28 @@ class DynamicCollage extends React.Component {
       }
     );
   }
+
+  /**
+   * Function used to focus the image that was just pressed
+   *
+   * @param {number} m - matrix index
+   * @param {number} i - image index
+   *
+   * @typedef {Object} Indexes
+   * @property {number} m - matrix index
+   * @property {number} i - image index
+   *
+   * @return {GestureResponderEvent} e - gesture responder event
+   * @returns {Indexes} matrix and image indexes
+   *
+   */
+  setImageFocusId(event, m, i) {
+    const imageId = `image${m}-${i}`;
+    this.setState((prevState) => ({
+      imageFocusId: prevState.imageFocusId === imageId ? null : imageId,
+    }));
+    this.props.onImageFocus && this.props.onImageFocus(event, m, i);
+  }
 }
 
 DynamicCollage.defaultProps = {
@@ -357,6 +385,11 @@ DynamicCollage.defaultProps = {
     backgroundColor: "white",
   },
   imageStyle: {}, // DEFAULT IMAGE STYLE
+  imageContainerStyle: {
+    // DEFAULT IMAGE CONTAINER STYLE
+    borderWidth: 2,
+    borderColor: "white",
+  },
 
   // STYLE OF SEPARATORS ON THE COLLAGE
   separatorStyle: {
@@ -377,6 +410,9 @@ DynamicCollage.defaultProps = {
   imageSwapStyleReset: {
     borderWidth: 0,
   }, // RESET ANY STYLE APPLIED WITH imageSwapStyle
+
+  // IMAGE FOCUS
+  imageFocussedStyle: {},
 };
 
 DynamicCollage.propTypes = {
@@ -401,6 +437,8 @@ DynamicCollage.propTypes = {
   ]),
   isEditButtonVisible: PropTypes.bool,
   editButtonIndent: PropTypes.number,
+  onImageFocus: PropTypes.func,
+  onImagePress: PropTypes.func,
 };
 
 export { DynamicCollage };

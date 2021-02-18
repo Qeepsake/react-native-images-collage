@@ -134,6 +134,8 @@ collageRef.current.replaceImage("https://picsum.photos/200", m, i);
 | imageSwapStyleReset  | object   | Yes      | style    | The reverse of imageSwapStyle to reset style after swap. Vital for direct manipulation.                                   |
 | separatorStyle       | object   | Yes      | style    | Style applied to image container. Use border width to create margin between images.                                       |
 | containerStyle       | object   | Yes      | style    | Style applied to the container of the collage. Collage border can be applied here.                                        |
+| imageContainerStyle  | object   | Yes      | style    | Style applied to each image container.                                                                      |
+| imageFocussedStyle   | object   | Yes      | style    | Style applied to the focused image container.                                                              |
 
 ## Showcase
 

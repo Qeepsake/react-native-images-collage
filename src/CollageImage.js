@@ -72,8 +72,8 @@ class CollageImage extends React.Component {
 
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
       onPanResponderGrant: (e, gestureState) => {
         this.onLongPressTimeout = setTimeout(() => {
@@ -274,6 +274,11 @@ class CollageImage extends React.Component {
         }
       },
       onPanResponderEnd: (e, gestureState) => {
+        // Focusses the image, if user just taps it, and there is no movement or holding
+        if (Math.abs(gestureState.dx) < 5 && !this.state.selected) {
+          if (this.props.onImageFocus) this.props.onImageFocus(e);
+        }
+
         // Disable scaling, and panning
         this.panning = false;
         this.scaling = false;
@@ -532,7 +537,14 @@ class CollageImage extends React.Component {
   }
 
   render() {
-    const { source, style, imageSelectedStyle } = this.props;
+    const {
+      source,
+      style,
+      imageSelectedStyle,
+      imageFocusId,
+      imageFocussedStyle,
+      imageContainerStyle,
+    } = this.props;
     const {
       panningX,
       panningY,
@@ -550,13 +562,18 @@ class CollageImage extends React.Component {
     return (
       <View
         ref={"imageContainer"}
-        style={{
-          flex: 1,
-          overflow: "hidden",
-          transform: [{ translateX: -translateX }, { translateY: -translateY }],
-          borderWidth: 2,
-          borderColor: "white",
-        }}
+        style={[
+          {
+            flex: 1,
+            overflow: "hidden",
+            transform: [
+              { translateX: -translateX },
+              { translateY: -translateY },
+            ],
+          },
+          imageContainerStyle,
+          imageFocusId === this.id ? imageFocussedStyle : null,
+        ]}
       >
         <View
           style={{
@@ -635,6 +652,10 @@ CollageImage.propTypes = {
   ]),
   isEditButtonVisible: PropTypes.bool,
   editButtonIndent: PropTypes.number,
+  imageContainerStyle: PropTypes.object,
+  imageFocussedStyle: PropTypes.object,
+  imageFocusId: PropTypes.string,
+  onImageFocus: PropTypes.func,
 };
 
 export default CollageImage;
