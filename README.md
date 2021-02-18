@@ -135,7 +135,7 @@ collageRef.current.replaceImage("https://picsum.photos/200", m, i);
 | separatorStyle       | object   | Yes      | style    | Style applied to image container. Use border width to create margin between images.                                       |
 | containerStyle       | object   | Yes      | style    | Style applied to the container of the collage. Collage border can be applied here.                                        |
 | imageContainerStyle  | object   | Yes      | style    | Style applied to the image container of the collage.                                                                      |
-| imageFocussedStyle   | object   | Yes      | style    | Style applied to the focused image container of the collage.                                                              |
+| imageFocussedStyle   | object   | Yes      | style    | Style applied to the focused image container.                                                              |
 
 ## Showcase
 
