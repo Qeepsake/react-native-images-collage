@@ -1,6 +1,6 @@
 {
   "name": "react-native-images-collage",
-  "version": "3.2.5",
+  "version": "3.2.6",
   "description": "Customizable image grid component for React Native",
   "keywords": [
     "react-native",
@@ -19,7 +19,7 @@
   },
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\"",
     "flow": "flow",
     "build": "flow-remove-types src/ -d lib/"
   },
