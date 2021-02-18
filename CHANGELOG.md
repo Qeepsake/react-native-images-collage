@@ -1,3 +1,11 @@
+## > 3.2.6
+
+See releases: [https://github.com/aspect-apps/react-native-images-collage/releases](https://github.com/aspect-apps/react-native-images-collage/releases)
+
+## 3.2.6
+
+- Fixed an issue with image swapping [#19](https://github.com/aspect-apps/react-native-images-collage/pull/16).
+
 ## 3.2.5 (February 2019)
 
 - Added an id to each CollageImage so it can be uniquely identified.
@@ -16,7 +24,6 @@
 ## 3.2.3 (February 2019)
 
 - Fixed auto-positioning issue when switching layout direction caused by image animation not being stopped.
- 
 
 ## 3.2.2 (February 2019)
 
@@ -36,8 +43,8 @@
 ## 3.1.8 (January 2019)
 
 - Removed the `<TouchableWithoutFeedback />` which wraps each image to enable a long press and replaced it with a custom PanResponder long press timer.
-    - New prop `longPressDelay` this sets the time delay for long press to be detected.
-    - New prop `longPressSensitivity` this is the sensitivity of the long press.
+  - New prop `longPressDelay` this sets the time delay for long press to be detected.
+  - New prop `longPressSensitivity` this is the sensitivity of the long press.
 - Scaling is now retained by default when swapping images, but can be controlled with `retainScaleOnSwap`.
 
 ## 3.1.7 (January 2019)
@@ -63,12 +70,12 @@
 ## 3.1.2 (January 2019)
 
 - Removed `getDerivedStateFromProps` as it was breaking image swapping.
-- Supported swapping of mixed sources of URI and `require`. Fixes [#10](https://github.com/lukebrandonfarrell/react-native-images-collage/issues/10). This was accomplished by using a conditional `Image.resolveAssetSource(image)` in the `findIndex` method. 
+- Supported swapping of mixed sources of URI and `require`. Fixes [#10](https://github.com/lukebrandonfarrell/react-native-images-collage/issues/10). This was accomplished by using a conditional `Image.resolveAssetSource(image)` in the `findIndex` method.
 
 ## 3.1.0 (December 2018)
 
 - Added support for local images using `resolveAssetSource`. To use local images pass `require(".my-image.jpg")` instead of a URL. Closed [#4](https://github.com/lukebrandonfarrell/react-native-images-collage/issues/4).
- 
+
 ## 3.0.4 (December 2018)
 
 - Fixed issue with width and height resolving to NaN when they are set as a percentages.
