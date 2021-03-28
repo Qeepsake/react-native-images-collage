@@ -30,6 +30,7 @@ class CollageImage extends React.Component {
       srcWidth: 0,
       srcHeight: 0,
       ratio: 0,
+      ...props.imageDefaultPosition,
     };
 
     // PANNING
@@ -295,7 +296,9 @@ class CollageImage extends React.Component {
       },
     });
 
-    this.calculateImageSize();
+    if (!props.imageDefaultPosition) {
+      this.calculateImageSize();
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -319,7 +322,6 @@ class CollageImage extends React.Component {
     this.rightEdgeMax = this.rightEdge + panningRightPadding;
     this.topEdgeMax = this.topEdge - panningTopPadding;
     this.bottomEdgeMax = this.bottomEdge + panningBottomPadding;
-
     // Auto resize collage images when Matrix, or direction is updated.
     if (matrix !== prevProps.matrix || direction !== prevProps.direction) {
       if (this.snapAnimation != null) {
@@ -415,10 +417,12 @@ class CollageImage extends React.Component {
         Animated.spring(this.animatedX, {
           toValue: animateXTo,
           duration: 100,
+          useNativeDriver: false,
         }),
         Animated.spring(this.animatedY, {
           toValue: animateYTo,
           duration: 100,
+          useNativeDriver: false,
         }),
       ]);
 

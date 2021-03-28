@@ -16,6 +16,8 @@ class DynamicCollage extends React.Component {
       collageHeight: null,
       collageOffsetX: null,
       collageOffsetY: null,
+
+      // Add a state that keep track of the images position
     };
   }
 
@@ -26,6 +28,7 @@ class DynamicCollage extends React.Component {
       retainScaleOnSwap,
       longPressDelay,
       longPressSensitivity,
+      imagesPosition,
     } = this.props;
     const { collageOffsetX, collageOffsetY, imageFocusId } = this.state;
 
@@ -38,15 +41,21 @@ class DynamicCollage extends React.Component {
       const images = this.state.images
         .slice(startIndex, startIndex + element)
         .map((image, i) => {
+          const imageId = `image${m}-${i}`;
           // Determines if the source is a URL, or local asset
           const source = Number.isInteger(image)
             ? Image.resolveAssetSource(image)
             : { uri: image };
 
+          const imageDefaultPosition = imagesPosition
+            ? imagesPosition[imageId]
+            : null;
+
           return (
             <CollageImage
-              key={i}
-              ref={`image${m}-${i}`}
+              key={`image-${i}`}
+              ref={imageId}
+              imageDefaultPosition={imageDefaultPosition}
               source={source}
               style={[{ flex: 1 }, this.props.imageStyle]}
               boundaries={this.getImageBoundaries(m, i)}
@@ -54,7 +63,7 @@ class DynamicCollage extends React.Component {
               translationUpdateCallback={this.imageTranslationUpdate.bind(this)}
               translationEndCallback={this.imageTranslationEnd.bind(this)}
               matrixId={m}
-              imageId={`image${m}-${i}`}
+              imageId={imageId}
               imageSelectedStyle={this.props.imageSelectedStyle}
               panningLeftPadding={this.props.panningLeftPadding}
               panningRightPadding={this.props.panningRightPadding}
@@ -190,6 +199,13 @@ class DynamicCollage extends React.Component {
       // Call the swapped functions on each image
       selectedImage.imageSwapped(targetImage);
       targetImage.imageSwapped(selectedImage);
+
+      if (this.props.imageSwapped) {
+        this.props.imageSwapped(reorderedImages, {
+          selectedImage: { imageId: targetImage.props.imageId },
+          targetImage: { imageId: selectedImage.props.imageId },
+        });
+      }
     }
   }
 
@@ -439,6 +455,7 @@ DynamicCollage.propTypes = {
   editButtonIndent: PropTypes.number,
   onImageFocus: PropTypes.func,
   onImagePress: PropTypes.func,
+  imagesPosition: PropTypes.arrayOf(PropTypes.object),
 };
 
 export { DynamicCollage };
