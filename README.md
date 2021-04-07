@@ -51,7 +51,7 @@ A dynamic collage includes panning, scaling, replacing and image arrangement.
     images={ photos }
     matrix={ [ 1, 1, 1, 1 ] }
     isEditButtonVisible: { true | false },
-    EditButtonComponent: { ( <YourCustomComponent/> ) }
+    EditButtonComponent: {() => <YourCustomComponent/>}
     editButtonPosition: { 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' },
     onEditButtonPress: { (m, i) => { collageRef.current.replaceImage( 'NewImage' , m , i ) } }
     />
