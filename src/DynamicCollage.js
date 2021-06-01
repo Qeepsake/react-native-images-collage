@@ -26,6 +26,8 @@ class DynamicCollage extends React.Component {
       retainScaleOnSwap,
       longPressDelay,
       longPressSensitivity,
+      width,
+      height,
     } = this.props;
     const { collageOffsetX, collageOffsetY, imageFocusId } = this.state;
 
@@ -77,6 +79,8 @@ class DynamicCollage extends React.Component {
               imageContainerStyle={this.props.imageContainerStyle}
               onImageFocus={(event) => this.setImageFocusId(event, m, i)}
               imageFocussedStyle={this.props.imageFocussedStyle}
+              parentWidth={width}
+              parentHeight={height}
             />
           );
         });
