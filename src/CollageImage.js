@@ -307,8 +307,6 @@ class CollageImage extends React.Component {
       panningRightPadding,
       panningTopPadding,
       panningBottomPadding,
-      parentWidth,
-      parentHeight,
     } = this.props;
     const { width, height } = this.state;
 
@@ -323,12 +321,7 @@ class CollageImage extends React.Component {
     this.bottomEdgeMax = this.bottomEdge + panningBottomPadding;
 
     // Auto resize collage images when matrix, direction, or collage size is updated
-    if (
-      matrix !== prevProps.matrix ||
-      direction !== prevProps.direction ||
-      parentHeight !== prevProps.parentHeight ||
-      parentWidth !== prevProps.parentWidth
-    ) {
+    if (matrix !== prevProps.matrix || direction !== prevProps.direction) {
       if (this.snapAnimation != null) {
         // INTERRUPT ANIMATION
         this.snapAnimation.stop();

@@ -87,6 +87,7 @@ The number in the first bracket will be the configuration you want to access. E.
 - If you want to capture the collage as a single image. Take a look at [react-native-view-shot](https://github.com/gre/react-native-view-shot).
 - The number of images has to be equal to the sum of the matrix. e.g. Matrix is [ 1, 2, 1 ] ( 1 + 2 + 1 = 4), there has to be 4 images.
 - The collage scaling will not work when in a [Modal](https://facebook.github.io/react-native/docs/modal) component. [Multiple touches are not registered](https://github.com/facebook/react-native/issues/8094).
+- Do NOT update height or width props dynamically to change the size of the collage (as image sizes won't be re-calculated correctly, this is due to a race condition in measuring the layout of the collage). Use `ref.current.updateCollageSize({ width, height })` instead to adjust size dynamically.
 
 ## Replacing Images
 
@@ -134,8 +135,26 @@ collageRef.current.replaceImage("https://picsum.photos/200", m, i);
 | imageSwapStyleReset  | object   | Yes      | style    | The reverse of imageSwapStyle to reset style after swap. Vital for direct manipulation.                                   |
 | separatorStyle       | object   | Yes      | style    | Style applied to image container. Use border width to create margin between images.                                       |
 | containerStyle       | object   | Yes      | style    | Style applied to the container of the collage. Collage border can be applied here.                                        |
-| imageContainerStyle  | object   | Yes      | style    | Style applied to each image container.                                                                      |
-| imageFocussedStyle   | object   | Yes      | style    | Style applied to the focused image container.                                                              |
+| imageContainerStyle  | object   | Yes      | style    | Style applied to each image container.                                                                                    |
+| imageFocussedStyle   | object   | Yes      | style    | Style applied to the focused image container.                                                                             |
+
+## API Reference
+
+### `updateCollageSize({ width, height })`
+
+Updates the collage width or height (NOTE: width and height props should always be static)
+
+- `size: Object` - new size for collage to be calculated. Currently supported options are:
+  - `width : number` new width of the collage.
+  - `height : number` new height of the collage.
+
+### `replaceImage(source, m, i)`
+
+Replaces an image at the matrix and index of the collage
+
+- `source: string | number` - A local file asset or uri
+- `m : number` the matrix of the collage (you can think of this as the row or column).
+- `i : number` index inside the matrix (you can think of this as index inside the row or column)
 
 ## Showcase
 

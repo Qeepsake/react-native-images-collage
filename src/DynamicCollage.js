@@ -79,8 +79,6 @@ class DynamicCollage extends React.Component {
               imageContainerStyle={this.props.imageContainerStyle}
               onImageFocus={(event) => this.setImageFocusId(event, m, i)}
               imageFocussedStyle={this.props.imageFocussedStyle}
-              parentWidth={width}
-              parentHeight={height}
             />
           );
         });
@@ -317,6 +315,20 @@ class DynamicCollage extends React.Component {
           };
 
     return { ...boundries, relativeContainerWidth, relativeContainerHeight };
+  }
+
+  /**
+   * Updates the collage width and height
+   *
+   * @param {Object} size - new size for collage
+   * @param {number} size.width - width of collage
+   * @param {number} size.height - height of collage
+   */
+  updateCollageSize({ width, height }) {
+    this.setState({
+      collageHeight: height ? height : this.state.collageHeight,
+      collageWidth: width ? width : this.state.collageWidth,
+    });
   }
 
   /**
