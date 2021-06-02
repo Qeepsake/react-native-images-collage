@@ -1,7 +1,5 @@
+
 <p align="center">
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
   <img src="https://raw.githubusercontent.com/LukeBrandonFarrell/open-source-images/master/react-native-images-collage/react-native-images-collage.png" width="190" height="190">
   <br />
   <a href="https://www.npmjs.com/package/react-native-images-collage" rel="nofollow">
@@ -13,7 +11,11 @@
   <a href="https://www.npmjs.com/package/react-native-images-collage" rel="nofollow">
     <img src="http://img.shields.io/npm/dt/react-native-images-collage.svg?style=flat-square" alt="downloads" style="max-width:100%;" />
   </a>
-
+  <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+  <a href="https://www.npmjs.com/package/react-native-images-collage" rel="nofollow">
+    <img src="https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square" alt="contributors" style="max-width:100%;" />
+  </a>
+  <!-- ALL-CONTRIBUTORS-BADGE:END -->
   <hr />
 </p>
 
