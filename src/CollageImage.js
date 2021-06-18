@@ -322,7 +322,9 @@ class CollageImage extends React.Component {
     this.rightEdgeMax = this.rightEdge + panningRightPadding;
     this.topEdgeMax = this.topEdge - panningTopPadding;
     this.bottomEdgeMax = this.bottomEdge + panningBottomPadding;
-    // Auto resize collage images when Matrix, or direction is updated.
+
+
+    // Auto resize collage images when matrix, direction, or collage size is updated
     if (matrix !== prevProps.matrix || direction !== prevProps.direction) {
       if (this.snapAnimation != null) {
         // INTERRUPT ANIMATION

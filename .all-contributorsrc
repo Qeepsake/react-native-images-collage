@@ -34,6 +34,16 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "harbolaez",
+      "name": "Henry Arbolaez",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13140872?v=4",
+      "profile": "https://henryarb.com",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
