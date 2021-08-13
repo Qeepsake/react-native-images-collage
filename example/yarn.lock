@@ -5260,9 +5260,9 @@ path-key@^3.0.0, path-key@^3.1.0:
   integrity sha512-ojmeN0qd+y0jszEtoY48r0Peq5dwMEkIlCOu6Q5f41lfkswXuKtYrhgoTpLnyIcHm24Uhqx+5Tqm2InSwLhE6Q==
 
 path-parse@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.6.tgz#d62dbb5679405d72c4737ec58600e9ddcf06d24c"
-  integrity sha512-GSmOT2EbHrINBf9SR7CDELwlJ8AENk3Qn7OikK4nFYAu3Ote2+JYNVvkpAEQm3/TLNEJFD/xZJjzyxg3KBWOzw==
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.7.tgz#fbc114b60ca42b30d9daf5858e4bd68bbedb6735"
+  integrity sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==
 
 performance-now@^2.1.0:
   version "2.1.0"
@@ -5469,10 +5469,10 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
-"react-native-images-collage@git+https://github.com/jasimawan/react-native-images-collage.git":
-  version "3.2.5"
-  uid "6b7b5c4ac3cb270257bcb8441d1271a6c0f2cb63"
-  resolved "git+https://github.com/jasimawan/react-native-images-collage.git#6b7b5c4ac3cb270257bcb8441d1271a6c0f2cb63"
+react-native-images-collage@^3.3.2:
+  version "3.3.5"
+  resolved "https://registry.yarnpkg.com/react-native-images-collage/-/react-native-images-collage-3.3.5.tgz#e3816c474a9cea5232ab93c6859c09167717d572"
+  integrity sha512-vst0lXBEsYWGDAPV3xALHNSakcerN07QRG6zoOsymqDwe6n81LElxGaSvxD1eUjPPcQaCK5LLOr2wxaR3YVfHw==
 
 react-native@0.63.4:
   version "0.63.4"
