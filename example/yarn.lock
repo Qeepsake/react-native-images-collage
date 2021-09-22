@@ -5469,10 +5469,10 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
-"react-native-images-collage@git+https://github.com/jasimawan/react-native-images-collage.git":
-  version "3.2.5"
-  uid "6b7b5c4ac3cb270257bcb8441d1271a6c0f2cb63"
-  resolved "git+https://github.com/jasimawan/react-native-images-collage.git#6b7b5c4ac3cb270257bcb8441d1271a6c0f2cb63"
+react-native-images-collage@^3.3.2:
+  version "3.3.5"
+  resolved "https://registry.yarnpkg.com/react-native-images-collage/-/react-native-images-collage-3.3.5.tgz#e3816c474a9cea5232ab93c6859c09167717d572"
+  integrity sha512-vst0lXBEsYWGDAPV3xALHNSakcerN07QRG6zoOsymqDwe6n81LElxGaSvxD1eUjPPcQaCK5LLOr2wxaR3YVfHw==
 
 react-native@0.63.4:
   version "0.63.4"
@@ -6423,9 +6423,9 @@ tmp@^0.0.33:
     os-tmpdir "~1.0.2"
 
 tmpl@1.0.x:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/tmpl/-/tmpl-1.0.4.tgz#23640dd7b42d00433911140820e5cf440e521dd1"
-  integrity sha1-I2QN17QtAEM5ERQIIOXPRA5SHdE=
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/tmpl/-/tmpl-1.0.5.tgz#8683e0b902bb9c20c4f726e3c0b69f36518c07cc"
+  integrity sha512-3f0uOEAQwIqGuWW2MVzYg8fV/QNnc/IpuJNG837rLuczAaLVHslWHZQj4IGiEl5Hs3kkbhwL9Ab7Hrsmuj+Smw==
 
 to-fast-properties@^2.0.0:
   version "2.0.0"
