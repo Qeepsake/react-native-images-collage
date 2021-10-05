@@ -1,5 +1,5 @@
 {
-  "name": "react-native-images-collage",
+  "name": "@qeepsake/react-native-images-collage",
   "version": "3.3.3",
   "description": "Customizable image grid component for React Native",
   "keywords": [
@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LukeBrandonFarrell/react-native-images-collage.git"
+    "url": "git+https://github.com/Qeepsake/react-native-images-collage.git"
   },
   "main": "src/index.js",
   "scripts": {

@@ -31,7 +31,7 @@ To keep up to date with the latest fixes. See [CHANGELOG.md](https://github.com/
 Install via npm:
 
 ```sh
- npm install react-native-images-collage --save
+ npm install @qeepsake/react-native-images-collage --save
 ```
 
 ## Usage
@@ -177,10 +177,10 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="http://www.lukebrandonfarrell.com"><img src="https://avatars3.githubusercontent.com/u/18139277?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Luke Brandon Farrell</b></sub></a><br /><a href="https://github.com/aspect-apps/react-native-images-collage/commits?author=lukebrandonfarrell" title="Code">💻</a> <a href="https://github.com/aspect-apps/react-native-images-collage/commits?author=lukebrandonfarrell" title="Documentation">📖</a> <a href="#infra-lukebrandonfarrell" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
-    <td align="center"><a href="https://jramogh.co"><img src="https://avatars3.githubusercontent.com/u/31567169?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Amogh Jahagirdar</b></sub></a><br /><a href="https://github.com/aspect-apps/react-native-images-collage/issues?q=author%3Aamogh-jrules" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://www.facebook.com/jasim.awan.009"><img src="https://avatars.githubusercontent.com/u/31315869?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Muhammad Jasim</b></sub></a><br /><a href="https://github.com/aspect-apps/react-native-images-collage/commits?author=jasimawan" title="Code">💻</a> <a href="https://github.com/aspect-apps/react-native-images-collage/commits?author=jasimawan" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://henryarb.com"><img src="https://avatars.githubusercontent.com/u/13140872?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Henry Arbolaez</b></sub></a><br /><a href="https://github.com/aspect-apps/react-native-images-collage/commits?author=harbolaez" title="Code">💻</a> <a href="https://github.com/aspect-apps/react-native-images-collage/commits?author=harbolaez" title="Documentation">📖</a></td>
+    <td align="center"><a href="http://www.lukebrandonfarrell.com"><img src="https://avatars3.githubusercontent.com/u/18139277?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Luke Brandon Farrell</b></sub></a><br /><a href="https://github.com/Qeepsake/react-native-images-collage/commits?author=lukebrandonfarrell" title="Code">💻</a> <a href="https://github.com/Qeepsake/react-native-images-collage/commits?author=lukebrandonfarrell" title="Documentation">📖</a> <a href="#infra-lukebrandonfarrell" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
+    <td align="center"><a href="https://jramogh.co"><img src="https://avatars3.githubusercontent.com/u/31567169?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Amogh Jahagirdar</b></sub></a><br /><a href="https://github.com/Qeepsake/react-native-images-collage/issues?q=author%3Aamogh-jrules" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://www.facebook.com/jasim.awan.009"><img src="https://avatars.githubusercontent.com/u/31315869?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Muhammad Jasim</b></sub></a><br /><a href="https://github.com/Qeepsake/react-native-images-collage/commits?author=jasimawan" title="Code">💻</a> <a href="https://github.com/Qeepsake/react-native-images-collage/commits?author=jasimawan" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://henryarb.com"><img src="https://avatars.githubusercontent.com/u/13140872?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Henry Arbolaez</b></sub></a><br /><a href="https://github.com/Qeepsake/react-native-images-collage/commits?author=harbolaez" title="Code">💻</a> <a href="https://github.com/Qeepsake/react-native-images-collage/commits?author=harbolaez" title="Documentation">📖</a></td>
   </tr>
 </table>
 

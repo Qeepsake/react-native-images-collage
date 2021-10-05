@@ -1,10 +1,10 @@
 ## > 3.2.6
 
-See releases: [https://github.com/aspect-apps/react-native-images-collage/releases](https://github.com/aspect-apps/react-native-images-collage/releases)
+See releases: [https://github.com/Qeepsake/react-native-images-collage/releases](https://github.com/Qeepsake/react-native-images-collage/releases)
 
 ## 3.2.6
 
-- Fixed an issue with image swapping [#19](https://github.com/aspect-apps/react-native-images-collage/pull/16).
+- Fixed an issue with image swapping [#19](https://github.com/Qeepsake/react-native-images-collage/pull/16).
 
 ## 3.2.5 (February 2019)
 
