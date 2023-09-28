@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 class StaticCollage extends React.Component {
   renderMatrix() {
-    const { matrix, direction, imageStyle, seperatorStyle } = this.props;
+    const { matrix, direction, imageStyle, separatorStyle } = this.props;
 
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
     const sectionDirection = direction === "row" ? "column" : "row";
@@ -28,7 +28,7 @@ class StaticCollage extends React.Component {
       return (
         <View
           key={m}
-          style={[{ flex: 1, flexDirection: sectionDirection }, seperatorStyle]}
+          style={[{ flex: 1, flexDirection: sectionDirection }, separatorStyle]}
         >
           {images}
         </View>
@@ -53,7 +53,7 @@ StaticCollage.defaultProps = {
   // VARIABLES
   direction: "row",
   // STYLE OF SEPERATORS ON THE COLLAGE
-  seperatorStyle: {
+  separatorStyle: {
     borderWidth: 2,
     borderColor: "white",
   },
